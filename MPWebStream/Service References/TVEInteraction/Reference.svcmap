@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="79ebca91-e2ce-4b9c-921d-92979563928a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://mediastreamer.lan:4321/TV4Home.Server.CoreService/TVEInteractionService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="TVEInteractionService.xsd" MetadataType="Schema" ID="1585cc88-542a-439e-9863-345e23da4c70" SourceId="1" SourceUrl="http://mediastreamer.lan:4321/TV4Home.Server.CoreService/TVEInteractionService?xsd=xsd2" />
+    <MetadataFile FileName="TVEInteractionService1.xsd" MetadataType="Schema" ID="534d7bce-d400-4fcf-82dc-8b3c2553e0ad" SourceId="1" SourceUrl="http://mediastreamer.lan:4321/TV4Home.Server.CoreService/TVEInteractionService?xsd=xsd1" />
+    <MetadataFile FileName="TVEInteractionService.wsdl" MetadataType="Wsdl" ID="d016a25b-6f25-41e6-863e-1f57730877c2" SourceId="1" SourceUrl="http://mediastreamer.lan:4321/TV4Home.Server.CoreService/TVEInteractionService?wsdl=wsdl0" />
+    <MetadataFile FileName="TVEInteractionService2.xsd" MetadataType="Schema" ID="63f716c1-f4e5-4155-8cfa-119e282f4d05" SourceId="1" SourceUrl="http://mediastreamer.lan:4321/TV4Home.Server.CoreService/TVEInteractionService?xsd=xsd3" />
+    <MetadataFile FileName="TVEInteractionService3.xsd" MetadataType="Schema" ID="6972e8b8-b9e7-40a4-ae16-aa51998abcef" SourceId="1" SourceUrl="http://mediastreamer.lan:4321/TV4Home.Server.CoreService/TVEInteractionService?xsd=xsd0" />
+    <MetadataFile FileName="TVEInteraction.wsdl" MetadataType="Wsdl" ID="5cf6d865-fbda-4117-a4b1-b2072e50b89e" SourceId="1" SourceUrl="http://mediastreamer.lan:4321/TV4Home.Server.CoreService/TVEInteractionService?wsdl" />
+    <MetadataFile FileName="TVEInteractionService.disco" MetadataType="Disco" ID="10ebc7bc-c294-4a1e-aa13-48f02165b4f7" SourceId="1" SourceUrl="http://mediastreamer.lan:4321/TV4Home.Server.CoreService/TVEInteractionService?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
