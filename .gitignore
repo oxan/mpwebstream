@@ -1,0 +1,4 @@
+*.suo
+MPWebStream/bin
+MPWebStream/obj
+MPWebStream/*.user
