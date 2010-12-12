@@ -92,6 +92,15 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Streamer.cs" />
+    <Compile Include="Streaming\BasicStream.cs" />
+    <Compile Include="Streaming\CRCTool.cs" />
+    <Compile Include="Streaming\EncoderConfig.cs" />
+    <Compile Include="Streaming\EncoderWrapper.cs" />
+    <Compile Include="Streaming\NamedPipe.cs" />
+    <Compile Include="Streaming\State.cs" />
+    <Compile Include="Streaming\TransportMethod.cs" />
+    <Compile Include="Streaming\TransportStream.cs" />
+    <Compile Include="Streaming\TsBuffer.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
