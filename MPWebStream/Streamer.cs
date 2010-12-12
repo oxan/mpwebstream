@@ -3,17 +3,23 @@ using System.Web;
 using System.ServiceModel;
 using System.IO;
 using MPWebStream.TVEInteraction;
+using MPWebStream.Streaming;
 
 namespace MPWebStream {
     public class Streamer {
         public HttpResponse Response {
             get;
-            private set;
+            set;
         }
 
-        public string Source {
+        public TVEInteractionClient Server {
             get;
-            private set;
+            set;
+        }
+
+        public WebChannel Channel {
+            get;
+            set;
         }
 
         public int BufferSize { 
@@ -21,10 +27,15 @@ namespace MPWebStream {
             set; 
         }
 
-        public Streamer(HttpResponse response, string source) {
+        public Streamer(HttpResponse response, TVEInteractionClient server, WebChannel channel) {
             this.Response = response;
-            this.Source = source;
+            this.Server = server;
+            this.Channel = channel;
             this.BufferSize = 524288;
+        }
+
+        public Streamer(HttpResponse response, TVEInteractionClient server, WebChannel channel, int bufferSize) : this(response, server, channel) {
+            this.BufferSize = BufferSize;
         }
 
         public void stream() {
@@ -38,9 +49,24 @@ namespace MPWebStream {
             Response.StatusCode = 200;
 
             // setup encoder and variables
-            Stream sourceStream;
-            Stream outStream;
-            outStream = sourceStream;
+            Stream sourceStream = null;
+            Stream outStream  = null;
+            EncoderWrapper encoder = null;
+            string sourceFilename;
+            EncoderConfig config = new EncoderConfig("BLA", false, "", "", TransportMethod.NamedPipe, TransportMethod.NamedPipe);
+            if (config.inputMethod == TransportMethod.Filename) {
+                sourceFilename = Server.SwitchTVServerToChannelAndGetStreamingUrl(Channel.IdChannel);
+                encoder = new EncoderWrapper(sourceFilename, config);
+            } else {
+                sourceFilename = Server.SwitchTVServerToChannelAndGetTimeshiftFilename(Channel.IdChannel);
+                sourceStream = new TsBuffer(sourceFilename);
+                encoder = new EncoderWrapper(sourceStream, config);
+            }
+            if (config.useTranscoding) {
+                outStream = encoder;
+            } else {
+                outStream = sourceStream;
+            }
 
             // stream
             byte[] buffer = new byte[BufferSize];
@@ -56,6 +82,8 @@ namespace MPWebStream {
             // close and finish
             if (outStream != null) outStream.Close();
             if (sourceStream != null) sourceStream.Close();
+            if (encoder != null) encoder.StopProcess();
+            Server.CancelCurrentTimeShifting();
             Response.End();
         }
 
@@ -67,10 +95,9 @@ namespace MPWebStream {
 
             // FIXME: make this dynamic
             WebChannel ch = tvWebClient.GetChannelById(301);
-            String streamingUrl = tvWebClient.SwitchTVServerToChannelAndGetStreamingUrl(ch.IdChannel);
 
             // run
-            Streamer s = new Streamer(Response, ch);
+            Streamer s = new Streamer(Response, tvWebClient, ch);
             s.stream();
         }
     }
