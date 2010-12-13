@@ -93,7 +93,6 @@
     </Compile>
     <Compile Include="Streamer.cs" />
     <Compile Include="Streaming\BasicStream.cs" />
-    <Compile Include="Streaming\CRCTool.cs" />
     <Compile Include="Streaming\EncoderConfig.cs" />
     <Compile Include="Streaming\EncoderWrapper.cs" />
     <Compile Include="Streaming\NamedPipe.cs" />
