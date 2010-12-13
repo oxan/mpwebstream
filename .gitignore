@@ -7,3 +7,7 @@ MiniWebServer/bin
 MiniWebServer/obj
 MiniWebServer/*.user
 MiniWebServer/*Publish*
+TvServerPlugin/bin
+TvServerPlugin/obj
+TvServerPlugin/*.user
+TvServerPlugin/*Publish*

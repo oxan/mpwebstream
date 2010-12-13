@@ -5,7 +5,7 @@ using System.IO;
 using MPWebStream.TVEInteraction;
 using MPWebStream.Streaming;
 
-namespace MPWebStream {
+namespace MPWebStream.Site {
     public class Streamer {
         public HttpResponse Response {
             get;

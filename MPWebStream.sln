@@ -3,16 +3,38 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPWebStream", "MPWebStream\MPWebStream.csproj", "{3F34BC08-DF30-4549-9D2D-6B587769574B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniWebServer", "MiniWebServer\MiniWebServer.csproj", "{AC169225-21E5-4375-A21D-A3779512A26C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TvServerPlugin", "TvServerPlugin\TvServerPlugin.csproj", "{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3F34BC08-DF30-4549-9D2D-6B587769574B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F34BC08-DF30-4549-9D2D-6B587769574B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F34BC08-DF30-4549-9D2D-6B587769574B}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{3F34BC08-DF30-4549-9D2D-6B587769574B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F34BC08-DF30-4549-9D2D-6B587769574B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F34BC08-DF30-4549-9D2D-6B587769574B}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC169225-21E5-4375-A21D-A3779512A26C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC169225-21E5-4375-A21D-A3779512A26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC169225-21E5-4375-A21D-A3779512A26C}.Debug|x86.ActiveCfg = Debug|x86
+		{AC169225-21E5-4375-A21D-A3779512A26C}.Debug|x86.Build.0 = Debug|x86
+		{AC169225-21E5-4375-A21D-A3779512A26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC169225-21E5-4375-A21D-A3779512A26C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC169225-21E5-4375-A21D-A3779512A26C}.Release|x86.ActiveCfg = Release|x86
+		{AC169225-21E5-4375-A21D-A3779512A26C}.Release|x86.Build.0 = Release|x86
+		{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
