@@ -3,3 +3,7 @@ MPWebStream/bin
 MPWebStream/obj
 MPWebStream/*.user
 MPWebStream/*Publish*
+MiniWebServer/bin
+MiniWebServer/obj
+MiniWebServer/*.user
+MiniWebServer/*Publish*
