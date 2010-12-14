@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cassini</RootNamespace>
-    <AssemblyName>Cassini-v35</AssemblyName>
+    <AssemblyName>Cassini</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>Cassini.ico</ApplicationIcon>
