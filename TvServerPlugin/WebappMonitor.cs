@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
+using System.ServiceProcess;
 using System.Diagnostics;
+using TvLibrary.Log;
 
 namespace MPWebStream.TvServerPlugin {
     class WebappMonitor {
@@ -9,38 +11,66 @@ namespace MPWebStream.TvServerPlugin {
 
         public void start() {
             // TODO: first start TV4Home service
+            ServiceController controller = new ServiceController("TV4HomeCoreService");
+            if (controller.Status != ServiceControllerStatus.Running) {
+                if (!Configuration.ManageTV4Home) {
+                    Log.Info("MPWebStream: Starting TV4HomeCoreService, ignoring user preference to not manage it because we need it");
+                } else {
+                    Log.Info("MPWebStream: Starting TV4HomeCoreService");
+                }
+                controller.Start();
+                controller.WaitForStatus(ServiceControllerStatus.Running, new TimeSpan(0, 0, 30));
+            }
+
 
             // then start Cassini
-            server = new Process();
-            server.StartInfo.Arguments = Configuration.Port.ToString() + " " + Configuration.SitePath.ToString();
-            server.StartInfo.CreateNoWindow = true;
-            server.StartInfo.FileName = Configuration.CassiniServerPath;
-            server.StartInfo.UseShellExecute = false;
-            server.Start();
+            if (Configuration.UseCassini) {
+                server = new Process();
+                server.StartInfo.Arguments = Configuration.Port.ToString() + " " + Configuration.SitePath.ToString();
+                server.StartInfo.CreateNoWindow = true;
+                server.StartInfo.FileName = Configuration.CassiniServerPath;
+                server.StartInfo.UseShellExecute = false;
+                server.Start();
+                Log.Info("MPWebStream: Started Cassini web server");
+            } else {
+                server = null;
+                Log.Info("MPWebStream: Usage of Cassini web server is disabled");
+            }
         }
 
         public void startMonitoring() {
-            // start monitoring
+            // start process
             doMonitor = true;
             start();
+            if (!Configuration.UseCassini)
+                return;
+            Log.Info(String.Format("MPWebStream: started monitoring Cassini at poll interval {0} seconds", Configuration.MonitorPollInterval));
 
             // monitor
             while (doMonitor) {
                 if (server.HasExited) {
                     // Cassini crashed: log and restart
-                    //Log.Warning("Integrated Cassini webserver crashed, restarting");
+                    Log.Error(String.Format("MPWebStream: Integrated Cassini web server crashed with exit code {0}, restarting...", server.ExitCode));
                     server.Start();
                 }
 
-                Thread.Sleep(30000);
+                Thread.Sleep(Configuration.MonitorPollInterval * 1000);
             }
         }
 
         public void stop() {
             // first stop Cassini
-            server.Kill();
+            if(server != null)
+                server.Kill();
 
             // then stop TV4Home service
+            if (Configuration.ManageTV4Home) {
+                Log.Info("MPWebStream: Stopping TV4Home service");
+                ServiceController controller = new ServiceController("TV4HomeCoreService");
+                controller.Stop();
+            } else {
+                Log.Info("MPWebStream: Managing the TV4Home service is disabled, not stopping");
+            }
         }
     }
 }

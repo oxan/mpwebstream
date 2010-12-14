@@ -3,6 +3,7 @@ using SetupTv;
 using TvEngine;
 using TvControl;
 using System.Threading;
+using TvLibrary.Log;
 
 namespace MPWebStream.TvServerPlugin {
     public class MPWebStreamPlugin : ITvServerPlugin {
@@ -27,6 +28,8 @@ namespace MPWebStream.TvServerPlugin {
 
         public void Start(IController controller) {
             // start the webserver in a separate thread
+            Log.Info("MPWebStream: version {0} starting", Version);
+            Log.Info("MPWebStream: server {0}, site {1}", Configuration.CassiniServerPath, Configuration.SitePath);
             monitor = new WebappMonitor();
             webthread = new Thread(new ThreadStart(monitor.startMonitoring));
             webthread.Start();
@@ -34,6 +37,7 @@ namespace MPWebStream.TvServerPlugin {
 
         public void Stop() {
             // stop the thread
+            Log.Info("MPWebStream: stopping");
             monitor.stop();
         }
 

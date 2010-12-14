@@ -39,9 +39,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="TvControl">
       <HintPath>lib\TvControl.dll</HintPath>
+    </Reference>
+    <Reference Include="TvLibrary.Interfaces">
+      <HintPath>lib\TvLibrary.Interfaces.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
