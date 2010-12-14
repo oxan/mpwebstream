@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPWebStream", "MPWebStream\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TvServerPlugin", "TvServerPlugin\TvServerPlugin.csproj", "{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cassini-v35", "Cassini-v35\Cassini-v35.csproj", "{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}.Release|x86.ActiveCfg = Release|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
