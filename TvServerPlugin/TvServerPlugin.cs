@@ -25,19 +25,19 @@ namespace MPWebStream.TvServerPlugin {
         private WebappMonitor monitor = null;
         private Thread webthread = null;
 
-        void Start(IController controller) {
+        public void Start(IController controller) {
             // start the webserver in a separate thread
             monitor = new WebappMonitor();
             webthread = new Thread(new ThreadStart(monitor.startMonitoring));
             webthread.Start();
         }
 
-        void Stop() {
+        public void Stop() {
             // stop the thread
             monitor.stop();
         }
 
-        SectionSettings Setup {
+        public SectionSettings Setup {
             get { return null; }
         }
     }
