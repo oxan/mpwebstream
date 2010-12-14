@@ -12,9 +12,9 @@ namespace MPWebStream.TvServerPlugin {
 
             // then start Cassini
             server = new Process();
-            server.StartInfo.Arguments = "9000 C:\\";
+            server.StartInfo.Arguments = Configuration.Port.ToString() + " " + Configuration.SitePath.ToString();
             server.StartInfo.CreateNoWindow = true;
-            server.StartInfo.FileName = "X:\\MPWebStream\\Cassini-v35\\bin\\Debug\\Cassini.exe"; // FIXME
+            server.StartInfo.FileName = Configuration.CassiniServerPath;
             server.StartInfo.UseShellExecute = false;
             server.Start();
         }

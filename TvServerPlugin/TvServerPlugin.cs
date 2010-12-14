@@ -5,7 +5,7 @@ using TvControl;
 using System.Threading;
 
 namespace MPWebStream.TvServerPlugin {
-    class MPWebStreamPlugin : ITvServerPlugin {
+    public class MPWebStreamPlugin : ITvServerPlugin {
         public string Name {
             get { return "MPWebStream"; }
         }
