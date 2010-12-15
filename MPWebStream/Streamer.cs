@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Web;
-using System.ServiceModel;
 using System.IO;
-using MPWebStream.TVEInteraction;
+using System.ServiceModel;
+using System.Web;
 using MPWebStream.Streaming;
+using MPWebStream.TVEInteraction;
 
 namespace MPWebStream.Site {
     public class Streamer {
-        public HttpResponse Response {
+        public HttpContext Context {
             get;
             set;
         }
@@ -27,26 +27,26 @@ namespace MPWebStream.Site {
             set; 
         }
 
-        public Streamer(HttpResponse response, TVEInteractionClient server, WebChannel channel) {
-            this.Response = response;
+        public Streamer(HttpContext context, TVEInteractionClient server, WebChannel channel) {
+            this.Context = context;
             this.Server = server;
             this.Channel = channel;
             this.BufferSize = 524288;
         }
 
-        public Streamer(HttpResponse response, TVEInteractionClient server, WebChannel channel, int bufferSize) : this(response, server, channel) {
+        public Streamer(HttpContext context, TVEInteractionClient server, WebChannel channel, int bufferSize) : this(context, server, channel) {
             this.BufferSize = BufferSize;
         }
 
         public void stream() {
             // the real work
             // setup response
-            Response.Clear();
-            Response.Buffer = false;
-            Response.BufferOutput = false;
-            Response.AppendHeader("Connection", "Close");
-            Response.ContentType = "video/x-ms-video"; // FIXME
-            Response.StatusCode = 200;
+            Context.Response.Clear();
+            Context.Response.Buffer = false;
+            Context.Response.BufferOutput = false;
+            Context.Response.AppendHeader("Connection", "Close");
+            Context.Response.ContentType = "video/x-ms-video"; // FIXME
+            Context.Response.StatusCode = 200;
 
             // setup encoder and variables
             Stream sourceStream = null;
@@ -73,7 +73,7 @@ namespace MPWebStream.Site {
             int read;
             try {
                 while ((read = outStream.Read(buffer, 0, buffer.Length)) > 0) {
-                    Response.OutputStream.Write(buffer, 0, read);
+                    Context.Response.OutputStream.Write(buffer, 0, read);
                 }
             } catch (Exception ex) {
                 // FIXME: handle
@@ -84,10 +84,10 @@ namespace MPWebStream.Site {
             if (sourceStream != null) sourceStream.Close();
             if (encoder != null) encoder.StopProcess();
             Server.CancelCurrentTimeShifting();
-            Response.End();
+            Context.Response.End();
         }
 
-        public static void run(HttpResponse Response) {
+        public static void run(HttpContext context) {
             // connect to TV4Home service
             // FIXME: make hostname configurable
             EndpointAddress address = new EndpointAddress(String.Format("http://{0}:4321/TV4Home.Server.CoreService/TVEInteractionService", "mediastreamer.lan"));
@@ -97,7 +97,7 @@ namespace MPWebStream.Site {
             WebChannel ch = tvWebClient.GetChannelById(301);
 
             // run
-            Streamer s = new Streamer(Response, tvWebClient, ch);
+            Streamer s = new Streamer(context, tvWebClient, ch);
             s.stream();
         }
     }
