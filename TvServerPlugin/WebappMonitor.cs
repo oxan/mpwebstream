@@ -24,9 +24,9 @@ namespace MPWebStream.TvServerPlugin {
 
 
             // then start Cassini
-            if (Configuration.UseCassini) {
+            if (Configuration.UseWebserver) {
                 server = new Process();
-                server.StartInfo.Arguments = Configuration.Port.ToString() + " " + Configuration.SitePath.ToString();
+                server.StartInfo.Arguments = String.Format(@"{0} ""{1}""", Configuration.Port.ToString(), Configuration.SitePath);
                 server.StartInfo.CreateNoWindow = true;
                 server.StartInfo.FileName = Configuration.CassiniServerPath;
                 server.StartInfo.UseShellExecute = false;
@@ -42,9 +42,9 @@ namespace MPWebStream.TvServerPlugin {
             // start process
             doMonitor = true;
             start();
-            if (!Configuration.UseCassini)
+            if (!Configuration.UseWebserver)
                 return;
-            Log.Info(String.Format("MPWebStream: started monitoring Cassini at poll interval {0} seconds", Configuration.MonitorPollInterval));
+            Log.Info(String.Format("MPWebStream: Started monitoring Cassini at poll interval {0} seconds", Configuration.MonitorPollInterval));
 
             // monitor
             while (doMonitor) {

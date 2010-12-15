@@ -8,7 +8,7 @@
     <ProjectGuid>{BAF70EA1-9C72-46D0-9E83-6DD2FD88A79C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TvServerPlugin</RootNamespace>
+    <RootNamespace>MPWebStream.TvServerPlugin</RootNamespace>
     <AssemblyName>TvServerPlugin</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -39,8 +39,11 @@
       <HintPath>lib\SetupControls.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
     <Reference Include="TvControl">
       <HintPath>lib\TvControl.dll</HintPath>
     </Reference>
@@ -50,9 +53,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="ConfigurationInterface.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationInterface.Designer.cs">
+      <DependentUpon>ConfigurationInterface.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\MPWebStream.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>MPWebStream.settings</DependentUpon>
+    </Compile>
     <Compile Include="WebappMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TvServerPlugin.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConfigurationInterface.resx">
+      <DependentUpon>ConfigurationInterface.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\MPWebStream.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>MPWebStream.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
