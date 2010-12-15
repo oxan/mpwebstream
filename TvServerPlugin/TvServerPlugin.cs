@@ -42,7 +42,7 @@ namespace MPWebStream.TvServerPlugin {
         }
 
         public SectionSettings Setup {
-            get { return null; }
+            get { return new ConfigurationInterface(); }
         }
     }
 }
