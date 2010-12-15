@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TvServerPlugin", "TvServerP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cassini-v35", "Cassini-v35\Cassini-v35.csproj", "{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,12 @@ Global
 		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0D9F0FEA-45F7-4CE4-9868-6FB9BBE3DD4C}.Release|x86.ActiveCfg = Release|Any CPU
+		{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}.Debug|Any CPU.ActiveCfg = Debug
+		{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}.Debug|x86.ActiveCfg = Debug
+		{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}.Release|Any CPU.ActiveCfg = Release
+		{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}.Release|Mixed Platforms.ActiveCfg = Release
+		{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
