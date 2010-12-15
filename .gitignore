@@ -3,4 +3,5 @@
 */obj
 *.user
 *Publish*
-
+*/Debug
+*/Release
