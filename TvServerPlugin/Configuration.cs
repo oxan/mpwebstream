@@ -8,19 +8,19 @@ namespace MPWebStream.TvServerPlugin {
         #region Properties
         public static string SitePath {
             get {
-                return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\MPWebStream\\Site";
+                return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\Site");
             }
         }
 
         public static string CassiniServerPath {
             get {
-                return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\MPWebStream\\Cassini.exe";
+                return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\Cassini.exe");
             }
         }
 
         public static string ConfigPath {
             get {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Team MediaPortal\\MediaPortal TV Server\\MPWebStream.xml");
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Team MediaPortal\MediaPortal TV Server\MPWebStream.xml");
             }
         }
 
