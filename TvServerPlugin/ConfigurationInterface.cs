@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace MPWebStream.TvServerPlugin {
     public partial class ConfigurationInterface : SetupTv.SectionSettings {
@@ -8,6 +9,7 @@ namespace MPWebStream.TvServerPlugin {
 
         public override void OnSectionActivated() {
             // load settings
+            Configuration.Read();
             port.Value = Configuration.Port;
             useWebserver.Checked = Configuration.UseWebserver;
             manageTV4Home.Checked = Configuration.ManageTV4Home;
@@ -20,6 +22,7 @@ namespace MPWebStream.TvServerPlugin {
             Configuration.Port = (int)port.Value;
             Configuration.UseWebserver = useWebserver.Checked;
             Configuration.ManageTV4Home = manageTV4Home.Checked;
+            Configuration.Write();
 
             base.OnSectionDeActivated();
         }
