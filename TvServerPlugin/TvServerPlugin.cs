@@ -32,6 +32,7 @@ namespace MPWebStream.TvServerPlugin {
             Log.Info("MPWebStream: server {0}, site {1}", Configuration.CassiniServerPath, Configuration.SitePath);
             monitor = new WebappMonitor();
             webthread = new Thread(new ThreadStart(monitor.startMonitoring));
+            webthread.Name = "MPWebStream";
             webthread.Start();
         }
 

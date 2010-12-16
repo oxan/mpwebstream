@@ -10,7 +10,9 @@ namespace MPWebStream.TvServerPlugin {
         private Process server;
 
         public void start() {
-            // TODO: first start TV4Home service
+            Configuration.Read();
+
+            // first start TV4Home service
             ServiceController controller = new ServiceController("TV4HomeCoreService");
             if (controller.Status != ServiceControllerStatus.Running) {
                 if (!Configuration.ManageTV4Home) {
