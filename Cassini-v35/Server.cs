@@ -29,13 +29,15 @@ namespace Cassini {
         string _virtualPath;
         string _physicalPath;
         bool _shutdownInProgress;
+        bool _onlyLocal;
         Socket _socket;
         Host _host;
 
-        public Server(int port, string virtualPath, string physicalPath) {
+        public Server(int port, string virtualPath, string physicalPath, bool onlyLocal = true) {
             _port = port;
             _virtualPath = virtualPath;
             _physicalPath = physicalPath.EndsWith("\\", StringComparison.Ordinal) ? physicalPath : physicalPath + "\\";
+            _onlyLocal = onlyLocal;
         }
 
         public override object InitializeLifetimeService() {
@@ -72,6 +74,12 @@ namespace Cassini {
             }
         }
 
+        public bool OnlyLocal {
+            get {
+                return _onlyLocal;
+            }
+        }
+
         //
         // Socket listening
         // 
@@ -85,10 +93,16 @@ namespace Cassini {
 
         public void Start() {
             try {
-                _socket = CreateSocketBindAndListen(AddressFamily.InterNetwork, IPAddress.Loopback, _port);
+                IPAddress address = IPAddress.Loopback;
+                if (!OnlyLocal)
+                    address = IPAddress.Any;
+                _socket = CreateSocketBindAndListen(AddressFamily.InterNetwork, address, _port);
             }
             catch {
-                _socket = CreateSocketBindAndListen(AddressFamily.InterNetworkV6, IPAddress.IPv6Loopback, _port);
+                IPAddress address = IPAddress.IPv6Loopback;
+                if (!OnlyLocal)
+                    address = IPAddress.IPv6Loopback;
+                _socket = CreateSocketBindAndListen(AddressFamily.InterNetworkV6, address, _port);
             }
 
             ThreadPool.QueueUserWorkItem(delegate {

@@ -13,7 +13,7 @@ namespace Cassini {
             string physicalPath = args[1];
 
             // start server
-            Server server = new Server(port, "/", physicalPath);
+            Server server = new Server(port, "/", physicalPath, false);
             server.Start();
 
             // loop until forever
