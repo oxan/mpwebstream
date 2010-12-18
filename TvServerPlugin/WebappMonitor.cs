@@ -8,14 +8,15 @@ namespace MPWebStream.TvServerPlugin {
     class WebappMonitor {
         private bool doMonitor;
         private Process server;
+        private Configuration config;
 
         public void start() {
-            Configuration.Read();
+            config = new LoggingConfiguration();
 
             // first start TV4Home service
             ServiceController controller = new ServiceController("TV4HomeCoreService");
             if (controller.Status != ServiceControllerStatus.Running) {
-                if (!Configuration.ManageTV4Home) {
+                if (!config.ManageTV4Home) {
                     Log.Info("MPWebStream: Starting TV4HomeCoreService, ignoring user preference to not manage it because we need it");
                 } else {
                     Log.Info("MPWebStream: Starting TV4HomeCoreService");
@@ -26,11 +27,11 @@ namespace MPWebStream.TvServerPlugin {
 
 
             // then start Cassini
-            if (Configuration.UseWebserver) {
+            if (config.UseWebserver) {
                 server = new Process();
-                server.StartInfo.Arguments = String.Format(@"{0} ""{1}""", Configuration.Port.ToString(), Configuration.SitePath);
+                server.StartInfo.Arguments = String.Format(@"{0} ""{1}""", config.Port.ToString(), config.SitePath);
                 server.StartInfo.CreateNoWindow = true;
-                server.StartInfo.FileName = Configuration.CassiniServerPath;
+                server.StartInfo.FileName = config.CassiniServerPath;
                 server.StartInfo.UseShellExecute = false;
                 server.Start();
                 Log.Info("MPWebStream: Started Cassini web server");
@@ -44,9 +45,9 @@ namespace MPWebStream.TvServerPlugin {
             // start process
             doMonitor = true;
             start();
-            if (!Configuration.UseWebserver)
+            if (!config.UseWebserver)
                 return;
-            Log.Info(String.Format("MPWebStream: Started monitoring Cassini at poll interval {0} seconds", Configuration.MonitorPollInterval));
+            Log.Info(String.Format("MPWebStream: Started monitoring Cassini at poll interval {0} seconds", config.MonitorPollInterval));
 
             // monitor
             while (doMonitor) {
@@ -56,7 +57,7 @@ namespace MPWebStream.TvServerPlugin {
                     server.Start();
                 }
 
-                Thread.Sleep(Configuration.MonitorPollInterval * 1000);
+                Thread.Sleep(config.MonitorPollInterval * 1000);
             }
         }
 
@@ -66,7 +67,7 @@ namespace MPWebStream.TvServerPlugin {
                 server.Kill();
 
             // then stop TV4Home service
-            if (Configuration.ManageTV4Home) {
+            if (config.ManageTV4Home) {
                 Log.Info("MPWebStream: Stopping TV4Home service");
                 ServiceController controller = new ServiceController("TV4HomeCoreService");
                 controller.Stop();

@@ -28,8 +28,9 @@ namespace MPWebStream.TvServerPlugin {
 
         public void Start(IController controller) {
             // start the webserver in a separate thread
+            Configuration config = new LoggingConfiguration();
             Log.Info("MPWebStream: version {0} starting", Version);
-            Log.Info("MPWebStream: server {0}, site {1}", Configuration.CassiniServerPath, Configuration.SitePath);
+            Log.Info("MPWebStream: server {0}, site {1}", config.CassiniServerPath, config.SitePath);
             monitor = new WebappMonitor();
             webthread = new Thread(new ThreadStart(monitor.startMonitoring));
             webthread.Name = "MPWebStream";

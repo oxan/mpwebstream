@@ -1,99 +1,111 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using TvLibrary.Log;
 
 namespace MPWebStream.TvServerPlugin {
     class Configuration {
         #region Properties
-        public static string SitePath {
+        public string SitePath {
             get {
                 return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\Site");
             }
         }
 
-        public static string CassiniServerPath {
+        public string CassiniServerPath {
             get {
                 return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\Cassini.exe");
             }
         }
 
-        public static string ConfigPath {
+        public string ConfigPath {
             get {
                 return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Team MediaPortal\MediaPortal TV Server\MPWebStream.xml");
             }
         }
 
-        public static int Port {
+        public int Port {
             get;
             set;
         }
 
-        public static bool UseWebserver {
+        public bool UseWebserver {
             get;
             set;
         }
 
-        public static bool ManageTV4Home {
+        public bool ManageTV4Home {
             get;
-            set; 
+            set;
         }
 
-        public static int MonitorPollInterval {
+        public string Username {
+            get;
+            set;
+        }
+
+        public string Password {
+            get;
+            set;
+        }
+
+        public int MonitorPollInterval {
             get { return 30; }
         }
         #endregion
 
+        #region Constructor
+        public Configuration() {
+            Read();
+        }
+        #endregion
+
         #region Persistence
-        public static void Read() {
+        protected void Read() {
             if (!File.Exists(ConfigPath)) {
                 // create default file
                 Port = 8080;
                 UseWebserver = true;
                 ManageTV4Home = false;
+                Username = "admin";
+                Password = "admin";
                 Write();
             }
 
-            try {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(ConfigPath);
-                Port = Int32.Parse(doc.SelectSingleNode("/mpwebstream/port").InnerText);
-                UseWebserver = doc.SelectSingleNode("/mpwebstream/useWebserver").InnerText == "true";
-                ManageTV4Home = doc.SelectSingleNode("/mpwebstream/manageTV4Home").InnerText == "true";
-            } catch (Exception ex) {
-                Log.Write(ex);
-            }
+            XmlDocument doc = new XmlDocument();
+            doc.Load(ConfigPath);
+            Port = Int32.Parse(doc.SelectSingleNode("/mpwebstream/port").InnerText);
+            UseWebserver = doc.SelectSingleNode("/mpwebstream/useWebserver").InnerText == "true";
+            ManageTV4Home = doc.SelectSingleNode("/mpwebstream/manageTV4Home").InnerText == "true";
+            Username = doc.SelectSingleNode("/mpwebstream/username").InnerText;
+            Password = doc.SelectSingleNode("/mpwebstream/password").InnerText;
         }
 
-        public static void Write() {
-            try {
-                if (!Directory.Exists(Path.GetDirectoryName(ConfigPath)))
-                    Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath));
+        public void Write() {
+            if (!Directory.Exists(Path.GetDirectoryName(ConfigPath)))
+                Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath));
 
-                XmlDocument doc = new XmlDocument();
-                XmlNode root = doc.CreateElement("mpwebstream");
-                AddChild(doc, root, "port", Port);
-                AddChild(doc, root, "useWebserver", UseWebserver);
-                AddChild(doc, root, "manageTV4Home", ManageTV4Home);
-                doc.AppendChild(root);
-                doc.Save(ConfigPath);
-                Log.Info("MPWebStream: wrote config file!");
-            } catch (Exception ex) {
-                Log.Write(ex);
-            }
+            XmlDocument doc = new XmlDocument();
+            XmlNode root = doc.CreateElement("mpwebstream");
+            AddChild(doc, root, "port", Port);
+            AddChild(doc, root, "useWebserver", UseWebserver);
+            AddChild(doc, root, "manageTV4Home", ManageTV4Home);
+            AddChild(doc, root, "username", Username);
+            AddChild(doc, root, "password", Password);
+            doc.AppendChild(root);
+            doc.Save(ConfigPath);
         }
 
-        private static void AddChild(XmlDocument doc, XmlNode parent, string key, string value) {
+        private void AddChild(XmlDocument doc, XmlNode parent, string key, string value) {
             XmlNode node = doc.CreateElement(key);
             node.InnerText = value;
             parent.AppendChild(node);
         }
 
-        private static void AddChild(XmlDocument doc, XmlNode parent, string key, int value) {
+        private void AddChild(XmlDocument doc, XmlNode parent, string key, int value) {
             AddChild(doc, parent, key, value.ToString());
         }
 
-        private static void AddChild(XmlDocument doc, XmlNode parent, string key, bool value) {
+        private void AddChild(XmlDocument doc, XmlNode parent, string key, bool value) {
             AddChild(doc, parent, key, value ? "true" : "false");
         }
         #endregion

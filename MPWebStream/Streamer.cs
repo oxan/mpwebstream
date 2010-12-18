@@ -100,13 +100,13 @@ namespace MPWebStream.Site {
         }
 
         public static void run(HttpContext context) {
-            // connect to TV4Home service
-            // FIXME: make hostname configurable
+            // verify username and password
+
+
+            // connect to TV4Home service and get channel
             ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
                 new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
-
-            // FIXME: make this dynamic
-            WebChannel ch = tvServiceInterface.GetChannelById(301);
+            WebChannel ch = tvServiceInterface.GetChannelById(Int32.Parse(context.Request.Params["channelId"]));
 
             // run
             Streamer s = new Streamer(context, tvServiceInterface, ch);
