@@ -8,7 +8,7 @@ namespace MPWebStream.Site {
             bool hasAccess = false;
 
             if (context.Request.Headers["Authorization"] != null) {
-                byte[] decodebuffer = Convert.FromBase64String(context.Request.Headers["Authorization"]);
+                byte[] decodebuffer = Convert.FromBase64String(context.Request.Headers["Authorization"].Substring(6).Trim());
                 string input = System.Text.Encoding.ASCII.GetString(decodebuffer);
                 Configuration config = new Configuration();
                 if (input == config.Username + ":" + config.Password)

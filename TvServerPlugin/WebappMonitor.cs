@@ -63,8 +63,10 @@ namespace MPWebStream.TvServerPlugin {
 
         public void stop() {
             // first stop Cassini
-            if(server != null)
+            if (server != null) {
+                Log.Info("MPWebStream: killing Cassini");
                 server.Kill();
+            }
 
             // then stop TV4Home service
             if (config.ManageTV4Home) {
