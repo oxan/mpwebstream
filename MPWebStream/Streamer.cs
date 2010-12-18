@@ -3,7 +3,7 @@ using System.IO;
 using System.ServiceModel;
 using System.Web;
 using MPWebStream.Streaming;
-using MPWebStream.TVEInteraction;
+using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
 namespace MPWebStream.Site {
     public class Streamer {
@@ -12,7 +12,7 @@ namespace MPWebStream.Site {
             set;
         }
 
-        public TVEInteractionClient Server {
+        public ITVEInteraction Server {
             get;
             set;
         }
@@ -27,14 +27,14 @@ namespace MPWebStream.Site {
             set; 
         }
 
-        public Streamer(HttpContext context, TVEInteractionClient server, WebChannel channel) {
+        public Streamer(HttpContext context, ITVEInteraction server, WebChannel channel) {
             this.Context = context;
             this.Server = server;
             this.Channel = channel;
             this.BufferSize = 524288;
         }
 
-        public Streamer(HttpContext context, TVEInteractionClient server, WebChannel channel, int bufferSize) : this(context, server, channel) {
+        public Streamer(HttpContext context, ITVEInteraction server, WebChannel channel, int bufferSize) : this(context, server, channel) {
             this.BufferSize = BufferSize;
         }
 
@@ -90,14 +90,14 @@ namespace MPWebStream.Site {
         public static void run(HttpContext context) {
             // connect to TV4Home service
             // FIXME: make hostname configurable
-            EndpointAddress address = new EndpointAddress(String.Format("http://{0}:4321/TV4Home.Server.CoreService/TVEInteractionService", "mediastreamer.lan"));
-            TVEInteractionClient tvWebClient = new TVEInteractionClient("BasicHttpBinding_ITVEInteraction", address);
+            ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
+                new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
 
             // FIXME: make this dynamic
-            WebChannel ch = tvWebClient.GetChannelById(301);
+            WebChannel ch = tvServiceInterface.GetChannelById(301);
 
             // run
-            Streamer s = new Streamer(context, tvWebClient, ch);
+            Streamer s = new Streamer(context, tvServiceInterface, ch);
             s.stream();
         }
     }
