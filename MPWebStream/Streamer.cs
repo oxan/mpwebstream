@@ -101,7 +101,8 @@ namespace MPWebStream.Site {
 
         public static void run(HttpContext context) {
             // verify username and password
-
+            if (!Authentication.authenticate(context))
+                return;
 
             // connect to TV4Home service and get channel
             ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },

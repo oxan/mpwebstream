@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml;
 
-namespace MPWebStream.TvServerPlugin {
+namespace MPWebStream {
     class Configuration {
         #region Properties
         public string SitePath {
