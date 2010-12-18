@@ -72,11 +72,23 @@ namespace MPWebStream.Site {
             byte[] buffer = new byte[BufferSize];
             int read;
             try {
-                while ((read = outStream.Read(buffer, 0, buffer.Length)) > 0) {
+                while (true) {
+                    // read into buffer, but break out if transcoding process is done (prevent deadlock)
+                    do {
+                        read = outStream.Read(buffer, 0, buffer.Length);
+                    } while (read == 0 && !encoder.IsTranscodingDone);
+                    if (encoder.IsTranscodingDone)
+                        break;
+
+                    // write to client, if connected
+                    if (!Context.Response.IsClientConnected) 
+                        break;
                     Context.Response.OutputStream.Write(buffer, 0, read);
+                    Context.Response.Flush();
                 }
             } catch (Exception ex) {
-                // FIXME: handle
+                System.Console.WriteLine("Exception while streaming data");
+                System.Console.WriteLine(ex.ToString());
             }
 
             // close and finish

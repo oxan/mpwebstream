@@ -21,6 +21,14 @@ namespace MPWebStream.Streaming
     private string filename;
     private Stream mediaStream = null;
 
+    public bool IsTranscodingDone {
+      get {
+          if (!encCfg.useTranscoding)
+              return false;
+          return applicationThread == null || applicationThread.HasExited;
+      }
+    }
+
     public EncoderWrapper(string filename, EncoderConfig encCfg)
     {
       this.filename = filename;
