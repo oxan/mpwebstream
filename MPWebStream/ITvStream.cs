@@ -7,6 +7,6 @@ namespace MPWebStream.Site {
         [OperationContract]
         List<Channel> GetChannels();
         [OperationContract]
-        string GetStreamUrl(int idChannel);
+        string GetStreamUrl(int idChannel, string username, string password);
     }
 }

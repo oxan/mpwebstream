@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Linq;
+using System;
+using System.Web;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
 namespace MPWebStream.Site {
@@ -44,8 +47,13 @@ namespace MPWebStream.Site {
             return result;
         }
 
-        public string GetStreamUrl(int idChannel) {
-            return "";
+        public string GetStreamUrl(int idChannel, string username, string password) {
+            Uri uri = OperationContext.Current.IncomingMessageHeaders.To;
+            NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
+            queryString["channelId"] = idChannel.ToString();
+            queryString["login"] = Authentication.createLoginArgument(username, password);
+            Uri stream = new Uri(uri, "/Stream.ashx?" + queryString.ToString());
+            return stream.ToString();
         }
     }
 }

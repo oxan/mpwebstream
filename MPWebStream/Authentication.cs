@@ -18,7 +18,7 @@ namespace MPWebStream.Site {
             }
 
             if (allowUrl) {
-                string hash = Authentication.calculateHash(config.Username + ":" + config.Password);
+                string hash = Authentication.createLoginArgument(config.Username, config.Password);
                 if (context.Request.Params["login"] != null && context.Request.Params["login"] == hash)
                     hasAccess = true;
             }
@@ -35,9 +35,9 @@ namespace MPWebStream.Site {
             return true;
         }
 
-        private static string calculateHash(string input) {
+        public static string createLoginArgument(string username, string password) {
             ASCIIEncoding encoding = new ASCIIEncoding();
-            byte[] token = encoding.GetBytes(input);
+            byte[] token = encoding.GetBytes(username + ":" + password);
             SHA256 hashprovider = new SHA256Managed();
             byte[] hash = hashprovider.ComputeHash(token);
             return BitConverter.ToString(hash).Replace("-", "");
