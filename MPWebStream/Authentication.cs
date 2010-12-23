@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Web;
+using System.Text;
+using System.Security.Cryptography;
 
 // FIXME: this should be done using some ASP.NET thing
 namespace MPWebStream.Site {
     public class Authentication {
-        public static bool authenticate(HttpContext context) {
+        public static bool authenticate(HttpContext context, bool allowUrl = false) {
             bool hasAccess = false;
+            Configuration config = new Configuration();
 
             if (context.Request.Headers["Authorization"] != null) {
                 byte[] decodebuffer = Convert.FromBase64String(context.Request.Headers["Authorization"].Substring(6).Trim());
                 string input = System.Text.Encoding.ASCII.GetString(decodebuffer);
-                Configuration config = new Configuration();
                 if (input == config.Username + ":" + config.Password)
+                    hasAccess = true;
+            }
+
+            if (allowUrl) {
+                string hash = Authentication.calculateHash(config.Username + ":" + config.Password);
+                if (context.Request.Params["login"] != null && context.Request.Params["login"] == hash)
                     hasAccess = true;
             }
 
@@ -25,6 +33,14 @@ namespace MPWebStream.Site {
                 return false;
             }
             return true;
+        }
+
+        private static string calculateHash(string input) {
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] token = encoding.GetBytes(input);
+            SHA256 hashprovider = new SHA256Managed();
+            byte[] hash = hashprovider.ComputeHash(token);
+            return BitConverter.ToString(hash).Replace("-", "");
         }
     }
 }
