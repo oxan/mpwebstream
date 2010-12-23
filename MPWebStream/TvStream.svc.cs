@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System;
 using System.Web;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
 namespace MPWebStream.Site {
+    // FIXME: this should be possible without the DataContract attributes
+    [DataContract]
     public class Channel {
+        [DataMember]
         public string DisplayName { get; set; }
+        [DataMember]
         public int IdChannel { get; set; }
+        [DataMember]
         public string Name { get; set; }
+        [DataMember]
         public bool IsTv { get; set; }
+        [DataMember]
         public bool IsRadio { get; set; }
 
         public Channel(int id, string displayName, string name, bool isTv, bool isRadio) {
@@ -36,6 +44,7 @@ namespace MPWebStream.Site {
         }
 
         public List<Channel> GetChannels() {
+            // FIXME: use LINQ for this? 
             List<Channel> result = new List<Channel>();
             List<WebChannelGroup> groups = client.GetGroups();
             foreach (WebChannelGroup group in groups) {
