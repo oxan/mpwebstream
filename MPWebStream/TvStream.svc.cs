@@ -57,12 +57,12 @@ namespace MPWebStream.Site {
         }
 
         public string GetStreamUrl(int idChannel, string username, string password) {
-            UriBuilder builder = new UriBuilder(OperationContext.Current.IncomingMessageHeaders.To);
+            Uri uri = OperationContext.Current.IncomingMessageHeaders.To;
             NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString["channelId"] = idChannel.ToString();
             queryString["login"] = Authentication.createLoginArgument(username, password);
-            builder.Query = queryString.ToString();
-            return builder.ToString();
+            Uri stream = new Uri(uri, "Stream.ashx?" + queryString.ToString());
+            return stream.ToString();
         }
     }
 }
