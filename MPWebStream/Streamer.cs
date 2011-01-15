@@ -17,7 +17,7 @@ namespace MPWebStream.Site {
             set;
         }
 
-        public WebChannel Channel {
+        public WebChannelBasic Channel {
             get;
             set;
         }
@@ -27,19 +27,29 @@ namespace MPWebStream.Site {
             set; 
         }
 
-        public Streamer(HttpContext context, ITVEInteraction server, WebChannel channel) {
+        public readonly string Username {
+            get;
+            set;
+        }
+
+        public Streamer(HttpContext context, ITVEInteraction server, WebChannelBasic channel) {
             this.Context = context;
             this.Server = server;
             this.Channel = channel;
             this.BufferSize = 524288;
         }
 
-        public Streamer(HttpContext context, ITVEInteraction server, WebChannel channel, int bufferSize) : this(context, server, channel) {
+        public Streamer(HttpContext context, ITVEInteraction server, WebChannelBasic channel, int bufferSize) : this(context, server, channel) {
             this.BufferSize = BufferSize;
         }
 
         public void stream() {
             // the real work
+            // variables
+            Stream sourceStream = null;
+            Stream outStream = null;
+            EncoderWrapper encoder = null;
+
             // setup response
             Context.Response.Clear();
             Context.Response.Buffer = false;
@@ -48,18 +58,17 @@ namespace MPWebStream.Site {
             Context.Response.ContentType = "video/x-ms-video"; // FIXME
             Context.Response.StatusCode = 200;
 
-            // setup encoder and variables
-            Stream sourceStream = null;
-            Stream outStream  = null;
-            EncoderWrapper encoder = null;
-            string sourceFilename;
-            EncoderConfig config = new EncoderConfig("BLA", false, "", "", TransportMethod.NamedPipe, TransportMethod.NamedPipe);
+            // setup encoding
+            // EncoderConfig config = new EncoderConfig("BLA", false, "", "", TransportMethod.NamedPipe, TransportMethod.NamedPipe);
+            EncoderConfig config = new EncoderConfig("H264", true, @"C:\TvServer\mencoder\mencoder.exe", "{0} -cache 8192 -ovc x264 -x264encopts rc-lookahead=30:ref=2:subme=6:no-8x8dct:bframes=0:no-cabac:cqm=flat:weightp=0 -oac lavc -lavcopts acodec=libfaac -of lavf -lavfopts format=mp4 -vf scale=800:450 -o {1}", TransportMethod.Filename, TransportMethod.NamedPipe);
+
+            // start streaming
+            Username = "mpwebstream-" + System.Guid.NewGuid().ToString("D"); // should be random enough for the time being
+            WebVirtualCard card = Server.SwitchTVServerToChannelAndGetVirtualCard(Username, Channel.IdChannel);
             if (config.inputMethod == TransportMethod.Filename) {
-                sourceFilename = Server.SwitchTVServerToChannelAndGetStreamingUrl(Channel.IdChannel);
-                encoder = new EncoderWrapper(sourceFilename, config);
+                encoder = new EncoderWrapper(card.RTSPUrl, config);
             } else {
-                sourceFilename = Server.SwitchTVServerToChannelAndGetTimeshiftFilename(Channel.IdChannel);
-                sourceStream = new TsBuffer(sourceFilename);
+                sourceStream = new TsBuffer(card.TimeShiftFileName);
                 encoder = new EncoderWrapper(sourceStream, config);
             }
             if (config.useTranscoding) {
@@ -95,7 +104,7 @@ namespace MPWebStream.Site {
             if (outStream != null) outStream.Close();
             if (sourceStream != null) sourceStream.Close();
             if (encoder != null) encoder.StopProcess();
-            Server.CancelCurrentTimeShifting();
+            Server.CancelCurrentTimeShifting(username);
             Context.Response.End();
         }
 
@@ -103,7 +112,7 @@ namespace MPWebStream.Site {
             // connect to TV4Home service and get channel
             ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
                 new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
-            WebChannel ch = tvServiceInterface.GetChannelById(Int32.Parse(context.Request.Params["channelId"]));
+            WebChannelBasic ch = tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"]));
 
             // run
             Streamer s = new Streamer(context, tvServiceInterface, ch);

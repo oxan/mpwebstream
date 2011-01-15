@@ -43,8 +43,9 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TV4Home.Server.TVEInteractionLibrary.Interfaces">
-      <HintPath>..\lib\TV4Home.Server.TVEInteractionLibrary.Interfaces.dll</HintPath>
+    <Reference Include="TV4Home.Server.TVEInteractionLibrary.Interfaces, Version=0.1.0.0, Culture=neutral, PublicKeyToken=3cf46e400c1bd362, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>\\files.maravilla.lan\exchange\TV4Home.Server.TVEInteractionLibrary.Interfaces.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
