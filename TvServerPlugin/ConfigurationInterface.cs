@@ -15,6 +15,7 @@ namespace MPWebStream.TvServerPlugin {
             port.Value = config.Port;
             useWebserver.Checked = config.UseWebserver;
             manageTV4Home.Checked = config.ManageTV4Home;
+            requireAuthentication.Checked = config.EnableAuthentication;
             userName.Text = config.Username;
             password.Text = config.Password;
 
@@ -28,6 +29,7 @@ namespace MPWebStream.TvServerPlugin {
             config.ManageTV4Home = manageTV4Home.Checked;
             config.Username = userName.Text;
             config.Password = password.Text;
+            config.EnableAuthentication = requireAuthentication.Checked;
             config.Write();
 
             base.OnSectionDeActivated();
@@ -38,6 +40,17 @@ namespace MPWebStream.TvServerPlugin {
                 port.Enabled = labelPort.Enabled = true;
             } else {
                 port.Enabled = labelPort.Enabled = false;
+            }
+        }
+
+        private void requireAuthentication_CheckedChanged(object sender, EventArgs e)
+        {
+            if (requireAuthentication.Checked) {
+                userName.Enabled = true;
+                password.Enabled = true;
+            } else {
+                userName.Enabled = false;
+                password.Enabled = false;
             }
         }
     }

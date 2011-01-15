@@ -25,6 +25,10 @@
         private void InitializeComponent() {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.password = new System.Windows.Forms.TextBox();
+            this.userName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.port = new System.Windows.Forms.NumericUpDown();
             this.labelPort = new System.Windows.Forms.Label();
             this.useWebserver = new System.Windows.Forms.CheckBox();
@@ -33,10 +37,8 @@
             this.manageTV4Home = new System.Windows.Forms.CheckBox();
             this.labelManageTV4HomeExplain = new System.Windows.Forms.Label();
             this.labelManageTV4Home = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.userName = new System.Windows.Forms.TextBox();
-            this.password = new System.Windows.Forms.TextBox();
+            this.labelRequireAuthentication = new System.Windows.Forms.Label();
+            this.requireAuthentication = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.port)).BeginInit();
@@ -51,11 +53,13 @@
             this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(269, 247);
+            this.tabControl.Size = new System.Drawing.Size(269, 267);
             this.tabControl.TabIndex = 0;
             // 
             // tabGeneral
             // 
+            this.tabGeneral.Controls.Add(this.requireAuthentication);
+            this.tabGeneral.Controls.Add(this.labelRequireAuthentication);
             this.tabGeneral.Controls.Add(this.password);
             this.tabGeneral.Controls.Add(this.userName);
             this.tabGeneral.Controls.Add(this.label2);
@@ -71,10 +75,47 @@
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(261, 221);
+            this.tabGeneral.Size = new System.Drawing.Size(261, 241);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // password
+            // 
+            this.password.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.password.Location = new System.Drawing.Point(183, 201);
+            this.password.Name = "password";
+            this.password.PasswordChar = '*';
+            this.password.Size = new System.Drawing.Size(72, 20);
+            this.password.TabIndex = 11;
+            // 
+            // userName
+            // 
+            this.userName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.userName.Location = new System.Drawing.Point(183, 175);
+            this.userName.Name = "userName";
+            this.userName.Size = new System.Drawing.Size(72, 20);
+            this.userName.TabIndex = 10;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 204);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Password:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 178);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(58, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Username:";
             // 
             // port
             // 
@@ -168,51 +209,35 @@
             this.labelManageTV4Home.TabIndex = 0;
             this.labelManageTV4Home.Text = "Manage TV4Home server:";
             // 
-            // label1
+            // labelRequireAuthentication
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 151);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Username:";
+            this.labelRequireAuthentication.AutoSize = true;
+            this.labelRequireAuthentication.Location = new System.Drawing.Point(7, 156);
+            this.labelRequireAuthentication.Name = "labelRequireAuthentication";
+            this.labelRequireAuthentication.Size = new System.Drawing.Size(117, 13);
+            this.labelRequireAuthentication.TabIndex = 12;
+            this.labelRequireAuthentication.Text = "Require authentication:";
             // 
-            // label2
+            // requireAuthentication
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 180);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Password:";
-            // 
-            // userName
-            // 
-            this.userName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.userName.Location = new System.Drawing.Point(183, 150);
-            this.userName.Name = "userName";
-            this.userName.Size = new System.Drawing.Size(72, 20);
-            this.userName.TabIndex = 10;
-            // 
-            // password
-            // 
-            this.password.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.password.Location = new System.Drawing.Point(183, 177);
-            this.password.Name = "password";
-            this.password.PasswordChar = '*';
-            this.password.Size = new System.Drawing.Size(72, 20);
-            this.password.TabIndex = 11;
+            this.requireAuthentication.AutoSize = true;
+            this.requireAuthentication.Checked = true;
+            this.requireAuthentication.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.requireAuthentication.Location = new System.Drawing.Point(183, 155);
+            this.requireAuthentication.Name = "requireAuthentication";
+            this.requireAuthentication.Size = new System.Drawing.Size(15, 14);
+            this.requireAuthentication.TabIndex = 13;
+            this.requireAuthentication.UseVisualStyleBackColor = true;
+            this.requireAuthentication.CheckedChanged += new System.EventHandler(this.requireAuthentication_CheckedChanged);
             // 
             // ConfigurationInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl);
-            this.MinimumSize = new System.Drawing.Size(275, 250);
+            this.MinimumSize = new System.Drawing.Size(275, 270);
             this.Name = "ConfigurationInterface";
-            this.Size = new System.Drawing.Size(275, 250);
+            this.Size = new System.Drawing.Size(275, 270);
             this.tabControl.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.tabGeneral.PerformLayout();
@@ -237,5 +262,7 @@
         private System.Windows.Forms.TextBox userName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox requireAuthentication;
+        private System.Windows.Forms.Label labelRequireAuthentication;
     }
 }

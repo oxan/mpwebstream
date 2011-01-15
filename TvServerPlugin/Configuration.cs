@@ -48,6 +48,11 @@ namespace MPWebStream {
             set;
         }
 
+        public bool EnableAuthentication {
+            get;
+            set;
+        }
+
         public int MonitorPollInterval {
             get { return 30; }
         }
@@ -61,15 +66,17 @@ namespace MPWebStream {
 
         #region Persistence
         protected void Read() {
-            if (!File.Exists(ConfigPath)) {
-                // create default file
-                Port = 8080;
-                UseWebserver = true;
-                ManageTV4Home = false;
-                Username = "admin";
-                Password = "admin";
+            // default settings
+            Port = 8080;
+            UseWebserver = true;
+            ManageTV4Home = false;
+            Username = "admin";
+            Password = "admin";
+            EnableAuthentication = true;
+
+            // create file if it doesn't exists
+            if (!File.Exists(ConfigPath))
                 Write();
-            }
 
             XmlDocument doc = new XmlDocument();
             doc.Load(ConfigPath);
@@ -78,6 +85,8 @@ namespace MPWebStream {
             ManageTV4Home = doc.SelectSingleNode("/mpwebstream/manageTV4Home").InnerText == "true";
             Username = doc.SelectSingleNode("/mpwebstream/username").InnerText;
             Password = doc.SelectSingleNode("/mpwebstream/password").InnerText;
+            if(doc.SelectSingleNode("/mpwebstream/enableAuthentication") != null)
+                EnableAuthentication = doc.SelectSingleNode("/mpwebstream/enableAuthentication").InnerText == "true";
         }
 
         public void Write() {
@@ -91,6 +100,7 @@ namespace MPWebStream {
             AddChild(doc, root, "manageTV4Home", ManageTV4Home);
             AddChild(doc, root, "username", Username);
             AddChild(doc, root, "password", Password);
+            AddChild(doc, root, "enableAuthentication", EnableAuthentication);
             doc.AppendChild(root);
             doc.Save(ConfigPath);
         }

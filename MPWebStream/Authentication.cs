@@ -7,32 +7,31 @@ using System.Security.Cryptography;
 namespace MPWebStream.Site {
     public class Authentication {
         public static bool authenticate(HttpContext context, bool allowUrl = false) {
-            bool hasAccess = false;
             Configuration config = new Configuration();
+            if (!config.EnableAuthentication)
+                return true;
 
             if (context.Request.Headers["Authorization"] != null) {
                 byte[] decodebuffer = Convert.FromBase64String(context.Request.Headers["Authorization"].Substring(6).Trim());
                 string input = System.Text.Encoding.ASCII.GetString(decodebuffer);
                 if (input == config.Username + ":" + config.Password)
-                    hasAccess = true;
+                    return true;
             }
 
             if (allowUrl) {
                 string hash = Authentication.createLoginArgument(config.Username, config.Password);
                 if (context.Request.Params["login"] != null && context.Request.Params["login"] == hash)
-                    hasAccess = true;
+                    return true;
             }
 
-            if(!hasAccess) {
-                context.Response.StatusCode = 401;
-                context.Response.StatusDescription = "Authorization Required";
-                context.Response.AddHeader("WWW-Authenticate", "Basic realm=\"MPWebStream\"");
-                context.Response.AddHeader("Content-Type", "text/plain");
-                context.Response.Write("Authorization Required");
-                context.Response.Flush();
-                return false;
-            }
-            return true;
+            // no access
+            context.Response.StatusCode = 401;
+            context.Response.StatusDescription = "Authorization Required";
+            context.Response.AddHeader("WWW-Authenticate", "Basic realm=\"MPWebStream\"");
+            context.Response.AddHeader("Content-Type", "text/plain");
+            context.Response.Write("Authorization Required");
+            context.Response.Flush();
+            return false;
         }
 
         public static string createLoginArgument(string username, string password) {
