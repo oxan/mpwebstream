@@ -27,9 +27,9 @@ namespace MPWebStream.Site {
             set; 
         }
 
-        public readonly string Username {
+        public string Username {
             get;
-            set;
+            private set;
         }
 
         public Streamer(HttpContext context, ITVEInteraction server, WebChannelBasic channel) {
@@ -104,7 +104,7 @@ namespace MPWebStream.Site {
             if (outStream != null) outStream.Close();
             if (sourceStream != null) sourceStream.Close();
             if (encoder != null) encoder.StopProcess();
-            Server.CancelCurrentTimeShifting(username);
+            Server.CancelCurrentTimeShifting(Username);
             Context.Response.End();
         }
 

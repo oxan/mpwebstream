@@ -26,11 +26,9 @@ namespace MPWebStream.Site {
             this.IdChannel = id;
             this.DisplayName = displayName;
             this.Name = name;
-            this.IsTv = isTv;
-            this.IsRadio = isRadio;
         }
 
-        public Channel(WebChannel ch) : this(ch.IdChannel, ch.DisplayName, ch.Name, ch.IsTv, ch.IsRadio) {
+        public Channel(WebChannelDetailed ch) : this(ch.IdChannel, ch.DisplayName, ch.Name, ch.IsTv, ch.IsRadio) {
         }
 
     }
@@ -48,8 +46,8 @@ namespace MPWebStream.Site {
             List<Channel> result = new List<Channel>();
             List<WebChannelGroup> groups = client.GetGroups();
             foreach (WebChannelGroup group in groups) {
-                List<WebChannel> channels = client.GetChannels(group.IdGroup);
-                foreach (WebChannel channel in channels) {
+                List<WebChannelDetailed> channels = client.GetChannelsDetailed(group.IdGroup);
+                foreach (WebChannelDetailed channel in channels) {
                     result.Add(new Channel(channel));
                 }
             }
