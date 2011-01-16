@@ -2,12 +2,18 @@
 using System.IO;
 using System.ServiceModel;
 using System.Web;
+using System.Linq;
 using MPWebStream.Streaming;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
 namespace MPWebStream.Site {
+    public enum StreamSource {
+        Channel,
+        Recording
+    }
+
     public class Streamer {
-        public HttpContext Context {
+        public HttpResponse Response {
             get;
             set;
         }
@@ -17,7 +23,12 @@ namespace MPWebStream.Site {
             set;
         }
 
-        public WebChannelBasic Channel {
+        public StreamSource StreamType {
+            get;
+            set;
+        }
+
+        public int SourceId {
             get;
             set;
         }
@@ -32,15 +43,20 @@ namespace MPWebStream.Site {
             private set;
         }
 
-        public Streamer(HttpContext context, ITVEInteraction server, WebChannelBasic channel) {
-            this.Context = context;
+        public Streamer(HttpResponse response, ITVEInteraction server, StreamSource streamType, int sourceId) {
+            this.Response = response;
             this.Server = server;
-            this.Channel = channel;
+            this.StreamType = streamType;
+            this.SourceId = sourceId;
             this.BufferSize = 524288;
         }
 
-        public Streamer(HttpContext context, ITVEInteraction server, WebChannelBasic channel, int bufferSize) : this(context, server, channel) {
-            this.BufferSize = BufferSize;
+        public Streamer(HttpResponse response, ITVEInteraction server, WebChannelBasic channel) 
+            : this(response, server, StreamSource.Channel, channel.IdChannel) {
+        }
+
+        public Streamer(HttpResponse response, ITVEInteraction server, WebRecording recording) 
+            : this(response, server, StreamSource.Recording, recording.IdRecording) {
         }
 
         public void stream() {
@@ -51,20 +67,20 @@ namespace MPWebStream.Site {
             EncoderWrapper encoder = null;
 
             // setup response
-            Context.Response.Clear();
-            Context.Response.Buffer = false;
-            Context.Response.BufferOutput = false;
-            Context.Response.AppendHeader("Connection", "Close");
-            Context.Response.ContentType = "video/x-ms-video"; // FIXME
-            Context.Response.StatusCode = 200;
+            Response.Clear();
+            Response.Buffer = false;
+            Response.BufferOutput = false;
+            Response.AppendHeader("Connection", "Close");
+            Response.ContentType = "video/x-ms-video"; // FIXME
+            Response.StatusCode = 200;
 
             // setup encoding
             EncoderConfig config = new EncoderConfig("BLA", false, "", "", TransportMethod.NamedPipe, TransportMethod.NamedPipe);
             // EncoderConfig config = new EncoderConfig("H264", true, @"C:\TvServer\mencoder\mencoder.exe", "{0} -cache 8192 -ovc x264 -x264encopts rc-lookahead=30:ref=2:subme=6:no-8x8dct:bframes=0:no-cabac:cqm=flat:weightp=0 -oac lavc -lavcopts acodec=libfaac -of lavf -lavfopts format=mp4 -vf scale=800:450 -o {1}", TransportMethod.Filename, TransportMethod.NamedPipe);
 
             // start streaming
-            Username = "mpwebstream-" + System.Guid.NewGuid().ToString("D"); // should be random enough for the time being
-            WebVirtualCard card = Server.SwitchTVServerToChannelAndGetVirtualCard(Username, Channel.IdChannel);
+            Username = "mpwebstream-" + System.Guid.NewGuid().ToString("D"); // should be random enough
+            WebVirtualCard card = Server.SwitchTVServerToChannelAndGetVirtualCard(Username, SourceId);
             if (config.inputMethod == TransportMethod.Filename) {
                 encoder = new EncoderWrapper(card.RTSPUrl, config);
             } else {
@@ -90,10 +106,10 @@ namespace MPWebStream.Site {
                         break;
 
                     // write to client, if connected
-                    if (!Context.Response.IsClientConnected) 
+                    if (!Response.IsClientConnected) 
                         break;
-                    Context.Response.OutputStream.Write(buffer, 0, read);
-                    Context.Response.Flush();
+                    Response.OutputStream.Write(buffer, 0, read);
+                    Response.Flush();
                 }
             } catch (Exception ex) {
                 System.Console.WriteLine("Exception while streaming data");
@@ -105,18 +121,26 @@ namespace MPWebStream.Site {
             if (sourceStream != null) sourceStream.Close();
             if (encoder != null) encoder.StopProcess();
             Server.CancelCurrentTimeShifting(Username);
-            Context.Response.End();
+            Response.End();
         }
 
         public static void run(HttpContext context) {
-            // connect to TV4Home service and get channel
+            // parse request parameters and start streamer
             ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
                 new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
-            WebChannelBasic ch = tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"]));
+            Streamer streamer;
+            if (context.Request.Params["channelId"] != null) {
+                streamer = new Streamer(context.Response, tvServiceInterface, tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"])));
+            } else if (context.Request.Params["recordingId"] != null) {
+                int recordingId = Int32.Parse(context.Request.Params["recordingId"]);
+                streamer = new Streamer(context.Response, tvServiceInterface, tvServiceInterface.GetRecordings().Where(rec => rec.IdRecording == recordingId).First());
+            } else {
+                context.Response.Write("Specify at least a channelId or recordingId parameter");
+                return;
+            }
 
             // run
-            Streamer s = new Streamer(context, tvServiceInterface, ch);
-            s.stream();
+            streamer.stream();
         }
     }
 }

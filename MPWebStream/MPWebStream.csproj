@@ -48,7 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TvStream.svc" />
+    <Content Include="MediaStream.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -65,7 +65,7 @@
       <Link>Configuration.cs</Link>
     </Compile>
     <Compile Include="Authentication.cs" />
-    <Compile Include="ITvStream.cs" />
+    <Compile Include="IMediaStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stream.ashx.cs">
       <DependentUpon>Stream.ashx</DependentUpon>
@@ -79,8 +79,8 @@
     <Compile Include="Streaming\TransportMethod.cs" />
     <Compile Include="Streaming\TransportStream.cs" />
     <Compile Include="Streaming\TsBuffer.cs" />
-    <Compile Include="TvStream.svc.cs">
-      <DependentUpon>TvStream.svc</DependentUpon>
+    <Compile Include="MediaStream.svc.cs">
+      <DependentUpon>MediaStream.svc</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
