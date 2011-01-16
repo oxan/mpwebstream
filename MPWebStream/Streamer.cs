@@ -74,17 +74,26 @@ namespace MPWebStream.Site {
             Response.ContentType = "video/x-ms-video"; // FIXME
             Response.StatusCode = 200;
 
-            // setup encoding
+            // read encoder configuration
             EncoderConfig config = new EncoderConfig("BLA", false, "", "", TransportMethod.NamedPipe, TransportMethod.NamedPipe);
             // EncoderConfig config = new EncoderConfig("H264", true, @"C:\TvServer\mencoder\mencoder.exe", "{0} -cache 8192 -ovc x264 -x264encopts rc-lookahead=30:ref=2:subme=6:no-8x8dct:bframes=0:no-cabac:cqm=flat:weightp=0 -oac lavc -lavcopts acodec=libfaac -of lavf -lavfopts format=mp4 -vf scale=800:450 -o {1}", TransportMethod.Filename, TransportMethod.NamedPipe);
 
-            // start streaming
-            Username = "mpwebstream-" + System.Guid.NewGuid().ToString("D"); // should be random enough
-            WebVirtualCard card = Server.SwitchTVServerToChannelAndGetVirtualCard(Username, SourceId);
-            if (config.inputMethod == TransportMethod.Filename) {
-                encoder = new EncoderWrapper(card.RTSPUrl, config);
+            // get the path to the source
+            string path = "";
+            if (StreamType == StreamSource.Channel) {
+                Username = "mpwebstream-" + System.Guid.NewGuid().ToString("D"); // should be random enough
+                WebVirtualCard card = Server.SwitchTVServerToChannelAndGetVirtualCard(Username, SourceId);
+                path = config.inputMethod == TransportMethod.Filename ? card.RTSPUrl : card.TimeShiftFileName;
+            } else if(StreamType == StreamSource.Recording) {
+                WebRecording recording = Server.GetRecordings().Where(rec => rec.IdRecording == SourceId).First();
+                path = recording.FileName;
+            }
+
+            // setup the encoder and input/output streams
+            if(config.inputMethod == TransportMethod.Filename && config.useTranscoding) {
+                encoder = new EncoderWrapper(path, config);
             } else {
-                sourceStream = new TsBuffer(card.TimeShiftFileName);
+                sourceStream = new TsBuffer(path);
                 encoder = new EncoderWrapper(sourceStream, config);
             }
             if (config.useTranscoding) {
@@ -93,7 +102,7 @@ namespace MPWebStream.Site {
                 outStream = sourceStream;
             }
 
-            // stream
+            // stream it to the client
             byte[] buffer = new byte[BufferSize];
             int read;
             try {
