@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace MPWebStream.TvServerPlugin {
     public partial class ConfigurationInterface : SetupTv.SectionSettings {
@@ -30,6 +31,20 @@ namespace MPWebStream.TvServerPlugin {
             config.Username = userName.Text;
             config.Password = password.Text;
             config.EnableAuthentication = requireAuthentication.Checked;
+
+            // transcoders
+            config.Transcoders = new List<TranscoderProfile>();
+            foreach (DataGridViewRow row in transcoders.Rows) {
+                config.Transcoders.Add(new TranscoderProfile() {
+                    Name = row.Cells["name"].Value.ToString(),
+                    UseTranscoding = (bool)row.Cells["transcoding"].Value,
+                    InputMethod = row.Cells["inputMethod"].Value.ToString(),
+                    OutputMethod = row.Cells["outputMethod"].Value.ToString(),
+                    Transcoder = row.Cells["transcoder"].Value.ToString(),
+                    Parameters = row.Cells["parameters"].Value.ToString()
+                });
+            }
+
             config.Write();
 
             base.OnSectionDeActivated();

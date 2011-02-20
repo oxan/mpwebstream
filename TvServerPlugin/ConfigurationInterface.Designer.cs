@@ -25,6 +25,8 @@
         private void InitializeComponent() {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.requireAuthentication = new System.Windows.Forms.CheckBox();
+            this.labelRequireAuthentication = new System.Windows.Forms.Label();
             this.password = new System.Windows.Forms.TextBox();
             this.userName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -37,11 +39,19 @@
             this.manageTV4Home = new System.Windows.Forms.CheckBox();
             this.labelManageTV4HomeExplain = new System.Windows.Forms.Label();
             this.labelManageTV4Home = new System.Windows.Forms.Label();
-            this.labelRequireAuthentication = new System.Windows.Forms.Label();
-            this.requireAuthentication = new System.Windows.Forms.CheckBox();
+            this.tabTranscoding = new System.Windows.Forms.TabPage();
+            this.transcoders = new System.Windows.Forms.DataGridView();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.transcode = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.inputMethod = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.outputMethod = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.transcoder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.port)).BeginInit();
+            this.tabTranscoding.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.transcoders)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -50,10 +60,11 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabGeneral);
+            this.tabControl.Controls.Add(this.tabTranscoding);
             this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(269, 267);
+            this.tabControl.Size = new System.Drawing.Size(757, 404);
             this.tabControl.TabIndex = 0;
             // 
             // tabGeneral
@@ -79,6 +90,27 @@
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // requireAuthentication
+            // 
+            this.requireAuthentication.AutoSize = true;
+            this.requireAuthentication.Checked = true;
+            this.requireAuthentication.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.requireAuthentication.Location = new System.Drawing.Point(183, 155);
+            this.requireAuthentication.Name = "requireAuthentication";
+            this.requireAuthentication.Size = new System.Drawing.Size(15, 14);
+            this.requireAuthentication.TabIndex = 13;
+            this.requireAuthentication.UseVisualStyleBackColor = true;
+            this.requireAuthentication.CheckedChanged += new System.EventHandler(this.requireAuthentication_CheckedChanged);
+            // 
+            // labelRequireAuthentication
+            // 
+            this.labelRequireAuthentication.AutoSize = true;
+            this.labelRequireAuthentication.Location = new System.Drawing.Point(7, 156);
+            this.labelRequireAuthentication.Name = "labelRequireAuthentication";
+            this.labelRequireAuthentication.Size = new System.Drawing.Size(117, 13);
+            this.labelRequireAuthentication.TabIndex = 12;
+            this.labelRequireAuthentication.Text = "Require authentication:";
             // 
             // password
             // 
@@ -209,26 +241,78 @@
             this.labelManageTV4Home.TabIndex = 0;
             this.labelManageTV4Home.Text = "Manage TV4Home server:";
             // 
-            // labelRequireAuthentication
+            // tabTranscoding
             // 
-            this.labelRequireAuthentication.AutoSize = true;
-            this.labelRequireAuthentication.Location = new System.Drawing.Point(7, 156);
-            this.labelRequireAuthentication.Name = "labelRequireAuthentication";
-            this.labelRequireAuthentication.Size = new System.Drawing.Size(117, 13);
-            this.labelRequireAuthentication.TabIndex = 12;
-            this.labelRequireAuthentication.Text = "Require authentication:";
+            this.tabTranscoding.Controls.Add(this.transcoders);
+            this.tabTranscoding.Location = new System.Drawing.Point(4, 22);
+            this.tabTranscoding.Name = "tabTranscoding";
+            this.tabTranscoding.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTranscoding.Size = new System.Drawing.Size(749, 378);
+            this.tabTranscoding.TabIndex = 1;
+            this.tabTranscoding.Text = "Transcoding";
+            this.tabTranscoding.UseVisualStyleBackColor = true;
             // 
-            // requireAuthentication
+            // transcoders
             // 
-            this.requireAuthentication.AutoSize = true;
-            this.requireAuthentication.Checked = true;
-            this.requireAuthentication.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.requireAuthentication.Location = new System.Drawing.Point(183, 155);
-            this.requireAuthentication.Name = "requireAuthentication";
-            this.requireAuthentication.Size = new System.Drawing.Size(15, 14);
-            this.requireAuthentication.TabIndex = 13;
-            this.requireAuthentication.UseVisualStyleBackColor = true;
-            this.requireAuthentication.CheckedChanged += new System.EventHandler(this.requireAuthentication_CheckedChanged);
+            this.transcoders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.transcoders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.transcoders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.name,
+            this.transcode,
+            this.inputMethod,
+            this.outputMethod,
+            this.transcoder,
+            this.parameters});
+            this.transcoders.Location = new System.Drawing.Point(7, 7);
+            this.transcoders.Name = "transcoders";
+            this.transcoders.Size = new System.Drawing.Size(736, 365);
+            this.transcoders.TabIndex = 0;
+            // 
+            // name
+            // 
+            this.name.HeaderText = "Name";
+            this.name.Name = "name";
+            // 
+            // transcode
+            // 
+            this.transcode.HeaderText = "Transcode";
+            this.transcode.Name = "transcode";
+            this.transcode.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.transcode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // inputMethod
+            // 
+            this.inputMethod.HeaderText = "Input method";
+            this.inputMethod.Items.AddRange(new object[] {
+            "Filename",
+            "NamedPipe",
+            "StandardIn"});
+            this.inputMethod.Name = "inputMethod";
+            this.inputMethod.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.inputMethod.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // outputMethod
+            // 
+            this.outputMethod.HeaderText = "Output method";
+            this.outputMethod.Items.AddRange(new object[] {
+            "NamedPipe",
+            "StandardOut"});
+            this.outputMethod.Name = "outputMethod";
+            this.outputMethod.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.outputMethod.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // transcoder
+            // 
+            this.transcoder.HeaderText = "Transcoder";
+            this.transcoder.Name = "transcoder";
+            this.transcoder.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // parameters
+            // 
+            this.parameters.HeaderText = "Parameters";
+            this.parameters.Name = "parameters";
             // 
             // ConfigurationInterface
             // 
@@ -237,11 +321,13 @@
             this.Controls.Add(this.tabControl);
             this.MinimumSize = new System.Drawing.Size(275, 270);
             this.Name = "ConfigurationInterface";
-            this.Size = new System.Drawing.Size(275, 270);
+            this.Size = new System.Drawing.Size(763, 407);
             this.tabControl.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.tabGeneral.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.port)).EndInit();
+            this.tabTranscoding.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.transcoders)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -264,5 +350,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox requireAuthentication;
         private System.Windows.Forms.Label labelRequireAuthentication;
+        private System.Windows.Forms.TabPage tabTranscoding;
+        private System.Windows.Forms.DataGridView transcoders;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn transcode;
+        private System.Windows.Forms.DataGridViewComboBoxColumn inputMethod;
+        private System.Windows.Forms.DataGridViewComboBoxColumn outputMethod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn transcoder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn parameters;
     }
 }

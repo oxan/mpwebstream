@@ -1,8 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace MPWebStream {
+    class TranscoderProfile {
+        public string Name { get; set; }
+        public bool UseTranscoding { get; set; }
+        public string Transcoder { get; set; }
+        public string Parameters { get; set; }
+        public string InputMethod { get; set; }
+        public string OutputMethod { get; set; }
+    }
+
     class Configuration {
         #region Properties
         public string SitePath {
@@ -53,6 +63,15 @@ namespace MPWebStream {
             set;
         }
 
+        public List<TranscoderProfile> Transcoders {
+            get;
+            set;
+        }
+
+        public string SiteRoot {
+            get { return "http://mediastreamer.lan/MPWebStream/"; }
+        }
+
         public int MonitorPollInterval {
             get { return 30; }
         }
@@ -73,6 +92,15 @@ namespace MPWebStream {
             Username = "admin";
             Password = "admin";
             EnableAuthentication = true;
+            Transcoders = new List<TranscoderProfile>();
+            Transcoders.Add(new TranscoderProfile() {
+                Name = "Direct",
+                UseTranscoding = false,
+                Transcoder = "",
+                Parameters = "",
+                InputMethod = "NamedPipe",
+                OutputMethod = "NamedPipe"
+            });
 
             // create file if it doesn't exists
             if (!File.Exists(ConfigPath))
@@ -87,6 +115,21 @@ namespace MPWebStream {
             Password = doc.SelectSingleNode("/mpwebstream/password").InnerText;
             if(doc.SelectSingleNode("/mpwebstream/enableAuthentication") != null)
                 EnableAuthentication = doc.SelectSingleNode("/mpwebstream/enableAuthentication").InnerText == "true";
+            if (doc.SelectSingleNode("/mpwebstream/transcoders") != null) {
+                Transcoders = new List<TranscoderProfile>();
+                XmlNodeList nodes = doc.SelectNodes("/mpwebstream/transcoderProfiles/transcoder");
+                foreach (XmlNode node in nodes) {
+                    // Child nodes would be nicer, but that would mean a lot more work here. 
+                    Transcoders.Add(new TranscoderProfile() {
+                        Name = node.Attributes["name"].Value,
+                        UseTranscoding = node.Attributes["useTranscoding"].Value == "true",
+                        InputMethod = node.Attributes["inputMethod"].Value,
+                        OutputMethod = node.Attributes["outputMethod"].Value,
+                        Transcoder = node.Attributes["transcoder"].Value,
+                        Parameters = node.Attributes["parameters"].Value
+                    });
+                }
+            }
         }
 
         public void Write() {
