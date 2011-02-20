@@ -75,6 +75,11 @@ namespace MPWebStream.Site {
             return result;
         }
 
+        public Channel GetChannel(int idChannel) {
+            WebChannelDetailed ch = client.GetChannelDetailedById(idChannel);
+            return new Channel(ch);
+        }
+
         public string GetTvStreamUrl(int idChannel, string username, string password) {
             return CreateStreamUrl("channelId", idChannel, username, password);
         }
