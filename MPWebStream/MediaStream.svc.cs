@@ -88,12 +88,13 @@ namespace MPWebStream.Site {
         }
 
         private string CreateStreamUrl(string idKey, int idValue, string username, string password) {
-            Uri uri = OperationContext.Current.IncomingMessageHeaders.To;
+            Configuration config = new Configuration();
+            Uri baseUri = new Uri(config.SiteRoot);
             NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString[idKey] = idValue.ToString();
             if(username != string.Empty)
                 queryString["login"] = Authentication.createLoginArgument(username, password);
-            Uri stream = new Uri(uri, "Stream.ashx?" + queryString.ToString());
+            Uri stream = new Uri(baseUri, "Stream.ashx?" + queryString.ToString());
             return stream.ToString();
         }
     }
