@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.UI.WebControls;
+using System.Collections.Specialized;
 
 namespace MPWebStream.Site {
     public partial class Default : System.Web.UI.Page {
@@ -12,7 +13,11 @@ namespace MPWebStream.Site {
             Configuration config = new Configuration();
             MediaStream remoteControl = new MediaStream();
             foreach (Channel channel in remoteControl.GetChannels()) {
-                Channels.Items.Add(new ListItem(channel.DisplayName, remoteControl.GetTvStreamUrl(channel.IdChannel, config.Username, config.Password)));
+                if (false) {
+                    Channels.Items.Add(new ListItem(channel.DisplayName, "VLC.aspx?channel=" + channel.IdChannel.ToString()));
+                } else {
+                    Channels.Items.Add(new ListItem(channel.DisplayName, remoteControl.GetTvStreamUrl(channel.IdChannel, config.Username, config.Password)));
+                }
             }
             Channels.DisplayMode = BulletedListDisplayMode.HyperLink;
         }

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="MediaStream.svc" />
+    <Content Include="VLC.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -90,6 +91,13 @@
     <Compile Include="Streaming\TsBuffer.cs" />
     <Compile Include="MediaStream.svc.cs">
       <DependentUpon>MediaStream.svc</DependentUpon>
+    </Compile>
+    <Compile Include="VLC.aspx.cs">
+      <DependentUpon>VLC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VLC.aspx.designer.cs">
+      <DependentUpon>VLC.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
