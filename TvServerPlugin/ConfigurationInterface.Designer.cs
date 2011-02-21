@@ -25,6 +25,10 @@
         private void InitializeComponent() {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.streamType = new System.Windows.Forms.ComboBox();
+            this.labelStreamType = new System.Windows.Forms.Label();
+            this.siteroot = new System.Windows.Forms.TextBox();
+            this.labelSiteroot = new System.Windows.Forms.Label();
             this.requireAuthentication = new System.Windows.Forms.CheckBox();
             this.labelRequireAuthentication = new System.Windows.Forms.Label();
             this.password = new System.Windows.Forms.TextBox();
@@ -47,10 +51,6 @@
             this.outputMethod = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.transcoder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.labelSiteroot = new System.Windows.Forms.Label();
-            this.siteroot = new System.Windows.Forms.TextBox();
-            this.labelStreamType = new System.Windows.Forms.Label();
-            this.streamType = new System.Windows.Forms.ComboBox();
             this.tabControl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.port)).BeginInit();
@@ -68,7 +68,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(319, 360);
+            this.tabControl.Size = new System.Drawing.Size(1011, 360);
             this.tabControl.TabIndex = 0;
             // 
             // tabGeneral
@@ -94,10 +94,50 @@
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(311, 334);
+            this.tabGeneral.Size = new System.Drawing.Size(1003, 334);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // streamType
+            // 
+            this.streamType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.streamType.FormattingEnabled = true;
+            this.streamType.Items.AddRange(new object[] {
+            "VLC",
+            "Direct"});
+            this.streamType.Location = new System.Drawing.Point(183, 254);
+            this.streamType.Name = "streamType";
+            this.streamType.Size = new System.Drawing.Size(814, 21);
+            this.streamType.TabIndex = 17;
+            // 
+            // labelStreamType
+            // 
+            this.labelStreamType.AutoSize = true;
+            this.labelStreamType.Location = new System.Drawing.Point(7, 257);
+            this.labelStreamType.Name = "labelStreamType";
+            this.labelStreamType.Size = new System.Drawing.Size(69, 13);
+            this.labelStreamType.TabIndex = 16;
+            this.labelStreamType.Text = "Stream type: ";
+            // 
+            // siteroot
+            // 
+            this.siteroot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.siteroot.Location = new System.Drawing.Point(183, 227);
+            this.siteroot.Name = "siteroot";
+            this.siteroot.Size = new System.Drawing.Size(814, 20);
+            this.siteroot.TabIndex = 15;
+            // 
+            // labelSiteroot
+            // 
+            this.labelSiteroot.AutoSize = true;
+            this.labelSiteroot.Location = new System.Drawing.Point(7, 230);
+            this.labelSiteroot.Name = "labelSiteroot";
+            this.labelSiteroot.Size = new System.Drawing.Size(49, 13);
+            this.labelSiteroot.TabIndex = 14;
+            this.labelSiteroot.Text = "Site root:";
             // 
             // requireAuthentication
             // 
@@ -127,7 +167,7 @@
             this.password.Location = new System.Drawing.Point(183, 201);
             this.password.Name = "password";
             this.password.PasswordChar = '*';
-            this.password.Size = new System.Drawing.Size(122, 20);
+            this.password.Size = new System.Drawing.Size(814, 20);
             this.password.TabIndex = 11;
             // 
             // userName
@@ -136,7 +176,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.userName.Location = new System.Drawing.Point(183, 175);
             this.userName.Name = "userName";
-            this.userName.Size = new System.Drawing.Size(122, 20);
+            this.userName.Size = new System.Drawing.Size(814, 20);
             this.userName.TabIndex = 10;
             // 
             // labelPassword
@@ -206,7 +246,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelUseWebserverExplain.Location = new System.Drawing.Point(7, 75);
             this.labelUseWebserverExplain.Name = "labelUseWebserverExplain";
-            this.labelUseWebserverExplain.Size = new System.Drawing.Size(298, 47);
+            this.labelUseWebserverExplain.Size = new System.Drawing.Size(990, 47);
             this.labelUseWebserverExplain.TabIndex = 4;
             this.labelUseWebserverExplain.Text = "Disable this if you use some other webserver (such as IIS) for hosting the websit" +
                 "e (note: only for expert users, enable if you\'re not sure).";
@@ -235,7 +275,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelManageTV4HomeExplain.Location = new System.Drawing.Point(7, 24);
             this.labelManageTV4HomeExplain.Name = "labelManageTV4HomeExplain";
-            this.labelManageTV4HomeExplain.Size = new System.Drawing.Size(298, 31);
+            this.labelManageTV4HomeExplain.Size = new System.Drawing.Size(990, 31);
             this.labelManageTV4HomeExplain.TabIndex = 1;
             this.labelManageTV4HomeExplain.Text = "Disable this if you want to keep the TV4Home Core Service running after the TV Se" +
                 "rver stops. Not very useful.";
@@ -255,7 +295,7 @@
             this.tabTranscoding.Location = new System.Drawing.Point(4, 22);
             this.tabTranscoding.Name = "tabTranscoding";
             this.tabTranscoding.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTranscoding.Size = new System.Drawing.Size(749, 378);
+            this.tabTranscoding.Size = new System.Drawing.Size(1003, 334);
             this.tabTranscoding.TabIndex = 1;
             this.tabTranscoding.Text = "Transcoding";
             this.tabTranscoding.UseVisualStyleBackColor = true;
@@ -275,7 +315,7 @@
             this.parameters});
             this.transcoders.Location = new System.Drawing.Point(7, 7);
             this.transcoders.Name = "transcoders";
-            this.transcoders.Size = new System.Drawing.Size(736, 365);
+            this.transcoders.Size = new System.Drawing.Size(1542, 321);
             this.transcoders.TabIndex = 0;
             // 
             // name
@@ -322,47 +362,6 @@
             this.parameters.HeaderText = "Parameters";
             this.parameters.Name = "parameters";
             // 
-            // labelSiteroot
-            // 
-            this.labelSiteroot.AutoSize = true;
-            this.labelSiteroot.Location = new System.Drawing.Point(7, 230);
-            this.labelSiteroot.Name = "labelSiteroot";
-            this.labelSiteroot.Size = new System.Drawing.Size(49, 13);
-            this.labelSiteroot.TabIndex = 14;
-            this.labelSiteroot.Text = "Site root:";
-            // 
-            // siteroot
-            // 
-            this.siteroot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.siteroot.Location = new System.Drawing.Point(183, 227);
-            this.siteroot.Name = "siteroot";
-            this.siteroot.PasswordChar = '*';
-            this.siteroot.Size = new System.Drawing.Size(122, 20);
-            this.siteroot.TabIndex = 15;
-            // 
-            // labelStreamType
-            // 
-            this.labelStreamType.AutoSize = true;
-            this.labelStreamType.Location = new System.Drawing.Point(7, 257);
-            this.labelStreamType.Name = "labelStreamType";
-            this.labelStreamType.Size = new System.Drawing.Size(69, 13);
-            this.labelStreamType.TabIndex = 16;
-            this.labelStreamType.Text = "Stream type: ";
-            // 
-            // streamType
-            // 
-            this.streamType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.streamType.FormattingEnabled = true;
-            this.streamType.Items.AddRange(new object[] {
-            "VLC",
-            "Direct"});
-            this.streamType.Location = new System.Drawing.Point(183, 254);
-            this.streamType.Name = "streamType";
-            this.streamType.Size = new System.Drawing.Size(122, 21);
-            this.streamType.TabIndex = 17;
-            // 
             // ConfigurationInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -370,7 +369,7 @@
             this.Controls.Add(this.tabControl);
             this.MinimumSize = new System.Drawing.Size(275, 270);
             this.Name = "ConfigurationInterface";
-            this.Size = new System.Drawing.Size(325, 363);
+            this.Size = new System.Drawing.Size(1017, 363);
             this.tabControl.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.tabGeneral.PerformLayout();

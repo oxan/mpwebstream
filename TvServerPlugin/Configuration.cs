@@ -138,14 +138,13 @@ namespace MPWebStream {
                 Transcoders = new List<TranscoderProfile>();
                 XmlNodeList nodes = doc.SelectNodes("/mpwebstream/transcoderProfiles/transcoder");
                 foreach (XmlNode node in nodes) {
-                    // Child nodes would be nicer, but that would mean a lot more work here. 
                     Transcoders.Add(new TranscoderProfile() {
-                        Name = node.Attributes["name"].Value,
-                        UseTranscoding = node.Attributes["useTranscoding"].Value == "true",
-                        InputMethod = node.Attributes["inputMethod"].Value,
-                        OutputMethod = node.Attributes["outputMethod"].Value,
-                        Transcoder = node.Attributes["transcoder"].Value,
-                        Parameters = node.Attributes["parameters"].Value
+                        Name = node.SelectSingleNode("/name").Value,
+                        UseTranscoding = node.SelectSingleNode("/useTranscoding").Value == "true",
+                        InputMethod = node.SelectSingleNode("inputMethod").Value,
+                        OutputMethod = node.SelectSingleNode("outputMethod").Value,
+                        Transcoder = node.SelectSingleNode("transcoder").Value,
+                        Parameters = node.SelectSingleNode("parameters").Value
                     });
                 }
             }
@@ -163,6 +162,21 @@ namespace MPWebStream {
             AddChild(doc, root, "username", Username);
             AddChild(doc, root, "password", Password);
             AddChild(doc, root, "enableAuthentication", EnableAuthentication);
+            AddChild(doc, root, "siteroot", SiteRoot);
+            AddChild(doc, root, "streamtype", StreamType == StreamlinkType.Direct ? "Direct" : "VLC");
+
+            XmlNode transcoders = doc.CreateElement("transcoderProfiles");
+            foreach (TranscoderProfile profile in Transcoders) {
+                XmlNode thisTranscoder = doc.CreateElement("transcoder");
+                AddChild(doc, thisTranscoder, "name", profile.Name);
+                AddChild(doc, thisTranscoder, "useTranscoding", profile.UseTranscoding);
+                AddChild(doc, thisTranscoder, "inputMethod", profile.InputMethod);
+                AddChild(doc, thisTranscoder, "outputMethod", profile.OutputMethod);
+                AddChild(doc, thisTranscoder, "transcoder", profile.Transcoder);
+                AddChild(doc, thisTranscoder, "parameters", profile.Parameters);
+                transcoders.AppendChild(thisTranscoder);
+            }
+            root.AppendChild(transcoders);
             doc.AppendChild(root);
             doc.Save(ConfigPath);
         }
