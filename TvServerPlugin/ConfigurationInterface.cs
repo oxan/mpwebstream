@@ -19,6 +19,8 @@ namespace MPWebStream.TvServerPlugin {
             requireAuthentication.Checked = config.EnableAuthentication;
             userName.Text = config.Username;
             password.Text = config.Password;
+            siteroot.Text = config.SiteRoot;
+            streamType.SelectedIndex = config.StreamType == Configuration.StreamlinkType.Direct ? 0 : 1; // TODO: can be done nicer I guess
 
             base.OnSectionActivated();
         }
@@ -31,6 +33,8 @@ namespace MPWebStream.TvServerPlugin {
             config.Username = userName.Text;
             config.Password = password.Text;
             config.EnableAuthentication = requireAuthentication.Checked;
+            config.SiteRoot = siteroot.Text;
+            config.StreamType = streamType.SelectedIndex == 0 ? Configuration.StreamlinkType.Direct : Configuration.StreamlinkType.VLC;
 
             // transcoders
             config.Transcoders = new List<TranscoderProfile>();

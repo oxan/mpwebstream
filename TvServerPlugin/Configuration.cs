@@ -14,6 +14,13 @@ namespace MPWebStream {
     }
 
     class Configuration {
+        #region Enums
+        public enum StreamlinkType {
+            Direct,
+            VLC
+        };
+        #endregion
+
         #region Properties
         public string SitePath {
             get {
@@ -69,7 +76,13 @@ namespace MPWebStream {
         }
 
         public string SiteRoot {
-            get { return "http://mediastreamer.lan/MPWebStream/"; }
+            get;
+            set;
+        }
+
+        public StreamlinkType StreamType {
+            get;
+            set;
         }
 
         public int MonitorPollInterval {
@@ -92,6 +105,8 @@ namespace MPWebStream {
             Username = "admin";
             Password = "admin";
             EnableAuthentication = true;
+            StreamType = StreamlinkType.VLC;
+            SiteRoot = "http://" + System.Environment.MachineName + "/";
             Transcoders = new List<TranscoderProfile>();
             Transcoders.Add(new TranscoderProfile() {
                 Name = "Direct",
@@ -115,6 +130,10 @@ namespace MPWebStream {
             Password = doc.SelectSingleNode("/mpwebstream/password").InnerText;
             if(doc.SelectSingleNode("/mpwebstream/enableAuthentication") != null)
                 EnableAuthentication = doc.SelectSingleNode("/mpwebstream/enableAuthentication").InnerText == "true";
+            if (doc.SelectSingleNode("/mpwebstream/siteroot") != null)
+                SiteRoot = doc.SelectSingleNode("/mpwebstream/siteroot").InnerText;
+            if(doc.SelectSingleNode("/mpwebstream/streamtype") != null)
+                StreamType = doc.SelectSingleNode("/mpwebstream/streamtype").InnerText == "direct" ? StreamlinkType.Direct : StreamlinkType.VLC;
             if (doc.SelectSingleNode("/mpwebstream/transcoders") != null) {
                 Transcoders = new List<TranscoderProfile>();
                 XmlNodeList nodes = doc.SelectNodes("/mpwebstream/transcoderProfiles/transcoder");

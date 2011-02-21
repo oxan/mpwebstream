@@ -29,8 +29,8 @@
             this.labelRequireAuthentication = new System.Windows.Forms.Label();
             this.password = new System.Windows.Forms.TextBox();
             this.userName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelPassword = new System.Windows.Forms.Label();
+            this.labelUsername = new System.Windows.Forms.Label();
             this.port = new System.Windows.Forms.NumericUpDown();
             this.labelPort = new System.Windows.Forms.Label();
             this.useWebserver = new System.Windows.Forms.CheckBox();
@@ -47,6 +47,10 @@
             this.outputMethod = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.transcoder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelSiteroot = new System.Windows.Forms.Label();
+            this.siteroot = new System.Windows.Forms.TextBox();
+            this.labelStreamType = new System.Windows.Forms.Label();
+            this.streamType = new System.Windows.Forms.ComboBox();
             this.tabControl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.port)).BeginInit();
@@ -64,17 +68,21 @@
             this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(757, 404);
+            this.tabControl.Size = new System.Drawing.Size(319, 360);
             this.tabControl.TabIndex = 0;
             // 
             // tabGeneral
             // 
+            this.tabGeneral.Controls.Add(this.streamType);
+            this.tabGeneral.Controls.Add(this.labelStreamType);
+            this.tabGeneral.Controls.Add(this.siteroot);
+            this.tabGeneral.Controls.Add(this.labelSiteroot);
             this.tabGeneral.Controls.Add(this.requireAuthentication);
             this.tabGeneral.Controls.Add(this.labelRequireAuthentication);
             this.tabGeneral.Controls.Add(this.password);
             this.tabGeneral.Controls.Add(this.userName);
-            this.tabGeneral.Controls.Add(this.label2);
-            this.tabGeneral.Controls.Add(this.label1);
+            this.tabGeneral.Controls.Add(this.labelPassword);
+            this.tabGeneral.Controls.Add(this.labelUsername);
             this.tabGeneral.Controls.Add(this.port);
             this.tabGeneral.Controls.Add(this.labelPort);
             this.tabGeneral.Controls.Add(this.useWebserver);
@@ -86,7 +94,7 @@
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(261, 241);
+            this.tabGeneral.Size = new System.Drawing.Size(311, 334);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
@@ -119,7 +127,7 @@
             this.password.Location = new System.Drawing.Point(183, 201);
             this.password.Name = "password";
             this.password.PasswordChar = '*';
-            this.password.Size = new System.Drawing.Size(72, 20);
+            this.password.Size = new System.Drawing.Size(122, 20);
             this.password.TabIndex = 11;
             // 
             // userName
@@ -128,26 +136,26 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.userName.Location = new System.Drawing.Point(183, 175);
             this.userName.Name = "userName";
-            this.userName.Size = new System.Drawing.Size(72, 20);
+            this.userName.Size = new System.Drawing.Size(122, 20);
             this.userName.TabIndex = 10;
             // 
-            // label2
+            // labelPassword
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 204);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Password:";
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.Location = new System.Drawing.Point(7, 204);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(56, 13);
+            this.labelPassword.TabIndex = 9;
+            this.labelPassword.Text = "Password:";
             // 
-            // label1
+            // labelUsername
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 178);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Username:";
+            this.labelUsername.AutoSize = true;
+            this.labelUsername.Location = new System.Drawing.Point(7, 178);
+            this.labelUsername.Name = "labelUsername";
+            this.labelUsername.Size = new System.Drawing.Size(58, 13);
+            this.labelUsername.TabIndex = 8;
+            this.labelUsername.Text = "Username:";
             // 
             // port
             // 
@@ -198,7 +206,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelUseWebserverExplain.Location = new System.Drawing.Point(7, 75);
             this.labelUseWebserverExplain.Name = "labelUseWebserverExplain";
-            this.labelUseWebserverExplain.Size = new System.Drawing.Size(248, 47);
+            this.labelUseWebserverExplain.Size = new System.Drawing.Size(298, 47);
             this.labelUseWebserverExplain.TabIndex = 4;
             this.labelUseWebserverExplain.Text = "Disable this if you use some other webserver (such as IIS) for hosting the websit" +
                 "e (note: only for expert users, enable if you\'re not sure).";
@@ -227,10 +235,10 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelManageTV4HomeExplain.Location = new System.Drawing.Point(7, 24);
             this.labelManageTV4HomeExplain.Name = "labelManageTV4HomeExplain";
-            this.labelManageTV4HomeExplain.Size = new System.Drawing.Size(248, 31);
+            this.labelManageTV4HomeExplain.Size = new System.Drawing.Size(298, 31);
             this.labelManageTV4HomeExplain.TabIndex = 1;
             this.labelManageTV4HomeExplain.Text = "Disable this if you want to keep the TV4Home Core Service running after the TV Se" +
-                "rver stops.";
+                "rver stops. Not very useful.";
             // 
             // labelManageTV4Home
             // 
@@ -314,6 +322,47 @@
             this.parameters.HeaderText = "Parameters";
             this.parameters.Name = "parameters";
             // 
+            // labelSiteroot
+            // 
+            this.labelSiteroot.AutoSize = true;
+            this.labelSiteroot.Location = new System.Drawing.Point(7, 230);
+            this.labelSiteroot.Name = "labelSiteroot";
+            this.labelSiteroot.Size = new System.Drawing.Size(49, 13);
+            this.labelSiteroot.TabIndex = 14;
+            this.labelSiteroot.Text = "Site root:";
+            // 
+            // siteroot
+            // 
+            this.siteroot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.siteroot.Location = new System.Drawing.Point(183, 227);
+            this.siteroot.Name = "siteroot";
+            this.siteroot.PasswordChar = '*';
+            this.siteroot.Size = new System.Drawing.Size(122, 20);
+            this.siteroot.TabIndex = 15;
+            // 
+            // labelStreamType
+            // 
+            this.labelStreamType.AutoSize = true;
+            this.labelStreamType.Location = new System.Drawing.Point(7, 257);
+            this.labelStreamType.Name = "labelStreamType";
+            this.labelStreamType.Size = new System.Drawing.Size(69, 13);
+            this.labelStreamType.TabIndex = 16;
+            this.labelStreamType.Text = "Stream type: ";
+            // 
+            // streamType
+            // 
+            this.streamType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.streamType.FormattingEnabled = true;
+            this.streamType.Items.AddRange(new object[] {
+            "VLC",
+            "Direct"});
+            this.streamType.Location = new System.Drawing.Point(183, 254);
+            this.streamType.Name = "streamType";
+            this.streamType.Size = new System.Drawing.Size(122, 21);
+            this.streamType.TabIndex = 17;
+            // 
             // ConfigurationInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -321,7 +370,7 @@
             this.Controls.Add(this.tabControl);
             this.MinimumSize = new System.Drawing.Size(275, 270);
             this.Name = "ConfigurationInterface";
-            this.Size = new System.Drawing.Size(763, 407);
+            this.Size = new System.Drawing.Size(325, 363);
             this.tabControl.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.tabGeneral.PerformLayout();
@@ -346,8 +395,8 @@
         private System.Windows.Forms.Label labelManageTV4Home;
         private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.TextBox userName;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelPassword;
+        private System.Windows.Forms.Label labelUsername;
         private System.Windows.Forms.CheckBox requireAuthentication;
         private System.Windows.Forms.Label labelRequireAuthentication;
         private System.Windows.Forms.TabPage tabTranscoding;
@@ -358,5 +407,9 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn outputMethod;
         private System.Windows.Forms.DataGridViewTextBoxColumn transcoder;
         private System.Windows.Forms.DataGridViewTextBoxColumn parameters;
+        private System.Windows.Forms.Label labelSiteroot;
+        private System.Windows.Forms.ComboBox streamType;
+        private System.Windows.Forms.Label labelStreamType;
+        private System.Windows.Forms.TextBox siteroot;
     }
 }
