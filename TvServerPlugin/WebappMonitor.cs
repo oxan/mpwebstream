@@ -7,6 +7,7 @@ using TvLibrary.Log;
 namespace MPWebStream.TvServerPlugin {
     class WebappMonitor {
         private bool doMonitor;
+        private bool shouldStart = false;
         private Process server;
         private Configuration config;
 
@@ -15,19 +16,25 @@ namespace MPWebStream.TvServerPlugin {
 
             // first start TV4Home service
             ServiceController controller = new ServiceController("TV4HomeCoreService");
-            if (controller.Status != ServiceControllerStatus.Running) {
-                if (!config.ManageTV4Home) {
-                    Log.Info("MPWebStream: Starting TV4HomeCoreService, ignoring user preference to not manage it because we need it");
-                } else {
-                    Log.Info("MPWebStream: Starting TV4HomeCoreService");
+            try {
+                if (controller.Status != ServiceControllerStatus.Running) {
+                    if (!config.ManageTV4Home) {
+                        Log.Info("MPWebStream: Starting TV4HomeCoreService, ignoring user preference to not manage it because we need it");
+                    } else {
+                        Log.Info("MPWebStream: Starting TV4HomeCoreService");
+                    }
+                    controller.Start();
+                    controller.WaitForStatus(ServiceControllerStatus.Running, new TimeSpan(0, 0, 30));
                 }
-                controller.Start();
-                controller.WaitForStatus(ServiceControllerStatus.Running, new TimeSpan(0, 0, 30));
+            } catch (InvalidOperationException e) {
+                Log.Error("MPWebStream: TV4Home Core Service not installed; not starting. ");
+                return;
             }
 
 
             // then start Cassini
             if (config.UseWebserver) {
+                this.shouldStart = true;
                 server = new Process();
                 server.StartInfo.Arguments = String.Format(@"{0} ""{1}""", config.Port.ToString(), config.SitePath);
                 server.StartInfo.CreateNoWindow = true;
@@ -45,7 +52,7 @@ namespace MPWebStream.TvServerPlugin {
             // start process
             doMonitor = true;
             start();
-            if (!config.UseWebserver)
+            if (!this.shouldStart)
                 return;
             Log.Info(String.Format("MPWebStream: Started monitoring Cassini at poll interval {0} seconds", config.MonitorPollInterval));
 
