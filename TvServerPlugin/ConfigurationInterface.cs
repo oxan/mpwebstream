@@ -28,12 +28,13 @@ namespace MPWebStream.TvServerPlugin {
             foreach (TranscoderProfile profile in config.Transcoders) {
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(transcoders);
-                row.Cells["name"].Value = profile.Name;
-                row.Cells["transcode"].Value = profile.UseTranscoding;
-                row.Cells["inputMethod"].Value = profile.InputMethod;
-                row.Cells["outputMethod"].Value = profile.OutputMethod;
-                row.Cells["transcoder"].Value = profile.Transcoder;
-                row.Cells["parameters"].Value = profile.Parameters;
+                // doing it with string indexes doesn't work, don't know why
+                row.Cells[0].Value = profile.Name;
+                row.Cells[1].Value = profile.UseTranscoding;
+                row.Cells[2].Value = profile.InputMethod;
+                row.Cells[3].Value = profile.OutputMethod;
+                row.Cells[4].Value = profile.Transcoder;
+                row.Cells[5].Value = profile.Parameters;
                 transcoders.Rows.Add(row);
             }
 
@@ -54,14 +55,14 @@ namespace MPWebStream.TvServerPlugin {
             // transcoders
             config.Transcoders = new List<TranscoderProfile>();
             foreach (DataGridViewRow row in transcoders.Rows) {
-                if(row.Cells["name"].Value != null) 
+                if(row.Cells[0].Value != null) 
                     config.Transcoders.Add(new TranscoderProfile() {
-                        Name = row.Cells["name"].Value != null ? row.Cells["name"].Value.ToString() : "",
-                        UseTranscoding = row.Cells["transcode"].Value != null ? (bool)row.Cells["transcode"].Value : false,
-                        InputMethod = row.Cells["inputMethod"].Value != null ? row.Cells["inputMethod"].Value.ToString() : "", 
-                        OutputMethod = row.Cells["outputMethod"].Value != null ? row.Cells["outputMethod"].Value.ToString() : "",
-                        Transcoder = row.Cells["transcoder"].Value != null ? row.Cells["transcoder"].Value.ToString() : "",
-                        Parameters = row.Cells["parameters"].Value != null ? row.Cells["parameters"].Value.ToString() : ""
+                        Name = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : "",
+                        UseTranscoding = row.Cells[1].Value != null ? (bool)row.Cells[1].Value : false,
+                        InputMethod = row.Cells[2].Value != null ? row.Cells[2].Value.ToString() : "", 
+                        OutputMethod = row.Cells[3].Value != null ? row.Cells[3].Value.ToString() : "",
+                        Transcoder = row.Cells[4].Value != null ? row.Cells[4].Value.ToString() : "",
+                        Parameters = row.Cells[5].Value != null ? row.Cells[5].Value.ToString() : ""
                     });
             }
 
