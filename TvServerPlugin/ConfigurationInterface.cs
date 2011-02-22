@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.ServiceProcess;
 using System.Collections.Generic;
 using TvLibrary.Log;
 
@@ -22,6 +23,15 @@ namespace MPWebStream.TvServerPlugin {
             password.Text = config.Password;
             siteroot.Text = config.SiteRoot;
             streamType.SelectedIndex = config.StreamType == Configuration.StreamlinkType.Direct ? 0 : 1; // TODO: can be done nicer I guess
+
+            // show warning when TV4Home is not installed
+            ServiceController controller = new ServiceController("TV4HomeCoreService");
+            try {
+                ServiceControllerStatus tmp = controller.Status;
+                labelTV4HomeInstalled.Visible = false;
+            } catch (InvalidOperationException) {
+                labelTV4HomeInstalled.Visible = true;
+            }
 
             // transcoders
             transcoders.Rows.Clear();

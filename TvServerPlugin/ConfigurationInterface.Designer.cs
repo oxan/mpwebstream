@@ -51,6 +51,7 @@
             this.outputMethod = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.transcoder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelTV4HomeInstalled = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.port)).BeginInit();
@@ -68,11 +69,12 @@
             this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1011, 360);
+            this.tabControl.Size = new System.Drawing.Size(876, 360);
             this.tabControl.TabIndex = 0;
             // 
             // tabGeneral
             // 
+            this.tabGeneral.Controls.Add(this.labelTV4HomeInstalled);
             this.tabGeneral.Controls.Add(this.streamType);
             this.tabGeneral.Controls.Add(this.labelStreamType);
             this.tabGeneral.Controls.Add(this.siteroot);
@@ -94,7 +96,7 @@
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(1003, 334);
+            this.tabGeneral.Size = new System.Drawing.Size(868, 334);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
@@ -109,7 +111,7 @@
             "Direct"});
             this.streamType.Location = new System.Drawing.Point(183, 254);
             this.streamType.Name = "streamType";
-            this.streamType.Size = new System.Drawing.Size(814, 21);
+            this.streamType.Size = new System.Drawing.Size(679, 21);
             this.streamType.TabIndex = 17;
             // 
             // labelStreamType
@@ -127,7 +129,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.siteroot.Location = new System.Drawing.Point(183, 227);
             this.siteroot.Name = "siteroot";
-            this.siteroot.Size = new System.Drawing.Size(814, 20);
+            this.siteroot.Size = new System.Drawing.Size(679, 20);
             this.siteroot.TabIndex = 15;
             // 
             // labelSiteroot
@@ -167,7 +169,7 @@
             this.password.Location = new System.Drawing.Point(183, 201);
             this.password.Name = "password";
             this.password.PasswordChar = '*';
-            this.password.Size = new System.Drawing.Size(814, 20);
+            this.password.Size = new System.Drawing.Size(679, 20);
             this.password.TabIndex = 11;
             // 
             // userName
@@ -176,7 +178,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.userName.Location = new System.Drawing.Point(183, 175);
             this.userName.Name = "userName";
-            this.userName.Size = new System.Drawing.Size(814, 20);
+            this.userName.Size = new System.Drawing.Size(679, 20);
             this.userName.TabIndex = 10;
             // 
             // labelPassword
@@ -246,7 +248,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelUseWebserverExplain.Location = new System.Drawing.Point(7, 75);
             this.labelUseWebserverExplain.Name = "labelUseWebserverExplain";
-            this.labelUseWebserverExplain.Size = new System.Drawing.Size(990, 47);
+            this.labelUseWebserverExplain.Size = new System.Drawing.Size(855, 47);
             this.labelUseWebserverExplain.TabIndex = 4;
             this.labelUseWebserverExplain.Text = "Disable this if you use some other webserver (such as IIS) for hosting the websit" +
                 "e (note: only for expert users, enable if you\'re not sure).";
@@ -275,7 +277,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelManageTV4HomeExplain.Location = new System.Drawing.Point(7, 24);
             this.labelManageTV4HomeExplain.Name = "labelManageTV4HomeExplain";
-            this.labelManageTV4HomeExplain.Size = new System.Drawing.Size(990, 31);
+            this.labelManageTV4HomeExplain.Size = new System.Drawing.Size(855, 31);
             this.labelManageTV4HomeExplain.TabIndex = 1;
             this.labelManageTV4HomeExplain.Text = "Disable this if you want to keep the TV4Home Core Service running after the TV Se" +
                 "rver stops. Not very useful.";
@@ -362,6 +364,19 @@
             this.parameters.HeaderText = "Parameters";
             this.parameters.Name = "parameters";
             // 
+            // labelTV4HomeInstalled
+            // 
+            this.labelTV4HomeInstalled.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTV4HomeInstalled.AutoSize = true;
+            this.labelTV4HomeInstalled.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTV4HomeInstalled.ForeColor = System.Drawing.Color.Red;
+            this.labelTV4HomeInstalled.Location = new System.Drawing.Point(7, 287);
+            this.labelTV4HomeInstalled.Name = "labelTV4HomeInstalled";
+            this.labelTV4HomeInstalled.Size = new System.Drawing.Size(310, 13);
+            this.labelTV4HomeInstalled.TabIndex = 18;
+            this.labelTV4HomeInstalled.Text = "Warning: The TV4Home Core Service is not installed.";
+            // 
             // ConfigurationInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,7 +384,7 @@
             this.Controls.Add(this.tabControl);
             this.MinimumSize = new System.Drawing.Size(275, 270);
             this.Name = "ConfigurationInterface";
-            this.Size = new System.Drawing.Size(1017, 363);
+            this.Size = new System.Drawing.Size(882, 363);
             this.tabControl.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.tabGeneral.PerformLayout();
@@ -410,5 +425,6 @@
         private System.Windows.Forms.ComboBox streamType;
         private System.Windows.Forms.Label labelStreamType;
         private System.Windows.Forms.TextBox siteroot;
+        private System.Windows.Forms.Label labelTV4HomeInstalled;
     }
 }
