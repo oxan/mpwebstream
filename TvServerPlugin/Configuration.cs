@@ -128,24 +128,27 @@ namespace MPWebStream {
             ManageTV4Home = doc.SelectSingleNode("/mpwebstream/manageTV4Home").InnerText == "true";
             Username = doc.SelectSingleNode("/mpwebstream/username").InnerText;
             Password = doc.SelectSingleNode("/mpwebstream/password").InnerText;
-            if(doc.SelectSingleNode("/mpwebstream/enableAuthentication") != null)
+            if (doc.SelectSingleNode("/mpwebstream/enableAuthentication") != null)
                 EnableAuthentication = doc.SelectSingleNode("/mpwebstream/enableAuthentication").InnerText == "true";
             if (doc.SelectSingleNode("/mpwebstream/siteroot") != null)
                 SiteRoot = doc.SelectSingleNode("/mpwebstream/siteroot").InnerText;
-            if(doc.SelectSingleNode("/mpwebstream/streamtype") != null)
+            if (doc.SelectSingleNode("/mpwebstream/streamtype") != null)
                 StreamType = doc.SelectSingleNode("/mpwebstream/streamtype").InnerText == "direct" ? StreamlinkType.Direct : StreamlinkType.VLC;
-            if (doc.SelectSingleNode("/mpwebstream/transcoders") != null) {
+            if (doc.SelectSingleNode("/mpwebstream/transcoderProfiles") != null) {
                 Transcoders = new List<TranscoderProfile>();
                 XmlNodeList nodes = doc.SelectNodes("/mpwebstream/transcoderProfiles/transcoder");
                 foreach (XmlNode node in nodes) {
-                    Transcoders.Add(new TranscoderProfile() {
-                        Name = node.SelectSingleNode("/name").Value,
-                        UseTranscoding = node.SelectSingleNode("/useTranscoding").Value == "true",
-                        InputMethod = node.SelectSingleNode("inputMethod").Value,
-                        OutputMethod = node.SelectSingleNode("outputMethod").Value,
-                        Transcoder = node.SelectSingleNode("transcoder").Value,
-                        Parameters = node.SelectSingleNode("parameters").Value
-                    });
+                    // TODO: this can be done easier
+                    TranscoderProfile transcoder = new TranscoderProfile();
+                    foreach (XmlNode child in node.ChildNodes) {
+                        if (child.Name == "name") transcoder.Name = child.InnerText;
+                        if (child.Name == "useTranscoding") transcoder.UseTranscoding = child.InnerText == "true";
+                        if (child.Name == "inputMethod") transcoder.InputMethod = child.InnerText;
+                        if (child.Name == "outputMethod") transcoder.OutputMethod = child.InnerText;
+                        if (child.Name == "transcoder") transcoder.Transcoder = child.InnerText;
+                        if (child.Name == "parameters") transcoder.Parameters = child.InnerText;
+                    }
+                    Transcoders.Add(transcoder);
                 }
             }
         }
