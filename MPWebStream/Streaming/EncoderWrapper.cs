@@ -175,6 +175,10 @@ namespace MPWebStream.Streaming
         applicationThread.Kill();
       string args = encCfg.args.Replace("{0}",input);
       args=args.Replace("{1}",output);
+      System.Console.Write("Starting process:\n");
+      System.Console.Write(encCfg.fileName);
+      System.Console.Write(args);
+      System.Console.Write("\n\n");
       
       applicationDetails = new ProcessStartInfo(encCfg.fileName, args);
       applicationDetails.UseShellExecute = false;

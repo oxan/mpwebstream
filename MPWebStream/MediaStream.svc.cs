@@ -152,7 +152,6 @@ namespace MPWebStream.Site {
             if (config.UseWebserver && config.Port != 80)
                 uri.Port = config.Port;
 
-
             // parameters
             NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString[idKey] = idValue.ToString();

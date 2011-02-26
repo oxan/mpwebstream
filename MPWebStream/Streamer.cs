@@ -78,7 +78,7 @@ namespace MPWebStream.Site {
             Response.Buffer = false;
             Response.BufferOutput = false;
             Response.AppendHeader("Connection", "Close");
-            Response.ContentType = "video/x-ms-video"; // FIXME
+            Response.ContentType = "video/mp4"; // FIXME
             Response.StatusCode = 200;
 
             // encoder configuration
