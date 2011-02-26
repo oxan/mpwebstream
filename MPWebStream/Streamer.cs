@@ -40,23 +40,29 @@ namespace MPWebStream.Site {
 
         public string Username {
             get;
-            private set;
+            set;
         }
 
-        public Streamer(HttpResponse response, ITVEInteraction server, StreamSource streamType, int sourceId) {
+        public TranscoderProfile Transcoder {
+            get;
+            set;
+        }
+
+        public Streamer(HttpResponse response, ITVEInteraction server, StreamSource streamType, int sourceId, TranscoderProfile transcoder) {
             this.Response = response;
             this.Server = server;
             this.StreamType = streamType;
             this.SourceId = sourceId;
             this.BufferSize = 524288;
+            this.Transcoder = transcoder;
         }
 
-        public Streamer(HttpResponse response, ITVEInteraction server, WebChannelBasic channel) 
-            : this(response, server, StreamSource.Channel, channel.IdChannel) {
+        public Streamer(HttpResponse response, ITVEInteraction server, WebChannelBasic channel, TranscoderProfile transcoder) 
+            : this(response, server, StreamSource.Channel, channel.IdChannel, transcoder) {
         }
 
-        public Streamer(HttpResponse response, ITVEInteraction server, WebRecording recording) 
-            : this(response, server, StreamSource.Recording, recording.IdRecording) {
+        public Streamer(HttpResponse response, ITVEInteraction server, WebRecording recording, TranscoderProfile transcoder) 
+            : this(response, server, StreamSource.Recording, recording.IdRecording, transcoder) {
         }
 
         public void stream() {
@@ -74,9 +80,10 @@ namespace MPWebStream.Site {
             Response.ContentType = "video/x-ms-video"; // FIXME
             Response.StatusCode = 200;
 
-            // read encoder configuration
-            EncoderConfig config = new EncoderConfig("BLA", false, "", "", TransportMethod.NamedPipe, TransportMethod.NamedPipe);
-            // EncoderConfig config = new EncoderConfig("H264", true, @"C:\TvServer\mencoder\mencoder.exe", "{0} -cache 8192 -ovc x264 -x264encopts rc-lookahead=30:ref=2:subme=6:no-8x8dct:bframes=0:no-cabac:cqm=flat:weightp=0 -oac lavc -lavcopts acodec=libfaac -of lavf -lavfopts format=mp4 -vf scale=800:450 -o {1}", TransportMethod.Filename, TransportMethod.NamedPipe);
+            // encoder configuration
+            TransportMethod inputMethod = (TransportMethod)Enum.Parse(typeof(TransportMethod), Transcoder.InputMethod, true);
+            TransportMethod outputMethod = (TransportMethod)Enum.Parse(typeof(TransportMethod), Transcoder.OutputMethod, true);
+            EncoderConfig config = new EncoderConfig(Transcoder.Name, Transcoder.UseTranscoding, Transcoder.Transcoder, Transcoder.Parameters, inputMethod, outputMethod);
 
             // get the path to the source
             string path = "";
@@ -134,15 +141,29 @@ namespace MPWebStream.Site {
         }
 
         public static void run(HttpContext context) {
+            // get transcoder
+            Configuration config = new Configuration();
+            TranscoderProfile transcoder = null;
+            foreach (TranscoderProfile profile in config.Transcoders) {
+                if (profile.Name == context.Request.Params["transcoder"]) {
+                    transcoder = profile;
+                    break;
+                }
+            }
+            if (transcoder == null) {
+                context.Response.Write("Specify a transcoder");
+                return;
+            }
+
             // parse request parameters and start streamer
             ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
                 new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
             Streamer streamer;
             if (context.Request.Params["channelId"] != null) {
-                streamer = new Streamer(context.Response, tvServiceInterface, tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"])));
+                streamer = new Streamer(context.Response, tvServiceInterface, tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"])), transcoder);
             } else if (context.Request.Params["recordingId"] != null) {
                 int recordingId = Int32.Parse(context.Request.Params["recordingId"]);
-                streamer = new Streamer(context.Response, tvServiceInterface, tvServiceInterface.GetRecordings().Where(rec => rec.IdRecording == recordingId).First());
+                streamer = new Streamer(context.Response, tvServiceInterface, tvServiceInterface.GetRecordings().Where(rec => rec.IdRecording == recordingId).First(), transcoder);
             } else {
                 context.Response.Write("Specify at least a channelId or recordingId parameter");
                 return;
