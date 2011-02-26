@@ -4,14 +4,14 @@ using System.Xml;
 using System.Collections.Generic;
 
 namespace MPWebStream {
-    enum TransportMethod {
+    public enum TransportMethod {
         Filename,
         NamedPipe,
         StandardIn,
         StandardOut
     }
 
-    class TranscoderProfile {
+    public class TranscoderProfile {
         public int Id { get; set; }
         public string Name { get; set; }
         public bool UseTranscoding { get; set; }
@@ -21,7 +21,7 @@ namespace MPWebStream {
         public TransportMethod OutputMethod { get; set; }
     }
 
-    class Configuration {
+    public class Configuration {
         #region Enums
         public enum StreamlinkType {
             Direct,

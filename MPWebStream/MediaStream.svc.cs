@@ -79,7 +79,7 @@ namespace MPWebStream.Site {
         }
     }
 
-    public class MediaStream : IMediaStream, MPWebStream.Site.IMediaStream {
+    public class MediaStream : IMediaStream {
         private ITVEInteraction client;
         private Configuration config;
 
