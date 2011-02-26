@@ -13,12 +13,12 @@ namespace MPWebStream.Site {
     public partial class Default {
         
         /// <summary>
-        /// Channels control.
+        /// StreamTable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.BulletedList Channels;
+        protected global::System.Web.UI.WebControls.Table StreamTable;
     }
 }

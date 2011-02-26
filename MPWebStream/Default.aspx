@@ -8,8 +8,8 @@
 </head>
 <body>
     <form runat="server">
-        <asp:BulletedList ID="Channels" runat="server" DisplayMode="HyperLink">
-        </asp:BulletedList>
+        <asp:Table ID="StreamTable" runat="server">
+        </asp:Table>
     </form>
 </body>
 </html>

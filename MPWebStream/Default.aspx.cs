@@ -13,13 +13,33 @@ namespace MPWebStream.Site {
             Configuration config = new Configuration();
             MediaStream remoteControl = new MediaStream();
             foreach (Channel channel in remoteControl.GetChannels()) {
-                if(config.StreamType == Configuration.StreamlinkType.VLC) {
-                    Channels.Items.Add(new ListItem(channel.DisplayName, "VLC.aspx?channel=" + channel.IdChannel.ToString()));
-                } else {
-                    Channels.Items.Add(new ListItem(channel.DisplayName, remoteControl.GetTvStreamUrl(channel.IdChannel, config.Username, config.Password)));
+                // channel name header cell
+                TableRow row = new TableRow();
+                TableCell title = new TableHeaderCell();
+                title.Text = channel.DisplayName;
+                row.Cells.Add(title);
+
+                // all transcoders
+                foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
+                    TableCell item = new TableCell();
+
+                    HyperLink direct = new HyperLink();
+                    direct.Target = remoteControl.GetTranscodedTvStreamUrl(channel.IdChannel, config.Username, config.Password, transcoder.Id);
+                    direct.Text = "Direct";
+                    item.Controls.Add(direct);
+
+                    HyperLink vlc = new HyperLink();
+                    NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
+                    queryString["channel"] = channel.IdChannel.ToString();
+                    queryString["transcoder"] = transcoder.Id.ToString();
+                    vlc.Target = "VLC.aspx?" + queryString.ToString();
+                    vlc.Text = "VLC";
+                    item.Controls.Add(vlc);
+
+                    row.Cells.Add(item);
                 }
+                StreamTable.Rows.Add(row);
             }
-            Channels.DisplayMode = BulletedListDisplayMode.HyperLink;
         }
     }
 }
