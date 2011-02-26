@@ -59,12 +59,49 @@ namespace MPWebStream.Site {
         }
     }
 
-    public class MediaStream : IMediaStream {
+    [DataContract]
+    public class Transcoder {
+        [DataMember]
+        public int Id { get; set; }
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
+        public bool UsesTranscoding { get; set; }
+
+        public Transcoder(string name, bool usesTranscoding) {
+            this.Id = 5;
+            this.Name = name;
+            this.UsesTranscoding = usesTranscoding;
+        }
+
+        public Transcoder(TranscoderProfile transcoder) :
+            this(transcoder.Name, transcoder.UseTranscoding) {
+        }
+    }
+
+    public class MediaStream : IMediaStream, MPWebStream.Site.IMediaStream {
         private ITVEInteraction client;
+        private Configuration config;
 
         public MediaStream() {
             client = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
                 new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
+            config = new Configuration();
+        }
+
+        public List<Transcoder> GetTranscoders() {
+            List<Transcoder> result = new List<Transcoder>();
+            foreach (TranscoderProfile transcoder in config.Transcoders)
+                result.Add(new Transcoder(transcoder));
+            return result;
+        }
+
+        public Transcoder GetTranscoderById(int id) {
+            foreach (Transcoder transcoder in GetTranscoders()) {
+                if (transcoder.Id == id) 
+                    return transcoder;
+            }
+            return null;
         }
 
         public List<Channel> GetChannels() {
@@ -84,6 +121,10 @@ namespace MPWebStream.Site {
             return CreateStreamUrl("channelId", idChannel, username, password);
         }
 
+        public string GetTranscodedTvStreamUrl(int idChannel, string username, string password, int idTranscoder) {
+            return CreateStreamUrl("channelId", idChannel, username, password, GetTranscoderById(idTranscoder));
+        }
+
         public List<Recording> GetRecordings() {
             return client.GetRecordings().Select(rec => new Recording(rec)).ToList();
         }
@@ -92,13 +133,29 @@ namespace MPWebStream.Site {
             return CreateStreamUrl("recordingId", idRecording, username, password);
         }
 
+        public string GetTranscodedRecordingStreamUrl(int idRecording, string username, string password, int idTranscoder) {
+            return CreateStreamUrl("recordingId", idRecording, username, password, GetTranscoderById(idTranscoder));
+        }
+
         private string CreateStreamUrl(string idKey, int idValue, string username, string password) {
-            Configuration config = new Configuration();
+            foreach (Transcoder transcoder in GetTranscoders()) {
+                if (!transcoder.UsesTranscoding)
+                    return CreateStreamUrl(idKey, idValue, username, password, transcoder);
+            }
+            return "";
+        }
+
+        private string CreateStreamUrl(string idKey, int idValue, string username, string password, Transcoder transcoder) {
             Uri baseUri = new Uri(config.SiteRoot);
             NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
+
+            // parameters
             queryString[idKey] = idValue.ToString();
+            queryString["transcoder"] = transcoder.Name;
             if(username != string.Empty)
                 queryString["login"] = Authentication.createLoginArgument(username, password);
+
+            // build
             Uri stream = new Uri(baseUri, "Stream.ashx?" + queryString.ToString());
             return stream.ToString();
         }

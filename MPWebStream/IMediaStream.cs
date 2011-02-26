@@ -1,16 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.ServiceModel;
 
 namespace MPWebStream.Site {
     [ServiceContract]
-    public interface IMediaStream {
+    interface IMediaStream {
         [OperationContract]
-        List<Channel> GetChannels();
+        Channel GetChannel(int idChannel);
+
         [OperationContract]
-        string GetTvStreamUrl(int idChannel, string username, string password);
+        System.Collections.Generic.List<Channel> GetChannels();
+
         [OperationContract]
-        List<Recording> GetRecordings();
+        System.Collections.Generic.List<Recording> GetRecordings();
+
         [OperationContract]
         string GetRecordingStreamUrl(int idRecording, string username, string password);
+
+        [OperationContract]
+        string GetTranscodedRecordingStreamUrl(int idRecording, string username, string password, int idTranscoder);
+
+        [OperationContract]
+        string GetTranscodedTvStreamUrl(int idChannel, string username, string password, int idTranscoder);
+
+        [OperationContract]
+        Transcoder GetTranscoderById(int id);
+
+        [OperationContract]
+        System.Collections.Generic.List<Transcoder> GetTranscoders();
+
+        [OperationContract]
+        string GetTvStreamUrl(int idChannel, string username, string password);
     }
 }
