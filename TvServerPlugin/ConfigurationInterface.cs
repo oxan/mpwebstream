@@ -7,7 +7,7 @@ using TvLibrary.Log;
 namespace MPWebStream.TvServerPlugin {
     public partial class ConfigurationInterface : SetupTv.SectionSettings {
         private LoggingConfiguration config;
-        private int lastTranscoderId = 0;
+        private int lastTranscoderId = 1;
 
         public ConfigurationInterface() {
             InitializeComponent();
@@ -23,7 +23,6 @@ namespace MPWebStream.TvServerPlugin {
             userName.Text = config.Username;
             password.Text = config.Password;
             siteroot.Text = config.SiteRoot;
-            streamType.SelectedIndex = config.StreamType == Configuration.StreamlinkType.Direct ? 0 : 1; // TODO: can be done nicer I guess
 
             // show warning when TV4Home is not installed
             ServiceController controller = new ServiceController("TV4HomeCoreService");
@@ -44,8 +43,8 @@ namespace MPWebStream.TvServerPlugin {
                 // doing it with string indexes doesn't work, don't know why
                 row.Cells[0].Value = profile.Name;
                 row.Cells[1].Value = profile.UseTranscoding;
-                row.Cells[2].Value = profile.InputMethod;
-                row.Cells[3].Value = profile.OutputMethod;
+                row.Cells[2].Value = Enum.GetName(typeof(TransportMethod), profile.InputMethod);
+                row.Cells[3].Value = Enum.GetName(typeof(TransportMethod), profile.OutputMethod);
                 row.Cells[4].Value = profile.Transcoder;
                 row.Cells[5].Value = profile.Parameters;
                 transcoders.Rows.Add(row);
@@ -63,7 +62,6 @@ namespace MPWebStream.TvServerPlugin {
             config.Password = password.Text;
             config.EnableAuthentication = requireAuthentication.Checked;
             config.SiteRoot = siteroot.Text;
-            config.StreamType = streamType.SelectedIndex == 0 ? Configuration.StreamlinkType.Direct : Configuration.StreamlinkType.VLC;
 
             // transcoders
             config.Transcoders = new List<TranscoderProfile>();

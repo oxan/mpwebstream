@@ -22,13 +22,6 @@ namespace MPWebStream {
     }
 
     public class Configuration {
-        #region Enums
-        public enum StreamlinkType {
-            Direct,
-            VLC
-        };
-        #endregion
-
         #region Properties
         public string SitePath {
             get {
@@ -88,11 +81,6 @@ namespace MPWebStream {
             set;
         }
 
-        public StreamlinkType StreamType {
-            get;
-            set;
-        }
-
         public int MonitorPollInterval {
             get { return 30; }
         }
@@ -109,11 +97,10 @@ namespace MPWebStream {
             // default settings
             Port = 8080;
             UseWebserver = true;
-            ManageTV4Home = false;
+            ManageTV4Home = true;
             Username = "admin";
             Password = "admin";
             EnableAuthentication = true;
-            StreamType = StreamlinkType.VLC;
             SiteRoot = "http://" + System.Environment.MachineName + "/";
             Transcoders = new List<TranscoderProfile>();
             Transcoders.Add(new TranscoderProfile() {
@@ -122,7 +109,8 @@ namespace MPWebStream {
                 Transcoder = "",
                 Parameters = "",
                 InputMethod = TransportMethod.NamedPipe,
-                OutputMethod = TransportMethod.NamedPipe
+                OutputMethod = TransportMethod.NamedPipe,
+                Id = 1
             });
 
             // create file if it doesn't exists
@@ -140,8 +128,6 @@ namespace MPWebStream {
                 EnableAuthentication = doc.SelectSingleNode("/mpwebstream/enableAuthentication").InnerText == "true";
             if (doc.SelectSingleNode("/mpwebstream/siteroot") != null)
                 SiteRoot = doc.SelectSingleNode("/mpwebstream/siteroot").InnerText;
-            if (doc.SelectSingleNode("/mpwebstream/streamtype") != null)
-                StreamType = doc.SelectSingleNode("/mpwebstream/streamtype").InnerText == "direct" ? StreamlinkType.Direct : StreamlinkType.VLC;
             if (doc.SelectSingleNode("/mpwebstream/transcoderProfiles") != null) {
                 Transcoders = new List<TranscoderProfile>();
                 XmlNodeList nodes = doc.SelectNodes("/mpwebstream/transcoderProfiles/transcoder");
@@ -175,7 +161,6 @@ namespace MPWebStream {
             AddChild(doc, root, "password", Password);
             AddChild(doc, root, "enableAuthentication", EnableAuthentication);
             AddChild(doc, root, "siteroot", SiteRoot);
-            AddChild(doc, root, "streamtype", StreamType == StreamlinkType.Direct ? "Direct" : "VLC");
 
             XmlNode transcoders = doc.CreateElement("transcoderProfiles");
             foreach (TranscoderProfile profile in Transcoders) {
