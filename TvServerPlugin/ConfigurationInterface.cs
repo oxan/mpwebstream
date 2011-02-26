@@ -7,6 +7,7 @@ using TvLibrary.Log;
 namespace MPWebStream.TvServerPlugin {
     public partial class ConfigurationInterface : SetupTv.SectionSettings {
         private LoggingConfiguration config;
+        private int lastTranscoderId = 0;
 
         public ConfigurationInterface() {
             InitializeComponent();
@@ -38,6 +39,8 @@ namespace MPWebStream.TvServerPlugin {
             foreach (TranscoderProfile profile in config.Transcoders) {
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(transcoders);
+                row.Tag = profile.Id;
+                lastTranscoderId = Math.Max(profile.Id, lastTranscoderId);
                 // doing it with string indexes doesn't work, don't know why
                 row.Cells[0].Value = profile.Name;
                 row.Cells[1].Value = profile.UseTranscoding;
@@ -65,15 +68,19 @@ namespace MPWebStream.TvServerPlugin {
             // transcoders
             config.Transcoders = new List<TranscoderProfile>();
             foreach (DataGridViewRow row in transcoders.Rows) {
-                if(row.Cells[0].Value != null) 
+                if(row.Cells[0].Value != null) {
+                    if (row.Tag == null)
+                        row.Tag = ++lastTranscoderId;
                     config.Transcoders.Add(new TranscoderProfile() {
                         Name = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : "",
                         UseTranscoding = row.Cells[1].Value != null ? (bool)row.Cells[1].Value : false,
-                        InputMethod = row.Cells[2].Value != null ? row.Cells[2].Value.ToString() : "", 
-                        OutputMethod = row.Cells[3].Value != null ? row.Cells[3].Value.ToString() : "",
+                        InputMethod = row.Cells[2].Value != null ? (TransportMethod)Enum.Parse(typeof(TransportMethod), row.Cells[2].Value.ToString(), true) : TransportMethod.NamedPipe,
+                        OutputMethod = row.Cells[3].Value != null ? (TransportMethod)Enum.Parse(typeof(TransportMethod), row.Cells[3].Value.ToString(), true) : TransportMethod.NamedPipe,
                         Transcoder = row.Cells[4].Value != null ? row.Cells[4].Value.ToString() : "",
-                        Parameters = row.Cells[5].Value != null ? row.Cells[5].Value.ToString() : ""
+                        Parameters = row.Cells[5].Value != null ? row.Cells[5].Value.ToString() : "",
+                        Id = (int)row.Tag,
                     });
+                }
             }
 
             config.Write();

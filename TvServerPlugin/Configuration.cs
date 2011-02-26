@@ -4,13 +4,21 @@ using System.Xml;
 using System.Collections.Generic;
 
 namespace MPWebStream {
+    enum TransportMethod {
+        Filename,
+        NamedPipe,
+        StandardIn,
+        StandardOut
+    }
+
     class TranscoderProfile {
+        public int Id { get; set; }
         public string Name { get; set; }
         public bool UseTranscoding { get; set; }
         public string Transcoder { get; set; }
         public string Parameters { get; set; }
-        public string InputMethod { get; set; }
-        public string OutputMethod { get; set; }
+        public TransportMethod InputMethod { get; set; }
+        public TransportMethod OutputMethod { get; set; }
     }
 
     class Configuration {
@@ -113,8 +121,8 @@ namespace MPWebStream {
                 UseTranscoding = false,
                 Transcoder = "",
                 Parameters = "",
-                InputMethod = "NamedPipe",
-                OutputMethod = "NamedPipe"
+                InputMethod = TransportMethod.NamedPipe,
+                OutputMethod = TransportMethod.NamedPipe
             });
 
             // create file if it doesn't exists
@@ -143,10 +151,11 @@ namespace MPWebStream {
                     foreach (XmlNode child in node.ChildNodes) {
                         if (child.Name == "name") transcoder.Name = child.InnerText;
                         if (child.Name == "useTranscoding") transcoder.UseTranscoding = child.InnerText == "true";
-                        if (child.Name == "inputMethod") transcoder.InputMethod = child.InnerText;
-                        if (child.Name == "outputMethod") transcoder.OutputMethod = child.InnerText;
+                        if (child.Name == "inputMethod") transcoder.InputMethod = (TransportMethod)Enum.Parse(typeof(TransportMethod), child.InnerText, true);
+                        if (child.Name == "outputMethod") transcoder.OutputMethod = (TransportMethod)Enum.Parse(typeof(TransportMethod), child.InnerText, true);
                         if (child.Name == "transcoder") transcoder.Transcoder = child.InnerText;
                         if (child.Name == "parameters") transcoder.Parameters = child.InnerText;
+                        if (child.Name == "id") transcoder.Id = Int32.Parse(child.InnerText);
                     }
                     Transcoders.Add(transcoder);
                 }
@@ -173,10 +182,11 @@ namespace MPWebStream {
                 XmlNode thisTranscoder = doc.CreateElement("transcoder");
                 AddChild(doc, thisTranscoder, "name", profile.Name);
                 AddChild(doc, thisTranscoder, "useTranscoding", profile.UseTranscoding);
-                AddChild(doc, thisTranscoder, "inputMethod", profile.InputMethod);
-                AddChild(doc, thisTranscoder, "outputMethod", profile.OutputMethod);
+                AddChild(doc, thisTranscoder, "inputMethod", Enum.GetName(typeof(TransportMethod), profile.InputMethod));
+                AddChild(doc, thisTranscoder, "outputMethod", Enum.GetName(typeof(TransportMethod), profile.OutputMethod));
                 AddChild(doc, thisTranscoder, "transcoder", profile.Transcoder);
                 AddChild(doc, thisTranscoder, "parameters", profile.Parameters);
+                AddChild(doc, thisTranscoder, "id", profile.Id);
                 transcoders.AppendChild(thisTranscoder);
             }
             root.AppendChild(transcoders);
