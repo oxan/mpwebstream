@@ -40,7 +40,7 @@ namespace MPWebStream.TvServerPlugin {
         public void Stop() {
             // stop the thread
             Log.Info("MPWebStream: stopping");
-            monitor.stop();
+            webthread.Abort();
         }
 
         public SectionSettings Setup {

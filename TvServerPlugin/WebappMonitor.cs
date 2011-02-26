@@ -57,18 +57,23 @@ namespace MPWebStream.TvServerPlugin {
             Log.Info(String.Format("MPWebStream: Started monitoring Cassini at poll interval {0} seconds", config.MonitorPollInterval));
 
             // monitor
-            while (doMonitor) {
-                if (server.HasExited) {
-                    // Cassini crashed: log and restart
-                    Log.Error(String.Format("MPWebStream: Integrated Cassini web server crashed with exit code {0}, restarting...", server.ExitCode));
-                    server.Start();
-                }
+            try {
+                while (doMonitor) {
+                    if (server.HasExited) {
+                        // Cassini crashed: log and restart
+                        Log.Error(String.Format("MPWebStream: Integrated Cassini web server crashed with exit code {0}, restarting...", server.ExitCode));
+                        server.Start();
+                    }
 
-                Thread.Sleep(config.MonitorPollInterval * 1000);
+                    Thread.Sleep(config.MonitorPollInterval * 1000);
+                }
+            } catch (ThreadAbortException) {
+                // we should stop
+                stop();
             }
         }
 
-        public void stop() {
+        protected void stop() {
             // first stop Cassini
             if (server != null) {
                 Log.Info("MPWebStream: killing Cassini");
