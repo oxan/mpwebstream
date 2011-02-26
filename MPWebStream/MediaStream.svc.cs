@@ -68,14 +68,14 @@ namespace MPWebStream.Site {
         [DataMember]
         public bool UsesTranscoding { get; set; }
 
-        public Transcoder(string name, bool usesTranscoding) {
-            this.Id = 5;
+        public Transcoder(int id, string name, bool usesTranscoding) {
+            this.Id = id;
             this.Name = name;
             this.UsesTranscoding = usesTranscoding;
         }
 
         public Transcoder(TranscoderProfile transcoder) :
-            this(transcoder.Name, transcoder.UseTranscoding) {
+            this(transcoder.Id, transcoder.Name, transcoder.UseTranscoding) {
         }
     }
 
@@ -151,7 +151,7 @@ namespace MPWebStream.Site {
 
             // parameters
             queryString[idKey] = idValue.ToString();
-            queryString["transcoder"] = transcoder.Name;
+            queryString["transcoder"] = transcoder.Id.ToString();
             if(username != string.Empty)
                 queryString["login"] = Authentication.createLoginArgument(username, password);
 

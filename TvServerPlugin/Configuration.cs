@@ -208,5 +208,15 @@ namespace MPWebStream {
             AddChild(doc, parent, key, value ? "true" : "false");
         }
         #endregion
+
+        #region Easy access methods
+        public TranscoderProfile GetTranscoder(int transcoderId) {
+            foreach (TranscoderProfile profile in Transcoders) {
+                if (profile.Id == transcoderId)
+                    return profile;
+            }
+            return null;
+        }
+        #endregion
     }
 }

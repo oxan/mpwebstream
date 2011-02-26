@@ -86,7 +86,6 @@
     <Compile Include="Streaming\EncoderWrapper.cs" />
     <Compile Include="Streaming\NamedPipe.cs" />
     <Compile Include="Streaming\State.cs" />
-    <Compile Include="Streaming\TransportMethod.cs" />
     <Compile Include="Streaming\TransportStream.cs" />
     <Compile Include="Streaming\TsBuffer.cs" />
     <Compile Include="MediaStream.svc.cs">

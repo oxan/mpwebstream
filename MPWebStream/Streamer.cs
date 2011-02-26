@@ -3,6 +3,7 @@ using System.IO;
 using System.ServiceModel;
 using System.Web;
 using System.Linq;
+using MPWebStream;
 using MPWebStream.Streaming;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
@@ -81,9 +82,7 @@ namespace MPWebStream.Site {
             Response.StatusCode = 200;
 
             // encoder configuration
-            TransportMethod inputMethod = (TransportMethod)Enum.Parse(typeof(TransportMethod), Transcoder.InputMethod, true);
-            TransportMethod outputMethod = (TransportMethod)Enum.Parse(typeof(TransportMethod), Transcoder.OutputMethod, true);
-            EncoderConfig config = new EncoderConfig(Transcoder.Name, Transcoder.UseTranscoding, Transcoder.Transcoder, Transcoder.Parameters, inputMethod, outputMethod);
+            EncoderConfig config = new EncoderConfig(Transcoder.Name, Transcoder.UseTranscoding, Transcoder.Transcoder, Transcoder.Parameters, Transcoder.InputMethod, Transcoder.OutputMethod);
 
             // get the path to the source
             string path = "";
@@ -143,15 +142,12 @@ namespace MPWebStream.Site {
         public static void run(HttpContext context) {
             // get transcoder
             Configuration config = new Configuration();
-            TranscoderProfile transcoder = null;
-            foreach (TranscoderProfile profile in config.Transcoders) {
-                if (profile.Name == context.Request.Params["transcoder"]) {
-                    transcoder = profile;
-                    break;
-                }
-            }
-            if (transcoder == null) {
-                context.Response.Write("Specify a transcoder");
+            TranscoderProfile transcoder;
+            int transcoderId;
+            if (Int32.TryParse(context.Request.Params["transcoder"], out transcoderId) && config.GetTranscoder(transcoderId) != null) {
+                transcoder = config.GetTranscoder(transcoderId);
+            } else {
+                context.Response.Write("Specify a valid transcoder");
                 return;
             }
 
