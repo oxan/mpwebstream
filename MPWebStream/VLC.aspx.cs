@@ -11,7 +11,7 @@ namespace MPWebStream.Site {
             MediaStream control = new MediaStream();
             Channel channel = control.GetChannel(Int32.Parse(HttpContext.Current.Request.Params["channel"]));
             Configuration config = new Configuration();
-            url.Value = control.GetTvStreamUrl(channel.IdChannel, config.Username, config.Password);
+            url.Value = control.GetTranscodedTvStreamUrl(channel.IdChannel, config.Username, config.Password, Int32.Parse(HttpContext.Current.Request.Params["transcoder"]));
             name.Value = channel.DisplayName;
         }
     }

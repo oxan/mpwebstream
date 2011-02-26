@@ -146,18 +146,24 @@ namespace MPWebStream.Site {
         }
 
         private string CreateStreamUrl(string idKey, int idValue, string username, string password, Transcoder transcoder) {
-            Uri baseUri = new Uri(config.SiteRoot);
-            NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
+            UriBuilder uri = new UriBuilder(config.SiteRoot);
+            
+            // add port if needed
+            if (config.UseWebserver && config.Port != 80)
+                uri.Port = config.Port;
+
 
             // parameters
+            NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString[idKey] = idValue.ToString();
             queryString["transcoder"] = transcoder.Id.ToString();
-            if(username != string.Empty)
+            if(username != string.Empty && config.EnableAuthentication)
                 queryString["login"] = Authentication.createLoginArgument(username, password);
 
-            // build
-            Uri stream = new Uri(baseUri, "Stream.ashx?" + queryString.ToString());
-            return stream.ToString();
+            // create
+            uri.Path = "Stream.ashx";
+            uri.Query = queryString.ToString();
+            return uri.ToString();
         }
     }
 }

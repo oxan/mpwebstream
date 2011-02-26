@@ -12,6 +12,19 @@ namespace MPWebStream.Site {
 
             Configuration config = new Configuration();
             MediaStream remoteControl = new MediaStream();
+
+            // header row
+            TableHeaderRow hrow = new TableHeaderRow();
+            TableHeaderCell cell = new TableHeaderCell();
+            cell.Text = "Channel";
+            hrow.Cells.Add(cell);
+            foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
+                TableHeaderCell tcell = new TableHeaderCell();
+                tcell.Text = transcoder.Name;
+                hrow.Cells.Add(tcell);
+            }
+            StreamTable.Rows.Add(hrow);
+
             foreach (Channel channel in remoteControl.GetChannels()) {
                 // channel name header cell
                 TableRow row = new TableRow();
@@ -24,15 +37,20 @@ namespace MPWebStream.Site {
                     TableCell item = new TableCell();
 
                     HyperLink direct = new HyperLink();
-                    direct.Target = remoteControl.GetTranscodedTvStreamUrl(channel.IdChannel, config.Username, config.Password, transcoder.Id);
+                    direct.NavigateUrl = remoteControl.GetTranscodedTvStreamUrl(channel.IdChannel, config.Username, config.Password, transcoder.Id);
                     direct.Text = "Direct";
                     item.Controls.Add(direct);
+
+                    // really 3SLOC for a simple dash? 
+                    Label label = new Label();
+                    label.Text = " - ";
+                    item.Controls.Add(label);
 
                     HyperLink vlc = new HyperLink();
                     NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
                     queryString["channel"] = channel.IdChannel.ToString();
                     queryString["transcoder"] = transcoder.Id.ToString();
-                    vlc.Target = "VLC.aspx?" + queryString.ToString();
+                    vlc.NavigateUrl = "VLC.aspx?" + queryString.ToString();
                     vlc.Text = "VLC";
                     item.Controls.Add(vlc);
 
