@@ -15,8 +15,8 @@ namespace MPWebStream.TvServerPlugin {
             config = new LoggingConfiguration();
 
             // first start TV4Home service
-            ServiceController controller = new ServiceController("TV4HomeCoreService");
             try {
+                ServiceController controller = new ServiceController("TV4HomeCoreService");
                 if (controller.Status != ServiceControllerStatus.Running) {
                     if (!config.ManageTV4Home) {
                         Log.Info("MPWebStream: Starting TV4HomeCoreService, ignoring user preference to not manage it because we need it");
@@ -27,24 +27,31 @@ namespace MPWebStream.TvServerPlugin {
                     controller.WaitForStatus(ServiceControllerStatus.Running, new TimeSpan(0, 0, 30));
                 }
             } catch (InvalidOperationException e) {
-                Log.Error("MPWebStream: TV4Home Core Service not installed; not starting. ");
+                Log.Error("MPWebStream: TV4Home Core Service not installed; not starting.");
                 return;
             }
 
 
             // then start Cassini
             if (config.UseWebserver) {
-                this.shouldStart = true;
-                server = new Process();
-                server.StartInfo.Arguments = String.Format(@"{0} ""{1}""", config.Port.ToString(), config.SitePath);
-                server.StartInfo.CreateNoWindow = true;
-                server.StartInfo.FileName = config.CassiniServerPath;
-                server.StartInfo.UseShellExecute = false;
-                server.Start();
-                Log.Info("MPWebStream: Started Cassini web server");
+                try {
+                    this.shouldStart = true;
+                    server = new Process();
+                    server.StartInfo.Arguments = String.Format(@"{0} ""{1}""", config.Port.ToString(), config.SitePath);
+                    server.StartInfo.CreateNoWindow = true;
+                    server.StartInfo.FileName = config.CassiniServerPath;
+                    server.StartInfo.UseShellExecute = false;
+                    server.Start();
+                    Log.Info("MPWebStream: Started Cassini web server.");
+                } catch (Exception e) {
+                    Log.Error("MPWebStream: Failed to start webserver.");
+                    Log.Write(e.ToString());
+                    Log.Error("MPWebStream: Not trying to restart.");
+                    this.shouldStart = false;
+                }
             } else {
                 server = null;
-                Log.Info("MPWebStream: Usage of Cassini web server is disabled");
+                Log.Info("MPWebStream: Usage of Cassini web server is disabled.");
             }
         }
 
