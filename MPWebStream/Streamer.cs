@@ -88,11 +88,15 @@ namespace MPWebStream.Site {
             string path = "";
             if (StreamType == StreamSource.Channel) {
                 Username = "mpwebstream-" + System.Guid.NewGuid().ToString("D"); // should be random enough
+                Log.Write("Trying to switch to channel {0} with username {1}", SourceId, Username);
                 WebVirtualCard card = Server.SwitchTVServerToChannelAndGetVirtualCard(Username, SourceId);
+                Log.Write("Switching channel succeeded");
                 path = config.inputMethod == TransportMethod.Filename ? card.RTSPUrl : card.TimeShiftFileName;
+                Log.Write("Selected {0} as input URL", path);
             } else if(StreamType == StreamSource.Recording) {
                 WebRecording recording = Server.GetRecordings().Where(rec => rec.IdRecording == SourceId).First();
                 path = recording.FileName;
+                Log.Write("Selected {0} as input URL for recording {1}", path, SourceId);
             }
 
             // setup the encoder and input/output streams
@@ -141,23 +145,28 @@ namespace MPWebStream.Site {
 
         public static void run(HttpContext context) {
             // get transcoder
+            Log.Write("Handling request for stream from {0}", context.Request.UserHostAddress);
             Configuration config = new Configuration();
             TranscoderProfile transcoder;
             int transcoderId;
             if (Int32.TryParse(context.Request.Params["transcoder"], out transcoderId) && config.GetTranscoder(transcoderId) != null) {
                 transcoder = config.GetTranscoder(transcoderId);
             } else {
+                Log.Error("No valid transcoder specified");
                 context.Response.Write("Specify a valid transcoder");
                 return;
             }
+            Log.Write("Using transcoder named {0}", transcoder.Name);
 
             // parse request parameters and start streamer
             ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
                 new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
             Streamer streamer;
             if (context.Request.Params["channelId"] != null) {
+                Log.Write("Streaming channel {0}", context.Request.Params["channelId"]);
                 streamer = new Streamer(context.Response, tvServiceInterface, tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"])), transcoder);
             } else if (context.Request.Params["recordingId"] != null) {
+                Log.Write("Streaming recording {0}", context.Request.Params["recordingId"]);
                 int recordingId = Int32.Parse(context.Request.Params["recordingId"]);
                 streamer = new Streamer(context.Response, tvServiceInterface, tvServiceInterface.GetRecordings().Where(rec => rec.IdRecording == recordingId).First(), transcoder);
             } else {
