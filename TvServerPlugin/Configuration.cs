@@ -35,6 +35,12 @@ namespace MPWebStream {
             }
         }
 
+        public string LogFile {
+            get {
+                return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\log.txt");
+            }
+        }
+
         public string ConfigPath {
             get {
                 return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Team MediaPortal\MediaPortal TV Server\MPWebStream.xml");
