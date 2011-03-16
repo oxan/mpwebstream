@@ -35,16 +35,15 @@ namespace MPWebStream {
             }
         }
 
-        public string LogFile {
-            get {
-                return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\log.txt");
-            }
-        }
-
         public string ConfigPath {
             get {
                 return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Team MediaPortal\MediaPortal TV Server\MPWebStream.xml");
             }
+        }
+
+        public string LogFile {
+            get;
+            set;
         }
 
         public int Port {
@@ -108,6 +107,7 @@ namespace MPWebStream {
             Password = "admin";
             EnableAuthentication = true;
             SiteRoot = "http://" + System.Environment.MachineName + "/";
+            LogFile = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\log.txt");
             Transcoders = new List<TranscoderProfile>();
             Transcoders.Add(new TranscoderProfile() {
                 Name = "Direct",
@@ -134,6 +134,8 @@ namespace MPWebStream {
                 EnableAuthentication = doc.SelectSingleNode("/mpwebstream/enableAuthentication").InnerText == "true";
             if (doc.SelectSingleNode("/mpwebstream/siteroot") != null)
                 SiteRoot = doc.SelectSingleNode("/mpwebstream/siteroot").InnerText;
+            if (doc.SelectSingleNode("/mpwebstream/logfile") != null)
+                LogFile = doc.SelectSingleNode("/mpwebstream/logfile").InnerText;
             if (doc.SelectSingleNode("/mpwebstream/transcoderProfiles") != null) {
                 Transcoders = new List<TranscoderProfile>();
                 XmlNodeList nodes = doc.SelectNodes("/mpwebstream/transcoderProfiles/transcoder");
@@ -167,6 +169,7 @@ namespace MPWebStream {
             AddChild(doc, root, "password", Password);
             AddChild(doc, root, "enableAuthentication", EnableAuthentication);
             AddChild(doc, root, "siteroot", SiteRoot);
+            AddChild(doc, root, "logfile", LogFile);
 
             XmlNode transcoders = doc.CreateElement("transcoderProfiles");
             foreach (TranscoderProfile profile in Transcoders) {
