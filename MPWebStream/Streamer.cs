@@ -78,7 +78,7 @@ namespace MPWebStream.Site {
             Response.Buffer = false;
             Response.BufferOutput = false;
             Response.AppendHeader("Connection", "Close");
-            Response.ContentType = "video/mp4"; // FIXME
+            Response.ContentType = "video/MP2T"; // FIXME
             Response.StatusCode = 200;
 
             // encoder configuration
@@ -100,6 +100,7 @@ namespace MPWebStream.Site {
             }
 
             // setup the encoder and input/output streams
+            Log.Write("Setting up pipes");
             if(config.inputMethod == TransportMethod.Filename && config.useTranscoding) {
                 encoder = new EncoderWrapper(path, config);
             } else {
@@ -111,6 +112,7 @@ namespace MPWebStream.Site {
             } else {
                 outStream = sourceStream;
             }
+            Log.Write("Pipes and transcoding setup, starting streaming...");
 
             // stream it to the client
             byte[] buffer = new byte[BufferSize];
@@ -131,11 +133,13 @@ namespace MPWebStream.Site {
                     Response.Flush();
                 }
             } catch (Exception ex) {
+                Log.Error("Exception while streaming data", ex);
                 System.Console.WriteLine("Exception while streaming data");
                 System.Console.WriteLine(ex.ToString());
             }
 
             // close and finish
+            Log.Write("Finishing request");
             if (outStream != null) outStream.Close();
             if (sourceStream != null) sourceStream.Close();
             if (encoder != null) encoder.StopProcess();
@@ -145,6 +149,7 @@ namespace MPWebStream.Site {
 
         public static void run(HttpContext context) {
             // get transcoder
+            Log.Write("--------------------- NEW REQUEST ---------------------");
             Log.Write("Handling request for stream from {0}", context.Request.UserHostAddress);
             Configuration config = new Configuration();
             TranscoderProfile transcoder;
