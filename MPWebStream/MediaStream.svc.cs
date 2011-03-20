@@ -160,7 +160,9 @@ namespace MPWebStream.Site {
                 queryString["login"] = Authentication.createLoginArgument(username, password);
 
             // create
-            uri.Path = "Stream.ashx";
+            if (uri.Path.Substring(uri.Path.Length - 1) != "/") 
+                uri.Path += "/";
+            uri.Path += "Stream.ashx";
             uri.Query = queryString.ToString();
             return uri.ToString();
         }
