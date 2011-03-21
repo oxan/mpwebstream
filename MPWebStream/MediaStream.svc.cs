@@ -26,6 +26,8 @@ namespace MPWebStream.Site {
             this.IdChannel = id;
             this.DisplayName = displayName;
             this.Name = name;
+            this.IsTv = isTv;
+            this.IsRadio = isRadio;
         }
 
         public Channel(WebChannelDetailed ch) : 
