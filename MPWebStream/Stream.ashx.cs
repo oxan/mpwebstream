@@ -21,19 +21,11 @@
  */
 #endregion
 
-using System.Web;
 using System;
-using TV4Home.Server.TVEInteractionLibrary.Interfaces;
-using MPWebStream;
-using System;
-using System.IO;
+using System.Linq;
 using System.ServiceModel;
 using System.Web;
-using System.Linq;
-using MPWebStream;
-using MPWebStream.Streaming;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
-using System.Web;
 
 namespace MPWebStream.Site.Pages {
     public class Stream : IHttpHandler {

@@ -20,12 +20,12 @@
  */
 #endregion
 
-using System.Collections.Specialized;
+using System;
 using System.Collections.Generic;
-using System.ServiceModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Serialization;
-using System;
+using System.ServiceModel;
 using System.Web;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
