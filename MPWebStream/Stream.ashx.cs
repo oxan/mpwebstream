@@ -45,23 +45,35 @@ namespace MPWebStream.Site.Pages {
             }
 
             // parse request parameters and start streamer
-            ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
-                new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
-            Streamer streamer;
-            if (context.Request.Params["channelId"] != null) {
-                streamer = new Streamer(tvServiceInterface, tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"])), transcoder);
-            } else if (context.Request.Params["recordingId"] != null) {
-                int recordingId = Int32.Parse(context.Request.Params["recordingId"]);
-                streamer = new Streamer(tvServiceInterface, tvServiceInterface.GetRecordings().Where(rec => rec.IdRecording == recordingId).First(), transcoder);
-            } else {
-                context.Response.Write("Specify at least a channelId or recordingId parameter");
-                return;
-            }
+            Streamer streamer = null;
+            try {
+                ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
+                    new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
+                if (context.Request.Params["channelId"] != null) {
+                    streamer = new Streamer(tvServiceInterface, tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"])), transcoder);
+                } else if (context.Request.Params["recordingId"] != null) {
+                    int recordingId = Int32.Parse(context.Request.Params["recordingId"]);
+                    streamer = new Streamer(tvServiceInterface, tvServiceInterface.GetRecordings().Where(rec => rec.IdRecording == recordingId).First(), transcoder);
+                } else {
+                    context.Response.Write("Specify at least a channelId or recordingId parameter");
+                    return;
+                }
 
-            // run
-            streamer.startTranscoding();
-            streamer.streamToClient(context.Response);
-            streamer.finishTranscoding();
+                // run
+                try {
+                    streamer.startTranscoding();
+                    if (context.Response.IsClientConnected) // client could have disconnected in the meantime
+                        streamer.streamToClient(context.Response);
+                } catch (Exception e) {
+                    Log.Error("Streaming to client failed", e);
+                }
+                streamer.finishTranscoding();
+            } catch (Exception e) {
+                Log.Error("Some error occured during the request body", e);
+                // try really hard to always finish transcoding
+                if (streamer != null)
+                    streamer.finishTranscoding();
+            }
         }
 
         public bool IsReusable {

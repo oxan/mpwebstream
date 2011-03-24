@@ -91,7 +91,9 @@ namespace MPWebStream.Site {
 
         public void startTranscoding() {
             // encoder configuration
+            Log.Write("============================================");
             EncoderConfig config = new EncoderConfig(Transcoder.Name, Transcoder.UseTranscoding, Transcoder.Transcoder, Transcoder.Parameters, Transcoder.InputMethod, Transcoder.OutputMethod);
+            Log.Write("Using a transcoder named {0}", Transcoder.Name);
 
             // get the path to the source
             string path = "";
@@ -159,9 +161,13 @@ namespace MPWebStream.Site {
         public void finishTranscoding() {
             // close and finish
             Log.Write("Finishing request");
-            if (outStream != null) outStream.Close();
-            if (source != null) source.Close();
-            if (encoder != null) encoder.StopProcess();
+            try {
+                if (outStream != null) outStream.Close();
+                if (source != null) source.Close();
+                if (encoder != null) encoder.StopProcess();
+            } catch (Exception e) {
+                Log.Error("Closing streams and stopping encoder failed", e);
+            }
             Server.CancelCurrentTimeShifting(Username);
         }
     }
