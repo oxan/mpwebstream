@@ -119,16 +119,14 @@ namespace MPWebStream.Site {
             int read;
             try {
                 while (true) {
-                    // read into buffer, but break out if transcoding process is done (prevent deadlock)
+                    // read into buffer, but break out if transcoding process is done or client disconnects
                     do {
                         read = outStream.Read(buffer, 0, buffer.Length);
-                    } while (read == 0 && !encoder.IsTranscodingDone);
-                    if (encoder.IsTranscodingDone)
+                    } while (read == 0 && !encoder.IsTranscodingDone && Response.IsClientConnected);
+                    if (encoder.IsTranscodingDone || !Response.IsClientConnected)
                         break;
 
                     // write to client, if connected
-                    if (!Response.IsClientConnected) 
-                        break;
                     Response.OutputStream.Write(buffer, 0, read);
                     Response.Flush();
                 }
