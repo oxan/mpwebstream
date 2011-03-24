@@ -21,62 +21,62 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_32EB1931685F22153642BBE4E3A0E6D4"
-        "OwnerKey" = "8:_A5775AA101967EC4F25A96D61F242EEB"
+        "MsmKey" = "8:_086C8B6CE03150BDFF2E192195F6C961"
+        "OwnerKey" = "8:_490AC7D1F1FA57B7C2CB0BD706935DA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_32EB1931685F22153642BBE4E3A0E6D4"
+        "MsmKey" = "8:_086C8B6CE03150BDFF2E192195F6C961"
         "OwnerKey" = "8:_8204F0644A0541D0A5B5FFACB191B4A2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_32EB1931685F22153642BBE4E3A0E6D4"
-        "OwnerKey" = "8:_514EA4A3D73A1B8173226E6E7FD8E390"
+        "MsmKey" = "8:_43BE2C259F5AA6532CE221755451CB0F"
+        "OwnerKey" = "8:_490AC7D1F1FA57B7C2CB0BD706935DA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_514EA4A3D73A1B8173226E6E7FD8E390"
+        "MsmKey" = "8:_43BE2C259F5AA6532CE221755451CB0F"
         "OwnerKey" = "8:_8204F0644A0541D0A5B5FFACB191B4A2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7FFA7E5B75D36BF10BA4100F45DE03E1"
+        "MsmKey" = "8:_44832CBD62BF45D08B66B078293D14D3"
         "OwnerKey" = "8:_C579ED17C3BF40979B22B32167C5BB17"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_490AC7D1F1FA57B7C2CB0BD706935DA5"
+        "OwnerKey" = "8:_8204F0644A0541D0A5B5FFACB191B4A2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5D5C0EB6CBDE124AE18869377C209956"
+        "OwnerKey" = "8:_086C8B6CE03150BDFF2E192195F6C961"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5D5C0EB6CBDE124AE18869377C209956"
+        "OwnerKey" = "8:_8204F0644A0541D0A5B5FFACB191B4A2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5D5C0EB6CBDE124AE18869377C209956"
+        "OwnerKey" = "8:_490AC7D1F1FA57B7C2CB0BD706935DA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_8204F0644A0541D0A5B5FFACB191B4A2"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_862036E26962D721E37FAF64E81F948D"
-        "OwnerKey" = "8:_514EA4A3D73A1B8173226E6E7FD8E390"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_862036E26962D721E37FAF64E81F948D"
-        "OwnerKey" = "8:_8204F0644A0541D0A5B5FFACB191B4A2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A5775AA101967EC4F25A96D61F242EEB"
-        "OwnerKey" = "8:_514EA4A3D73A1B8173226E6E7FD8E390"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A5775AA101967EC4F25A96D61F242EEB"
-        "OwnerKey" = "8:_8204F0644A0541D0A5B5FFACB191B4A2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -94,7 +94,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7FFA7E5B75D36BF10BA4100F45DE03E1"
+        "OwnerKey" = "8:_44832CBD62BF45D08B66B078293D14D3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -106,25 +106,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_32EB1931685F22153642BBE4E3A0E6D4"
+        "OwnerKey" = "8:_5D5C0EB6CBDE124AE18869377C209956"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A5775AA101967EC4F25A96D61F242EEB"
+        "OwnerKey" = "8:_086C8B6CE03150BDFF2E192195F6C961"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_862036E26962D721E37FAF64E81F948D"
+        "OwnerKey" = "8:_43BE2C259F5AA6532CE221755451CB0F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_514EA4A3D73A1B8173226E6E7FD8E390"
+        "OwnerKey" = "8:_490AC7D1F1FA57B7C2CB0BD706935DA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -238,51 +238,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_32EB1931685F22153642BBE4E3A0E6D4"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_086C8B6CE03150BDFF2E192195F6C961"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:TvLibrary.Interfaces, Version=1.1.2.20631, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:TvControl, Version=1.1.3.29288, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_32EB1931685F22153642BBE4E3A0E6D4"
+                    "_086C8B6CE03150BDFF2E192195F6C961"
                     {
-                    "Name" = "8:TvLibrary.Interfaces.dll"
-                    "Attributes" = "3:0"
-                    }
-                }
-            "SourcePath" = "8:TvLibrary.Interfaces.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_B67B12DBEAC44D61BF3638D17013391D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:FALSE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_514EA4A3D73A1B8173226E6E7FD8E390"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:PluginBase, Version=1.1.2.20624, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_514EA4A3D73A1B8173226E6E7FD8E390"
-                    {
-                    "Name" = "8:PluginBase.dll"
+                    "Name" = "8:TvControl.DLL"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:PluginBase.dll"
+            "SourcePath" = "8:TvControl.DLL"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B67B12DBEAC44D61BF3638D17013391D"
@@ -300,45 +269,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7FFA7E5B75D36BF10BA4100F45DE03E1"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_43BE2C259F5AA6532CE221755451CB0F"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:TV4Home.Server.TVEInteractionLibrary.Interfaces, Version=0.1.0.0, Culture=neutral, PublicKeyToken=3cf46e400c1bd362, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:SetupControls, Version=1.1.3.29279, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_7FFA7E5B75D36BF10BA4100F45DE03E1"
-                    {
-                    "Name" = "8:TV4Home.Server.TVEInteractionLibrary.Interfaces.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:TV4Home.Server.TVEInteractionLibrary.Interfaces.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_5FCBD8EF29F14B028496143B38687D84"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_862036E26962D721E37FAF64E81F948D"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SetupControls, Version=1.1.2.20623, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_862036E26962D721E37FAF64E81F948D"
+                    "_43BE2C259F5AA6532CE221755451CB0F"
                     {
                     "Name" = "8:SetupControls.dll"
                     "Attributes" = "3:512"
@@ -362,26 +300,88 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A5775AA101967EC4F25A96D61F242EEB"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_44832CBD62BF45D08B66B078293D14D3"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:TvControl, Version=1.1.2.20631, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:TV4Home.Server.TVEInteractionLibrary.Interfaces, Version=0.1.0.0, Culture=neutral, PublicKeyToken=3cf46e400c1bd362, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_A5775AA101967EC4F25A96D61F242EEB"
+                    "_44832CBD62BF45D08B66B078293D14D3"
                     {
-                    "Name" = "8:TvControl.DLL"
+                    "Name" = "8:TV4Home.Server.TVEInteractionLibrary.Interfaces.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:TvControl.DLL"
+            "SourcePath" = "8:TV4Home.Server.TVEInteractionLibrary.Interfaces.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_5FCBD8EF29F14B028496143B38687D84"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_490AC7D1F1FA57B7C2CB0BD706935DA5"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:PluginBase, Version=1.1.3.29280, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_490AC7D1F1FA57B7C2CB0BD706935DA5"
+                    {
+                    "Name" = "8:PluginBase.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:PluginBase.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B67B12DBEAC44D61BF3638D17013391D"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5D5C0EB6CBDE124AE18869377C209956"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:TvLibrary.Interfaces, Version=1.1.3.29287, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_5D5C0EB6CBDE124AE18869377C209956"
+                    {
+                    "Name" = "8:TvLibrary.Interfaces.dll"
+                    "Attributes" = "3:0"
+                    }
+                }
+            "SourcePath" = "8:TvLibrary.Interfaces.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B67B12DBEAC44D61BF3638D17013391D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:FALSE"
             "ReadOnly" = "11:FALSE"
             "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
@@ -482,21 +482,21 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:MPWebStream"
-        "ProductCode" = "8:{30963946-2141-48F6-8290-B5EF8FA2F897}"
-        "PackageCode" = "8:{BF957537-173F-4056-8DE7-037748138C67}"
+        "ProductCode" = "8:{E815B826-D170-4B73-8BFB-D493663AFC6D}"
+        "PackageCode" = "8:{BE7B396E-152B-4C99-A4C9-FAE1FB5E0389}"
         "UpgradeCode" = "8:{BE70E38F-FAD4-450E-8245-CBE2416551E3}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:0.1.0"
-        "Manufacturer" = "8:Oxan van Leeuwen"
+        "ProductVersion" = "8:0.9.9"
+        "Manufacturer" = "8:Oxan"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:MPWebStream installer"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Oxan van Leeuwen"
+        "ARPCONTACT" = "8:Oxan"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Web streamer for MediaPortal TV Server"
         "ARPURLINFOABOUT" = "8:"
@@ -504,7 +504,7 @@
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
-        "TargetPlatform" = "3:1"
+        "TargetPlatform" = "3:0"
         "PreBuildEvent" = "8:"
         "PostBuildEvent" = "8:"
         "RunPostBuildEvent" = "3:0"
