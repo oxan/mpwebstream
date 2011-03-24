@@ -11,10 +11,10 @@ namespace MPWebStream.Site {
         static Log() {
             Configuration config = new Configuration();
             try {
-                writer = new StreamWriter(config.LogFile);
+                writer = new StreamWriter(config.LogFile, true);
             } catch (IOException) {
                 // probably not a valid path, just use some place to at least have a log and don't crash. 
-                writer = new StreamWriter(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "mpwebstream.log"));
+                writer = new StreamWriter(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "mpwebstream.log"), true);
             }
         }
 
