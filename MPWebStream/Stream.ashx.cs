@@ -29,6 +29,12 @@ using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
 namespace MPWebStream.Site.Pages {
     public class Stream : IHttpHandler {
+        public bool IsReusable {
+            get {
+                return false;
+            }
+        }
+
         public void ProcessRequest(HttpContext context) {
             if (!Authentication.authenticate(context, true))
                 return;
@@ -46,6 +52,7 @@ namespace MPWebStream.Site.Pages {
 
             // parse request parameters and start streamer
             Streamer streamer = null;
+            bool dataSend = false;
             try {
                 ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
                     new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
@@ -62,24 +69,44 @@ namespace MPWebStream.Site.Pages {
                 // run
                 try {
                     streamer.startTranscoding();
-                    if (context.Response.IsClientConnected) // client could have disconnected in the meantime
+                    if (context.Response.IsClientConnected) { // client could have disconnected in the meantime
                         streamer.streamToClient(context.Response);
+                        dataSend = true;
+                    }
                 } catch (Exception e) {
                     Log.Error("Streaming to client failed", e);
                 }
                 streamer.finishTranscoding();
+            } catch(FaultException e) {
+                // failed to start timeshift, so display message to user, probably not our fault. 
+                if(!dataSend)
+                    WriteServerError(context, "Failed to start timeshift: " + e.Message, e);
+                Log.Error("Failed to start timeshift", e);
+                
+                // try to stop timeshifting
+                if (streamer != null) {
+                    try {
+                        streamer.finishTranscoding();
+                    } catch (FaultException) {
+                        // doesn't matter, it probably didn't got started in the first place
+                    }
+                }
             } catch (Exception e) {
+                if(!dataSend)
+                    WriteServerError(context, "Some error occured during the streaming", e);  // only possible when no stream data send yet
                 Log.Error("Some error occured during the request body", e);
-                // try really hard to always finish transcoding
-                if (streamer != null)
+                if (streamer != null) // try hard to always stop transcoding
                     streamer.finishTranscoding();
             }
         }
 
-        public bool IsReusable {
-            get {
-                return false;
-            }
+        private void WriteServerError(HttpContext context, string message, Exception e) {
+            context.Response.AddHeader("Content-Type", "text/plain");
+            context.Response.Write("Failed to create the stream you requested.\r\n\r\n");
+            context.Response.Write(message);
+            context.Response.Write("\r\n\r\n");
+            context.Response.Write(e.ToString());
+            context.Response.End();
         }
     }
 }
