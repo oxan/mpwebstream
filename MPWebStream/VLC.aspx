@@ -59,7 +59,7 @@
   <input type="button" value="pause" onclick="getVlcPlayer('vlcplayer').playlist.togglePause();" />
   <input type="button" value="stop" onclick="getVlcPlayer('vlcplayer').playlist.stop();" />
   <input type="button" value="switch fullscreen" onclick="getVlcPlayer('vlcplayer').video.fullscreen=true;" /> 
-  <input type="button" value="enable deinterlacing" onclick="EnableDeinterlace('linear');" /> 
+  <input type="button" value="enable deinterlacing" onclick="enableDeinterlace('linear');" /> 
   <hr style="border: solid 1px black" />
 
   <object id="vlcplayer_ie" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" width="400" height="300" events="True">
