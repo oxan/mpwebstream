@@ -67,14 +67,10 @@ namespace MPWebStream.Site {
                 }
 
                 // run
-                try {
-                    streamer.startTranscoding();
-                    if (context.Response.IsClientConnected) { // client could have disconnected in the meantime
-                        streamer.streamToClient(context.Response);
-                        dataSend = true;
-                    }
-                } catch (Exception e) {
-                    Log.Error("Streaming to client failed", e);
+                streamer.startTranscoding();
+                if (context.Response.IsClientConnected) { // client could have disconnected in the meantime
+                    streamer.streamToClient(context.Response);
+                    dataSend = true;
                 }
                 streamer.finishTranscoding();
             } catch(FaultException e) {
