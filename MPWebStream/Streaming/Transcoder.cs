@@ -1,33 +1,50 @@
-﻿using System;
-using System.IO;
+﻿#region Copyright
+/* 
+ *  Copyright (C) 2011, Oxan
+ *
+ *  This Program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2, or (at your option)
+ *  any later version.
+ *   
+ *  This Program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU General Public License
+ *  along with GNU Make; see the file COPYING.  If not, write to
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  http://www.gnu.org/copyleft/gpl.html
+ *
+ */
+#endregion
+
+using System;
 using System.Diagnostics;
-using System.Threading;
+using System.IO;
 
 namespace MPWebStream.Streaming {
     public class Transcoder {
         private TranscoderProfile transcoder;
         private string input;
+        public Stream OutputStream {
+            get;
+            set;
+        }
 
         private Stream inputStream = null;
         private Stream transcoderInputStream = null;
         private Stream transcoderOutputStream = null;
-        private Stream outputStream = null;
 
         private Process transcoderApplication;
-
-        private Thread inputCopyThread = null;
-        private Thread outputCopyThread = null;
 
         public Transcoder(TranscoderProfile transcoder, string input) {
             this.transcoder = transcoder;
             this.input = input;
         }
 
-        public void TranscodeTo(Stream output) {
-            this.outputStream = output;
-        }
-
-        protected void SetupTranscoder() {
+        public void StartTranscode() {
             // without external process
             if (!transcoder.UseTranscoding) {
                 transcoderOutputStream = new TsBuffer(this.input);
@@ -82,18 +99,21 @@ namespace MPWebStream.Streaming {
             transcoderApplication.Start();
         }
 
-        public void StartTranscode(Stream output) {
-            outputStream = output;
-
+        public void StartStreaming() {
             // copy the inputStream to the transcoderInputStream, and simultaneously copy the transcoderOutputStream to the outputStream
             if (inputStream != null && transcoderInputStream != null)
                 StreamCopy.AsyncStreamCopy(inputStream, transcoderInputStream);
-            if (transcoderOutputStream != null && outputStream != null)
-                StreamCopy.AsyncStreamCopy(transcoderOutputStream, outputStream);
+            if (transcoderOutputStream != null && OutputStream != null)
+                StreamCopy.AsyncStreamCopy(transcoderOutputStream, OutputStream);
         }
 
         public void StopTranscode() {
             transcoderApplication.Kill();
+        }
+
+        // wait till it stopped
+        public void WaitTillExit() {
+            transcoderApplication.WaitForExit();
         }
     }
 }

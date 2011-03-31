@@ -69,7 +69,7 @@ namespace MPWebStream.Site {
         }
         #endregion
 
-        private EncoderWrapper encoder;
+        private Transcoder encoder;
         private Stream source;
         private Stream outStream;
 
@@ -92,7 +92,6 @@ namespace MPWebStream.Site {
         public void startTranscoding() {
             // encoder configuration
             Log.Write("============================================");
-            EncoderConfig config = new EncoderConfig(Transcoder.Name, Transcoder.UseTranscoding, Transcoder.Transcoder, Transcoder.Parameters, Transcoder.InputMethod, Transcoder.OutputMethod);
             Log.Write("Using a transcoder named {0}", Transcoder.Name);
 
             // get the path to the source
@@ -102,7 +101,7 @@ namespace MPWebStream.Site {
                 Log.Write("Trying to switch to channel {0} with username {1}", SourceId, Username);
                 WebVirtualCard card = Server.SwitchTVServerToChannelAndGetVirtualCard(Username, SourceId);
                 Log.Write("Switching channel succeeded");
-                path = config.inputMethod == TransportMethod.Filename ? card.RTSPUrl : card.TimeShiftFileName;
+                path = Transcoder.InputMethod == TransportMethod.Filename ? card.RTSPUrl : card.TimeShiftFileName; // FIXME
                 Log.Write("Selected {0} as input URL", path);
             } else if(StreamType == StreamSource.Recording) {
                 WebRecording recording = Server.GetRecordings().Where(rec => rec.IdRecording == SourceId).First();
@@ -110,20 +109,11 @@ namespace MPWebStream.Site {
                 Log.Write("Selected {0} as input URL for recording {1}", path, SourceId);
             }
 
-            // setup the encoder and input/output streams
-            Log.Write("Setting up pipes");
-            if(config.inputMethod == TransportMethod.Filename && config.useTranscoding) {
-                encoder = new EncoderWrapper(path, config);
-            } else {
-                source = new TsBuffer(path);
-                encoder = new EncoderWrapper(source, config);
-            }
-            if (config.useTranscoding) {
-                outStream = encoder;
-            } else {
-                outStream = source;
-            }
-            Log.Write("Pipes and transcoding setup, starting streaming...");
+            // create encoder
+            encoder = new Transcoder(Transcoder, path);
+            Log.Write("Setting up transcoding...");
+            encoder.StartTranscode();
+            Log.Write("Transcoding started!");
         }
 
         public void streamToClient(HttpResponse response) {
@@ -134,23 +124,15 @@ namespace MPWebStream.Site {
             response.AppendHeader("Connection", "Close");
             response.ContentType = "video/MP2T"; // FIXME
             response.StatusCode = 200;
-
-            // stream it to the client
-            byte[] buffer = new byte[BufferSize];
-            int read;
+            
+            // start streaming it
             try {
-                while (true) {
-                    // read into buffer, but break out if transcoding process is done or client disconnects
-                    do {
-                        read = outStream.Read(buffer, 0, buffer.Length);
-                    } while (read == 0 && !encoder.IsTranscodingDone && response.IsClientConnected);
-                    if (encoder.IsTranscodingDone || !response.IsClientConnected)
-                        break;
-
-                    // write to client, if connected
-                    response.OutputStream.Write(buffer, 0, read);
-                    response.Flush();
-                }
+                encoder.OutputStream = response.OutputStream;
+                Log.Write("Starting streaming to the client now...");
+                encoder.StartStreaming();
+                Log.Write("Streaming to the client started, waiting for transcoder to end now");
+                encoder.WaitTillExit();
+                Log.Write("Streaming done!");
             } catch (Exception ex) {
                 Log.Error("Exception while streaming data", ex);
                 System.Console.WriteLine("Exception while streaming data");
@@ -164,7 +146,7 @@ namespace MPWebStream.Site {
             try {
                 if (outStream != null) outStream.Close();
                 if (source != null) source.Close();
-                if (encoder != null) encoder.StopProcess();
+                if (encoder != null) encoder.StopTranscode();
             } catch (Exception e) {
                 Log.Error("Closing streams and stopping encoder failed", e);
             }
