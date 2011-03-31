@@ -20,15 +20,12 @@
  */
 #endregion
 
-
-namespace MPWebStream.Streaming
-{
+namespace MPWebStream.Streaming {
     #region Enums
     /// <summary>
     /// Media objects state.
     /// </summary>
-    public enum State
-    {
+    public enum State {
         FileNotFound,
         NoFileLoaded,
         Loaded,
