@@ -76,18 +76,18 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="IMediaStream.cs" />
+    <Compile Include="Service\IMediaStream.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\Channel.cs" />
+    <Compile Include="Service\Recording.cs" />
+    <Compile Include="Service\Transcoder.cs" />
     <Compile Include="Stream.ashx.cs">
       <DependentUpon>Stream.ashx</DependentUpon>
     </Compile>
     <Compile Include="Streamer.cs" />
     <Compile Include="Streaming\BasicStream.cs" />
-    <Compile Include="Streaming\EncoderConfig.cs" />
-    <Compile Include="Streaming\EncoderWrapper.cs" />
     <Compile Include="Streaming\NamedPipe.cs" />
-    <Compile Include="Streaming\State.cs" />
     <Compile Include="Streaming\StreamCopy.cs" />
     <Compile Include="Streaming\Transcoder.cs" />
     <Compile Include="Streaming\TransportStream.cs" />

@@ -36,8 +36,24 @@ using System.Text;
 
 namespace MPWebStream.Streaming
 {
-  public class TsBuffer : Stream
+  public class TsBuffer : Stream 
   {
+    #region State
+    private enum State {
+          FileNotFound,
+          NoFileLoaded,
+          Loaded,
+          Playing,
+          Transcoding,
+          Paused,
+          EndOfFile,
+          InvalidFile,
+          FileLocked,
+          Loading,
+          TranscodingFailed,
+          UnknownError,
+      }
+    #endregion
     #region Variables
     // Private Variables
     private State state = State.NoFileLoaded;   // State of the stream.
