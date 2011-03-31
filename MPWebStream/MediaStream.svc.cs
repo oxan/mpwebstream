@@ -20,6 +20,7 @@
  */
 #endregion
 
+using MPWebStream.Site.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -30,79 +31,6 @@ using System.Web;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
 namespace MPWebStream.Site {
-    // FIXME: this should be possible without the DataContract attributes
-    [DataContract]
-    public class Channel {
-        [DataMember]
-        public string DisplayName { get; set; }
-        [DataMember]
-        public int IdChannel { get; set; }
-        [DataMember]
-        public string Name { get; set; }
-        [DataMember]
-        public bool IsTv { get; set; }
-        [DataMember]
-        public bool IsRadio { get; set; }
-
-        public Channel(int id, string displayName, string name, bool isTv, bool isRadio) {
-            this.IdChannel = id;
-            this.DisplayName = displayName;
-            this.Name = name;
-            this.IsTv = isTv;
-            this.IsRadio = isRadio;
-        }
-
-        public Channel(WebChannelDetailed ch) : 
-            this(ch.IdChannel, ch.DisplayName, ch.Name, ch.IsTv, ch.IsRadio) {
-        }
-    }
-
-    [DataContract]
-    public class Recording {
-        [DataMember]
-        public int Id { get; set; }
-        [DataMember]
-        public int IdChannel { get; set; }
-        [DataMember]
-        public string Title { get; set; }
-        [DataMember]
-        public DateTime StartTime { get; set; }
-        [DataMember]
-        public DateTime EndTime { get; set; }
-
-        public Recording(int id, int idChannel, string title, DateTime startTime, DateTime endTime) {
-            this.Id = id;
-            this.Title = title;
-            this.IdChannel = idChannel;
-            this.StartTime = startTime;
-            this.EndTime = endTime;
-        }
-
-        public Recording(WebRecording rec)
-            : this(rec.IdRecording, rec.IdChannel, rec.Title, rec.StartTime, rec.EndTime) {
-        }
-    }
-
-    [DataContract]
-    public class Transcoder {
-        [DataMember]
-        public int Id { get; set; }
-        [DataMember]
-        public string Name { get; set; }
-        [DataMember]
-        public bool UsesTranscoding { get; set; }
-
-        public Transcoder(int id, string name, bool usesTranscoding) {
-            this.Id = id;
-            this.Name = name;
-            this.UsesTranscoding = usesTranscoding;
-        }
-
-        public Transcoder(TranscoderProfile transcoder) :
-            this(transcoder.Id, transcoder.Name, transcoder.UseTranscoding) {
-        }
-    }
-
     public class MediaStream : IMediaStream {
         private ITVEInteraction client;
         private Configuration config;
