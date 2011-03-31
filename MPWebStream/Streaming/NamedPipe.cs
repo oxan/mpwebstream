@@ -2,6 +2,7 @@
 /* 
  *  Copyright (C) 2008, 2009 StreamTv, http://code.google.com/p/mpstreamtv/
  *  Copyright (C) 2009, 2010 Gemx
+ *  Copyright (C) 2011 Oxan
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,17 +30,17 @@ using System.IO.Pipes;
 using System.IO;
 
 namespace MPWebStream.Streaming {
-    public class NamedPipe : TransportStream {
+    public class NamedPipe : Stream {
         private String _pipeName;
         private Boolean isReady;
 
         private PipeStream pipe;
 
-        public override String Url {
-            get { return String.Format("\\\\.\\pipe\\{0}", _pipeName); }
+        public String Url {
+            get { return String.Format(@"\\.\pipe\{0}", _pipeName); }
         }
 
-        public override bool IsReady {
+        public bool IsReady {
             get { return isReady; }
         }
 
@@ -82,10 +83,7 @@ namespace MPWebStream.Streaming {
 
         public override int Read(byte[] buffer, int offset, int count) {
             int read = 0;
-            try {
-                read = pipe.Read(buffer, offset, count);
-            } catch (Exception) {
-            }
+            read = pipe.Read(buffer, offset, count);
             return read;
         }
 
@@ -98,14 +96,10 @@ namespace MPWebStream.Streaming {
         }
 
         public override void Write(byte[] buffer, int offset, int count) {
-            try {
-                pipe.Write(buffer, offset, count);
-            } catch (Exception) {
-                //throw new Exception("Can't write to pipe");
-            }
+            pipe.Write(buffer, offset, count);
         }
 
-        public override void Start(Boolean isClient) {
+        public void Start(Boolean isClient) {
             if (isClient) {
                 NamedPipeClientStream client = new NamedPipeClientStream(".", _pipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
                 client.Connect(10000); // 10 second timeout.
@@ -116,11 +110,6 @@ namespace MPWebStream.Streaming {
                 NamedPipeServerStream server = new NamedPipeServerStream(_pipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
                 server.BeginWaitForConnection(new AsyncCallback(WaitForConnection), server);
             }
-        }
-
-        public override Stream UnderlyingStreamObject {
-            get { return pipe; }
-            set { }
         }
 
         private void WaitForConnection(IAsyncResult ar) {
