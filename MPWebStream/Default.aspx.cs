@@ -20,6 +20,7 @@
  */
 #endregion
 
+using MPWebStream.Site.Service;
 using System;
 using System.Web;
 using System.Web.UI.WebControls;

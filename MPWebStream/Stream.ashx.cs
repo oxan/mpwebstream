@@ -27,8 +27,8 @@ using System.ServiceModel;
 using System.Web;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
-namespace MPWebStream.Site.Pages {
-    public class Stream : IHttpHandler {
+namespace MPWebStream.Site {
+    public class StreamPage : IHttpHandler {
         public bool IsReusable {
             get {
                 return false;

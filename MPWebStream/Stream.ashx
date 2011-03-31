@@ -1,1 +1,1 @@
-﻿<%@ WebHandler Language="C#" CodeBehind="Stream.ashx.cs" Class="MPWebStream.Site.Pages.Stream" %>
+﻿<%@ WebHandler Language="C#" CodeBehind="Stream.ashx.cs" Class="MPWebStream.Site.StreamPage" %>
