@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 
 namespace MPWebStream.Streaming {
     public class Transcoder {
@@ -13,6 +14,9 @@ namespace MPWebStream.Streaming {
         private Stream outputStream = null;
 
         private Process transcoderApplication;
+
+        private Thread inputCopyThread = null;
+        private Thread outputCopyThread = null;
 
         public Transcoder(TranscoderProfile transcoder, string input) {
             this.transcoder = transcoder;
@@ -76,6 +80,20 @@ namespace MPWebStream.Streaming {
             transcoderApplication = new Process();
             transcoderApplication.StartInfo = start;
             transcoderApplication.Start();
+        }
+
+        public void StartTranscode(Stream output) {
+            outputStream = output;
+
+            // copy the inputStream to the transcoderInputStream, and simultaneously copy the transcoderOutputStream to the outputStream
+            if (inputStream != null && transcoderInputStream != null)
+                StreamCopy.AsyncStreamCopy(inputStream, transcoderInputStream);
+            if (transcoderOutputStream != null && outputStream != null)
+                StreamCopy.AsyncStreamCopy(transcoderOutputStream, outputStream);
+        }
+
+        public void StopTranscode() {
+            transcoderApplication.Kill();
         }
     }
 }
