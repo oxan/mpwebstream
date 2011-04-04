@@ -123,7 +123,6 @@ namespace MPWebStream.MediaTranscoding {
         /// </summary>
         public void StartTranscoding() {
             // encoder configuration
-            Log.Write("============================================");
             Log.Write("Using a transcoder named {0}", Transcoder.Name);
             Log.Write("Selected {0} as input for transcoding", Source);
 

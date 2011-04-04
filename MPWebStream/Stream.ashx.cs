@@ -67,6 +67,7 @@ namespace MPWebStream.Site {
 
             // the actually streaming
             try {
+                Log.Write("============================================");
                 if (context.Request.Params["channelId"] != null) {
                     // live tv streaming
                     type = StreamType.Channel;

@@ -136,13 +136,13 @@ namespace MPWebStream.MediaTranscoding {
             // copy the inputStream to the transcoderInputStream, and simultaneously copy the transcoderOutputStream to the outputStream
             Log.Write("Start copying all the streams");
             if (inputStream != null && transcoderInputStream != null) {
-                Log.Write("Copy input stream into transcoder input stream");
+                Log.Write("Copy input stream of type {0} into transcoder input stream of type {1}", inputStream.ToString(), transcoderInputStream.ToString());
                 if (transcoderInputStream is NamedPipe)
                     WaitTillReady((NamedPipe)transcoderInputStream);
                 StreamCopy.AsyncStreamCopy(inputStream, transcoderInputStream, "transinput");
             }
             if (transcoderOutputStream != null && OutputStream != null) {
-                Log.Write("Copy transcoder output stream into output stream");
+                Log.Write("Copy transcoder output stream of type {0} into output stream of type {1}", transcoderOutputStream.ToString(), OutputStream.ToString());
                 if (transcoderOutputStream is NamedPipe)
                     WaitTillReady((NamedPipe)transcoderOutputStream);
                 StreamCopy.AsyncStreamCopy(transcoderOutputStream, OutputStream, "transoutput");
