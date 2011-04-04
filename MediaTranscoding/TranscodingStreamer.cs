@@ -24,7 +24,7 @@
 using System;
 using System.IO;
 using System.Web;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace MPWebStream.MediaTranscoding {
     public class TranscodingStreamer {
@@ -102,6 +102,17 @@ namespace MPWebStream.MediaTranscoding {
             } catch (Exception e) {
                 Log.Error("Stopping transcoder failed", e);
             }
+        }
+
+        /// <summary>
+        /// Get all the transcoders that the user has configured in the TvServerPlugin of MPWebStream.
+        /// 
+        /// This list can be empty (for example when you integrate this in your own app and don't provide the MPWebStream plugins. It is intended for users to have single
+        /// place to configure the transcoders for multiple pieces of software that use this library. 
+        /// </summary>
+        public static List<TranscoderProfile> GetConfiguredTranscoders() {
+            Configuration config = new Configuration();
+            return config.Transcoders;
         }
     }
 }
