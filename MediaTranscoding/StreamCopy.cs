@@ -26,52 +26,62 @@ using System.IO;
 
 namespace MPWebStream.MediaTranscoding {
     class StreamCopy {
-        private byte[] buffer;
-        private Stream src;
-        private Stream dest;
+        private const int _defaultBufferSize = 4096;
 
-        public StreamCopy(Stream A, Stream B) {
-            src = A;
-            dest = B;
+        private byte[] buffer;
+        private Stream source;
+        private Stream destination;
+        private int bufferSize;
+        private string log;
+
+        private StreamCopy(Stream source, Stream destination, int bufferSize, string log) {
+            this.source = source;
+            this.destination = destination;
+            this.bufferSize = bufferSize;
+            this.log = log;
         }
 
         private void CopyStream() {
-            buffer = new byte[0x1000];
-            src.BeginRead(buffer, 0, buffer.Length, MediaReadAsyncCallback, src);
+            // do a parallel read
+            buffer = new byte[bufferSize];
+            source.BeginRead(buffer, 0, buffer.Length, MediaReadAsyncCallback, new object());
         }
 
         private void MediaReadAsyncCallback(IAsyncResult ar) {
             try {
-                Stream media = ar.AsyncState as Stream;
-
-                int read = media.EndRead(ar);
-                if (read > 0) {
-                    dest.BeginWrite(buffer, 0, read, writeResult => {
-                        try {
-                            dest.EndWrite(writeResult);
-                            media.BeginRead(
-                                buffer, 0, buffer.Length, MediaReadAsyncCallback, media);
-                        } catch (Exception exc) {
-                            System.Diagnostics.Debug.WriteLine("Stream copy complete.");
-                            System.Diagnostics.Debug.WriteLine(String.Format("Exception: {0}", exc.Message));
-                        }
-                    }, null);
-                } else {
+                int read = source.EndRead(ar);
+                if (read == 0) // we're done
                     return;
-                }
-            } catch (Exception exc) {
-                System.Diagnostics.Debug.WriteLine("Stream copy complete.");
-                System.Diagnostics.Debug.WriteLine(String.Format("Exception: {0}", exc.Message));
+
+                // write it to the destination
+                destination.BeginWrite(buffer, 0, read, writeResult => {
+                    try {
+                        destination.EndWrite(writeResult);
+
+                        // and read again...
+                        source.BeginRead(buffer, 0, buffer.Length, MediaReadAsyncCallback, new object());
+                    } catch (Exception e) {
+                        Log.Error("StreamCopy {0}: Failure in inner stream copy", log);
+                        Log.Error("Exception", e);
+                    }
+                }, null);
+            } catch (Exception e) {
+                Log.Error("StreamCopy {0}: Failure in outer stream copy", log);
+                Log.Error("Exception", e);
             }
         }
 
-        public static void AsyncStreamCopy(Stream original, Stream destination, string logIdentifier) {
-            StreamCopy copy = new StreamCopy(original, destination);
+        public static void AsyncStreamCopy(Stream original, Stream destination, string logIdentifier, int bufferSize) {
+            StreamCopy copy = new StreamCopy(original, destination, bufferSize, logIdentifier);
             copy.CopyStream();
         }
 
+        public static void AsyncStreamCopy(Stream original, Stream destination, string logIdentifier) {
+            AsyncStreamCopy(original, destination, logIdentifier, _defaultBufferSize);
+        }
+
         public static void AsyncStreamCopy(Stream original, Stream destination) {
-            AsyncStreamCopy(original, destination, "");
+            AsyncStreamCopy(original, destination, "", _defaultBufferSize);
         }
     }
 }
