@@ -15,7 +15,7 @@ namespace MPWebStream.StandaloneTest {
             profile.InputMethod = TransportMethod.NamedPipe;
             profile.OutputMethod = TransportMethod.NamedPipe;
             profile.Transcoder = @".\ffmpeg\bin\ffmpeg.exe";
-            profile.Parameters = "-i {0} -sameq -vcodec libxvid -acodec aac -strict experimental -f mpegts {1}";
+            profile.Parameters = "-i {0} -sameq -y -vcodec libxvid -acodec aac -strict experimental -f mpegts {1}";
 
             // do it
             TranscodingStreamer stream = new TranscodingStreamer(source, profile);
