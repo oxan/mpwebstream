@@ -62,13 +62,13 @@ namespace MPWebStream.MediaTranscoding {
             // weird logic to ignore the InputMethod when no transcoding is ued
             if ((transcoder.InputMethod != TransportMethod.Filename && transcoder.UseTranscoding) || !transcoder.UseTranscoding) {
                 readInputStream = this.input.IndexOf(".ts.tsbuffer") != -1 ? (Stream)new TsBuffer(this.input) : (Stream)new FileStream(this.input, FileMode.Open);
-                Log.Write("Transcoder: using a {0} as input stream", readInputStream.GetType().ToString() == "MPWebStream.MediaTranscoding.TsBuffer" ? "TsBuffer" : "file");
+                Log.Write("Using a {0} as input stream", readInputStream.GetType().ToString() == "MPWebStream.MediaTranscoding.TsBuffer" ? "TsBuffer" : "file");
             }
 
 
             // without external process
             if (!transcoder.UseTranscoding) {
-                Log.Write("Transcoder: not using transcoding, just streaming");
+                Log.Write("Not using transcoding, just streaming");
                 transcoderOutputStream = readInputStream;
                 return;
             }
@@ -104,7 +104,7 @@ namespace MPWebStream.MediaTranscoding {
             }
 
             // start transcoder
-            Log.Write("Transcoder configuration: input {0}, output {1}, needsStdin {2}, needsStdout {3}", input, output, needsStdin, needsStdout);
+            Log.Write("Transcoder configuration dump; input {0}, output {1}, needsStdin {2}, needsStdout {3}", input, output, needsStdin, needsStdout);
             SpawnTranscoder(input, output, needsStdin, needsStdout);
 
             // finish stream setup
@@ -149,8 +149,13 @@ namespace MPWebStream.MediaTranscoding {
 
         public void StopTranscode() {
             Log.Write("Killing transcoder");
-            if(transcoderApplication != null)
-                transcoderApplication.Kill();
+            if (transcoderApplication != null && !transcoderApplication.HasExited) {
+                try {
+                    transcoderApplication.Kill();
+                } catch (Exception e) {
+                    Log.Error("Failed to kill transcoder", transcoderApplication);
+                }
+            }
         }
 
         private void WaitTillReady(NamedPipe pipe) {

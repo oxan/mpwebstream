@@ -60,14 +60,18 @@ namespace MPWebStream.MediaTranscoding {
 
                         // and read again...
                         source.BeginRead(buffer, 0, buffer.Length, MediaReadAsyncCallback, new object());
+                    } catch (IOException e) {
+                        Log.Write("StreamCopy {0}: IOException in inner stream copy (is usually ok)", log);
+                        Log.Write("StreamCopy {0}: {1}", log, e.Message);
                     } catch (Exception e) {
-                        Log.Error("StreamCopy {0}: Failure in inner stream copy", log);
-                        Log.Error("Exception", e);
+                        Log.Error(string.Format("StreamCopy {0}: Failure in inner stream copy", log), e);
                     }
                 }, null);
+            } catch (IOException e) {
+                Log.Write("StreamCopy {0}: IOException in outer stream copy (is usually ok)", log);
+                Log.Write("StreamCopy {0}: {1}", log, e.Message);
             } catch (Exception e) {
-                Log.Error("StreamCopy {0}: Failure in outer stream copy", log);
-                Log.Error("Exception", e);
+                Log.Error(string.Format("StreamCopy {0}: Failure in outer stream copy", log), e);
             }
         }
 
