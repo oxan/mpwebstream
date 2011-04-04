@@ -135,10 +135,14 @@ namespace MPWebStream.MediaTranscoding {
             Log.Write("Start copying all the streams");
             if (inputStream != null && transcoderInputStream != null) {
                 Log.Write("Copy input stream into transcoder input stream");
+                if (transcoderInputStream is NamedPipe)
+                    WaitTillReady((NamedPipe)transcoderInputStream);
                 StreamCopy.AsyncStreamCopy(inputStream, transcoderInputStream, "transinput");
             }
             if (transcoderOutputStream != null && OutputStream != null) {
                 Log.Write("Copy transcoder output stream into output stream");
+                if (transcoderOutputStream is NamedPipe)
+                    WaitTillReady((NamedPipe)transcoderOutputStream);
                 StreamCopy.AsyncStreamCopy(transcoderOutputStream, OutputStream, "transoutput");
             }
         }
@@ -147,6 +151,11 @@ namespace MPWebStream.MediaTranscoding {
             Log.Write("Killing transcoder");
             if(transcoderApplication != null)
                 transcoderApplication.Kill();
+        }
+
+        private void WaitTillReady(NamedPipe pipe) {
+            while(!pipe.IsReady)
+                System.Threading.Thread.Sleep(100);
         }
     }
 }
