@@ -24,7 +24,7 @@ using System;
 using System.IO;
 
 namespace MPWebStream.MediaTranscoding {
-    public class Log {
+    class Log {
         static TextWriter writer;
 
         static Log() {

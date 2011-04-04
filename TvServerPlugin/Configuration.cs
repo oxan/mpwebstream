@@ -24,26 +24,10 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Collections.Generic;
+using MPWebStream.MediaTranscoding;
 
-namespace MPWebStream.MediaTranscoding {
-    public enum TransportMethod {
-        Filename,
-        NamedPipe,
-        StandardIn,
-        StandardOut
-    }
-
-    public class TranscoderProfile {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool UseTranscoding { get; set; }
-        public string Transcoder { get; set; }
-        public string Parameters { get; set; }
-        public TransportMethod InputMethod { get; set; }
-        public TransportMethod OutputMethod { get; set; }
-    }
-
-    public class Configuration {
+namespace MPWebStream {
+    class Configuration {
         #region Properties
         public string SitePath {
             get {

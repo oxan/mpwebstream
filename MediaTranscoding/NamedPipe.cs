@@ -30,7 +30,7 @@ using System.IO.Pipes;
 using System.IO;
 
 namespace MPWebStream.MediaTranscoding {
-    public class NamedPipe : Stream {
+    class NamedPipe : Stream {
         private String _pipeName;
         private Boolean isReady;
 

@@ -36,7 +36,7 @@ using System.Text;
 
 namespace MPWebStream.MediaTranscoding
 {
-  public class TsBuffer : Stream 
+  class TsBuffer : Stream 
   {
     #region State
     private enum State {

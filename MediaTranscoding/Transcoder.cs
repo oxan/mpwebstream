@@ -25,7 +25,7 @@ using System.Diagnostics;
 using System.IO;
 
 namespace MPWebStream.MediaTranscoding {
-    public class Transcoder {
+    class Transcoder {
         #region Properties
         public TranscoderProfile transcoder {
             get;
