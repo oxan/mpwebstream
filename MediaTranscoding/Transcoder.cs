@@ -57,10 +57,19 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public void StartTranscode() {
+            // setup the TsBuffer if needed
+            Stream readInputStream = null;
+            // weird logic to ignore the InputMethod when no transcoding is ued
+            if ((transcoder.InputMethod != TransportMethod.Filename && transcoder.UseTranscoding) || !transcoder.UseTranscoding) {
+                readInputStream = this.input.IndexOf(".ts.tsbuffer") != -1 ? (Stream)new TsBuffer(this.input) : (Stream)new FileStream(this.input, FileMode.Open);
+                Log.Write("Transcoder: using a {0} as input stream", readInputStream.GetType().ToString() == "MPWebStream.MediaTranscoding.TsBuffer" ? "TsBuffer" : "file");
+            }
+
+
             // without external process
             if (!transcoder.UseTranscoding) {
-                Log.Write("Transcoder: Using direct streaming");
-                transcoderOutputStream = new TsBuffer(this.input);
+                Log.Write("Transcoder: not using transcoding, just streaming");
+                transcoderOutputStream = readInputStream;
                 return;
             }
 
@@ -78,10 +87,10 @@ namespace MPWebStream.MediaTranscoding {
                 input = ((NamedPipe)transcoderInputStream).Url;
                 Log.Write("Starting named pipe {0}, being input stream", input);
                 ((NamedPipe)transcoderInputStream).Start(false);
-                inputStream = new TsBuffer(this.input);
+                inputStream = readInputStream;
             } else if (transcoder.InputMethod == TransportMethod.StandardIn) {
                 needsStdin = true;
-                inputStream = new TsBuffer(this.input);
+                inputStream = readInputStream;
             }
 
             // output stream
