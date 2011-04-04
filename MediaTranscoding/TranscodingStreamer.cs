@@ -28,7 +28,14 @@ using System.Collections.Generic;
 
 namespace MPWebStream.MediaTranscoding {
     public class TranscodingStreamer {
-        #region Properties
+        private enum State {
+            Initialized,
+            TranscodingStarted,
+            Streaming,
+            StreamingFinished,
+            TranscodingStopped
+        }
+
         public TranscoderProfile Transcoder {
             get;
             set;
@@ -40,11 +47,16 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public bool IsTranscoding {
-            get { return Transcoder.UseTranscoding ? encoder.TranscoderRunning : true; }
+            get { 
+                bool running = Transcoder.UseTranscoding ? encoder.TranscoderRunning : true; // FIXME
+                if (!running && currentState == State.Streaming)
+                    currentState = State.StreamingFinished;
+                return running;
+            }
             private set { }
         }
-        #endregion
 
+        private State currentState;
         private Transcoder encoder;
 
         /// <summary>
@@ -55,6 +67,7 @@ namespace MPWebStream.MediaTranscoding {
         public TranscodingStreamer(string source, TranscoderProfile transcoder) {
             this.Source = source;
             this.Transcoder = transcoder;
+            currentState = State.Initialized;
         }
 
         /// <summary>
@@ -66,9 +79,44 @@ namespace MPWebStream.MediaTranscoding {
         /// <param name="RTSPurl">URL to the RTSP</param>
         /// <param name="tsbuffer">Path</param>
         /// <param name="transcoder"></param>
-        public TranscodingStreamer(string RTSPurl, string tsbuffer, TranscoderProfile transcoder) {
-            this.Source = transcoder.InputMethod == TransportMethod.Filename ? RTSPurl : tsbuffer;
-            this.Transcoder = transcoder;
+        public TranscodingStreamer(string RTSPurl, string tsbuffer, TranscoderProfile transcoder) :
+            this(transcoder.InputMethod == TransportMethod.Filename ? RTSPurl : tsbuffer, transcoder) {
+        }
+
+        /// <summary>
+        /// Transcode and send the output to an HTTP client, waiting till we're at the end of the stream or the client disconnects.
+        /// 
+        /// This method abstracts the starting/stopping of transcoding, handling of HTTP specific-things and waiting till the client disconnects from you. You
+        /// will probably use this method instead of the other three when you do something with HTTP.
+        /// </summary>
+        public void TranscodeToClient(HttpResponse response) {
+            // start the transcoding
+            if (currentState != State.TranscodingStarted)
+                StartTranscoding();
+
+            // setup response
+            response.Clear();
+            response.Buffer = false;
+            response.BufferOutput = false;
+            response.AppendHeader("Connection", "Close");
+            response.ContentType = "video/MP2T"; // FIXME
+            response.StatusCode = 200;
+
+            // start streaming it
+            StartWriteToStream(response.OutputStream);
+            encoder.OutputStream = response.OutputStream;
+            Log.Write("Waiting for transcoder to end or client to disconnect now");
+            while (true) {
+                if (response.IsClientConnected && (Transcoder.UseTranscoding ? encoder.TranscoderRunning : true)) {
+                    System.Threading.Thread.Sleep(5000);
+                } else {
+                    break;
+                }
+            }
+            currentState = State.StreamingFinished;
+
+            // stop transcoding
+            StopTranscoding();
         }
 
         /// <summary>
@@ -85,6 +133,7 @@ namespace MPWebStream.MediaTranscoding {
             Log.Write("Setting up transcoding...");
             encoder.StartTranscode();
             Log.Write("Transcoding started!");
+            currentState = State.TranscodingStarted;
         }
 
         /// <summary>
@@ -96,35 +145,8 @@ namespace MPWebStream.MediaTranscoding {
             encoder.OutputStream = output;
             Log.Write("Writing to stream {0}", output);
             encoder.StartStreaming();
+            currentState = State.Streaming;
             Log.Write("Streaming started!");
-        }
-
-        /// <summary>
-        /// Write the output of the transcoder to an HTTP client, waiting till we're at the end of the stream or the client disconnects.
-        /// 
-        /// This method abstracts the handling of HTTP Content-Type headers and waiting till the client disconnects for you. You will probably use this method
-        /// instead of StartWriteToStream when you do something with HTTP.
-        /// </summary>
-        public void WriteToClient(HttpResponse response) {
-            // setup response
-            response.Clear();
-            response.Buffer = false;
-            response.BufferOutput = false;
-            response.AppendHeader("Connection", "Close");
-            response.ContentType = "video/MP2T"; // FIXME
-            response.StatusCode = 200;
-            
-            // start streaming it
-            StartWriteToStream(response.OutputStream);
-            encoder.OutputStream = response.OutputStream;
-            Log.Write("Waiting for transcoder to end or client to disconnect now");
-            while (true) {
-                if (response.IsClientConnected && (Transcoder.UseTranscoding ? encoder.TranscoderRunning : true)) {
-                    System.Threading.Thread.Sleep(5000);
-                } else {
-                    break;
-                }
-            }
         }
 
         /// <summary>
@@ -137,6 +159,7 @@ namespace MPWebStream.MediaTranscoding {
             } catch (Exception e) {
                 Log.Error("Stopping transcoder failed", e);
             }
+            currentState = State.TranscodingStopped;
         }
 
         /// <summary>

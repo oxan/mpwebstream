@@ -93,7 +93,7 @@ namespace MPWebStream.Site {
                 TranscodingStreamer streamer = new TranscodingStreamer(source, transcoder);
                 streamer.StartTranscoding();
                 if (context.Response.IsClientConnected) { // client could have disconnected in the meantime
-                    streamer.WriteToClient(context.Response);
+                    streamer.TranscodeToClient(context.Response);
                     dataSend = true;
                 }
                 streamer.StopTranscoding();
