@@ -20,6 +20,7 @@
  */
 #endregion
 
+using MPWebStream.MediaTranscoding;
 using MPWebStream.Site.Service;
 using System;
 using System.Collections.Generic;

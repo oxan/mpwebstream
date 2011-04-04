@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using MPWebStream.MediaTranscoding;
+using System.Runtime.Serialization;
 
 namespace MPWebStream.Site.Service {
     [DataContract]

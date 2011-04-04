@@ -1,5 +1,4 @@
-﻿
-﻿#region Copyright
+﻿﻿#region Copyright
 /* 
  *  Copyright (C) 2010, 2011 Oxan
  *
@@ -21,6 +20,7 @@
  */
 #endregion
 
+using MPWebStream.MediaTranscoding;
 using System;
 using System.Linq;
 using System.ServiceModel;
@@ -51,48 +51,44 @@ namespace MPWebStream.Site {
             }
 
             // parse request parameters and start streamer
-            Streamer streamer = null;
             bool dataSend = false;
             try {
+                string source = "";
                 ITVEInteraction tvServiceInterface = ChannelFactory<ITVEInteraction>.CreateChannel(new NetNamedPipeBinding() { MaxReceivedMessageSize = 10000000 },
                     new EndpointAddress("net.pipe://localhost/TV4Home.Server.CoreService/TVEInteractionService"));
                 if (context.Request.Params["channelId"] != null) {
-                    streamer = new Streamer(tvServiceInterface, tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"])), transcoder);
+                    string username = "mpwebstream-" + System.Guid.NewGuid().ToString("D"); // should be random enough
+                    WebChannelBasic channel = tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"]));
+                    Log.Write("Trying to switch to channel {0} with username {1}", channel.IdChannel, username);
+                    WebVirtualCard card = tvServiceInterface.SwitchTVServerToChannelAndGetVirtualCard(username, channel.IdChannel);
+                    Log.Write("Switching channel succeeded");
+                    source = transcoder.InputMethod == TransportMethod.Filename ? card.RTSPUrl : card.TimeShiftFileName; // FIXME
+                    Log.Write("Selected {0} as input URL", source);
                 } else if (context.Request.Params["recordingId"] != null) {
                     int recordingId = Int32.Parse(context.Request.Params["recordingId"]);
-                    streamer = new Streamer(tvServiceInterface, tvServiceInterface.GetRecordings().Where(rec => rec.IdRecording == recordingId).First(), transcoder);
+                    //streamer = new Streamer(tvServiceInterface, tvServiceInterface.GetRecordings().Where(rec => rec.IdRecording == recordingId).First(), transcoder);
                 } else {
                     context.Response.Write("Specify at least a channelId or recordingId parameter");
                     return;
                 }
 
                 // run
-                streamer.startTranscoding();
+                TranscodingStreamer streamer = new TranscodingStreamer(source, transcoder);
+                streamer.StartTranscoding();
                 if (context.Response.IsClientConnected) { // client could have disconnected in the meantime
-                    streamer.streamToClient(context.Response);
+                    streamer.WriteToClient(context.Response);
                     dataSend = true;
                 }
-                streamer.finishTranscoding();
+                streamer.StopTranscoding();
             } catch(FaultException e) {
                 // failed to start timeshift, so display message to user, probably not our fault. 
                 if(!dataSend)
                     WriteServerError(context, "Failed to start timeshift: " + e.Message, e);
                 Log.Error("Failed to start timeshift", e);
-                
-                // try to stop timeshifting
-                if (streamer != null) {
-                    try {
-                        streamer.finishTranscoding();
-                    } catch (FaultException) {
-                        // doesn't matter, it probably didn't got started in the first place
-                    }
-                }
             } catch (Exception e) {
                 if(!dataSend)
                     WriteServerError(context, "Some error occured during the streaming", e);  // only possible when no stream data send yet
                 Log.Error("Some error occured during the request body", e);
-                if (streamer != null) // try hard to always stop transcoding
-                    streamer.finishTranscoding();
             }
         }
 

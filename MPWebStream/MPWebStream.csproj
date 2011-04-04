@@ -85,7 +85,6 @@
     <Compile Include="Stream.ashx.cs">
       <DependentUpon>Stream.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Streamer.cs" />
     <Compile Include="MediaStream.svc.cs">
       <DependentUpon>MediaStream.svc</DependentUpon>
     </Compile>
@@ -96,6 +95,12 @@
     <Compile Include="VLC.aspx.designer.cs">
       <DependentUpon>VLC.aspx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MediaTranscoding\MediaTranscoding.csproj">
+      <Project>{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}</Project>
+      <Name>MediaTranscoding</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
