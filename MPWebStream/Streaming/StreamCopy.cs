@@ -20,36 +20,56 @@
  */
 #endregion
 
+using MPWebStream.Site;
 using System;
 using System.Threading;
 using System.IO;
+using System.Collections.Generic;
 
 namespace MPWebStream.Streaming {
     public class StreamCopy {
         private const int _defaultBufferSize = 8192;
+        private static List<Thread> currentThreads = new List<Thread>();
 
-        delegate void BlockingCopyDelegate(Stream original, Stream destination, int bufferSize);
+        // non-static implementation class
+        private string identifier;
+        private Stream original;
+        private Stream destination;
+        private int bufferSize;
+        private StreamCopy(string identifier, Stream original, Stream destination, int bufferSize) {
+            this.identifier = identifier;
+            this.original = original;
+            this.destination = destination;
+            this.bufferSize = bufferSize;
+        }
 
-        private static void BlockingCopy(Stream original, Stream destination, int bufferSize) {
+        private void BlockingCopy() {
+            Log.Write(" IN BC {0}", identifier);
             byte[] buffer = new byte[bufferSize];
             int read;
             while (true) {
+                read = 0;
                 do {
+                    Log.Write("Reading from {0}, canRead {1}", original.ToString(), original.CanRead);
                     read = original.Read(buffer, 0, buffer.Length);
+                    Log.Write("BC {0}: read {1}, canRead: {2}, canWrite: {3}", identifier, read, original.CanRead, destination.CanWrite);
                 } while (read == 0 && original.CanRead && destination.CanWrite);
-
+                Log.Write("BX {0}: read {1}, canRead: {2}, canWrite: {3}", identifier, read, original.CanRead, destination.CanWrite);
                 if(destination.CanWrite)
                     destination.Write(buffer, 0, read);
             }
         }
 
-        private static void DoneCallback(IAsyncResult result) {
-            // do nothing with it
+        public static void AsyncStreamCopy(Stream original, Stream destination, string logIdentifier) {
+            Log.Write("A {0}", logIdentifier);
+            StreamCopy copy = new StreamCopy(logIdentifier, original, destination, _defaultBufferSize);
+            Thread thread = new Thread(new ThreadStart(copy.BlockingCopy));
+            thread.Start();
+            currentThreads.Add(thread);
         }
 
         public static void AsyncStreamCopy(Stream original, Stream destination) {
-            BlockingCopyDelegate d = new BlockingCopyDelegate(StreamCopy.BlockingCopy);
-            d.BeginInvoke(original, destination, _defaultBufferSize, new AsyncCallback(DoneCallback), new object());
+            AsyncStreamCopy(original, destination, "");
         }
     }
 }

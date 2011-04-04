@@ -130,8 +130,14 @@ namespace MPWebStream.Site {
                 encoder.OutputStream = response.OutputStream;
                 Log.Write("Starting streaming to the client now...");
                 encoder.StartStreaming();
-                Log.Write("Streaming to the client started, waiting for transcoder to end now");
-                encoder.WaitTillExit();
+                Log.Write("Streaming to the client started, waiting for transcoder to end or client to disconnect now");
+                while (true) {
+                    if (response.IsClientConnected && (Transcoder.UseTranscoding ? encoder.TranscoderRunning : true)) {
+                        System.Threading.Thread.Sleep(5000);
+                    } else {
+                        break;
+                    }
+                }
                 Log.Write("Streaming done!");
             } catch (Exception ex) {
                 Log.Error("Exception while streaming data", ex);

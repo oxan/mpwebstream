@@ -20,24 +20,37 @@
  */
 #endregion
 
+using MPWebStream.Site;
 using System;
 using System.Diagnostics;
 using System.IO;
 
 namespace MPWebStream.Streaming {
     public class Transcoder {
-        private TranscoderProfile transcoder;
-        private string input;
+        #region Properties
+        public TranscoderProfile transcoder {
+            get;
+            set;
+        }
+        public string input {
+            get;
+            set;
+        }
         public Stream OutputStream {
             get;
             set;
         }
-
+        public Boolean TranscoderRunning {
+            get { return transcoderApplication != null && !transcoderApplication.HasExited; }
+        }
+        #endregion
+        #region Private variables
         private Stream inputStream = null;
         private Stream transcoderInputStream = null;
         private Stream transcoderOutputStream = null;
 
         private Process transcoderApplication;
+        #endregion
 
         public Transcoder(TranscoderProfile transcoder, string input) {
             this.transcoder = transcoder;
@@ -47,6 +60,7 @@ namespace MPWebStream.Streaming {
         public void StartTranscode() {
             // without external process
             if (!transcoder.UseTranscoding) {
+                Log.Write("Transcoder: Using direct streaming");
                 transcoderOutputStream = new TsBuffer(this.input);
                 return;
             }
@@ -63,8 +77,12 @@ namespace MPWebStream.Streaming {
             } else if (transcoder.InputMethod == TransportMethod.NamedPipe) {
                 transcoderInputStream = new NamedPipe();
                 input = ((NamedPipe)transcoderInputStream).Url;
+                Log.Write("Starting named pipe {0}, being input stream", input);
+                ((NamedPipe)transcoderInputStream).Start(false);
+                inputStream = new TsBuffer(this.input);
             } else if (transcoder.InputMethod == TransportMethod.StandardIn) {
                 needsStdin = true;
+                inputStream = new TsBuffer(this.input);
             }
 
             // output stream
@@ -78,6 +96,7 @@ namespace MPWebStream.Streaming {
             }
 
             // start transcoder
+            Log.Write("Transcoder configuration: input {0}, output {1}, needsStdin {2}, needsStdout {3}", input, output, needsStdin, needsStdout);
             SpawnTranscoder(input, output, needsStdin, needsStdout);
 
             // finish stream setup
@@ -85,6 +104,10 @@ namespace MPWebStream.Streaming {
                 transcoderInputStream = transcoderApplication.StandardInput.BaseStream;
             if (transcoder.OutputMethod == TransportMethod.StandardOut)
                 transcoderOutputStream = transcoderApplication.StandardOutput.BaseStream;
+            if (transcoder.OutputMethod == TransportMethod.NamedPipe) {
+                Log.Write("Starting named pipe {0}, being output stream", output);
+                ((NamedPipe)transcoderOutputStream).Start(false);
+            }
         }
 
         protected void SpawnTranscoder(string input, string output, bool needsStdin, bool needsStdout) {
@@ -101,19 +124,21 @@ namespace MPWebStream.Streaming {
 
         public void StartStreaming() {
             // copy the inputStream to the transcoderInputStream, and simultaneously copy the transcoderOutputStream to the outputStream
-            if (inputStream != null && transcoderInputStream != null)
-                StreamCopy.AsyncStreamCopy(inputStream, transcoderInputStream);
-            if (transcoderOutputStream != null && OutputStream != null)
-                StreamCopy.AsyncStreamCopy(transcoderOutputStream, OutputStream);
+            Log.Write("Start copying all the streams");
+            if (inputStream != null && transcoderInputStream != null) {
+                Log.Write("Copy input stream into transcoder input stream");
+                StreamCopy.AsyncStreamCopy(inputStream, transcoderInputStream, "transinput");
+            }
+            if (transcoderOutputStream != null && OutputStream != null) {
+                Log.Write("Copy transcoder output stream into output stream");
+                StreamCopy.AsyncStreamCopy(transcoderOutputStream, OutputStream, "transoutput");
+            }
         }
 
         public void StopTranscode() {
-            transcoderApplication.Kill();
-        }
-
-        // wait till it stopped
-        public void WaitTillExit() {
-            transcoderApplication.WaitForExit();
+            Log.Write("Killing transcoder");
+            if(transcoderApplication != null)
+                transcoderApplication.Kill();
         }
     }
 }
