@@ -384,6 +384,24 @@ namespace MPWebStream.MediaTranscoding
 
       base.Close();
     } // Close
+
+    public string DumpStatus() {
+      string ret;
+      ret = string.Format("State: " + state.ToString() + "\n");
+      ret += string.Format("tsWriterPosition: {0}, tsReaderPosition {1}\n", tsWriterPosition, tsReaderPosition);
+      ret += string.Format("tsBufferAdded: {0}, tsBufferRemoved {1}\n", tsBufferAdded, tsBufferRemoved);
+      if (tsReaderFile != null) {
+        ret += string.Format("Current file: location {0}, length {1}\n", tsReaderFile.Location, tsReaderFile.Length);
+      } else {
+        ret += string.Format("Current file: null\n");
+      }
+      ret += string.Format("All files in the buffer:\n");
+      foreach(TsFile file in tsFiles) {
+        ret += string.Format("  location {0}, length {1}\n", file.Location, file.Length);
+      }
+      return ret;
+    }
+
     #endregion
     #region Private methods
     /// <summary>

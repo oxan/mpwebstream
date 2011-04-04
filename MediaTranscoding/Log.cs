@@ -23,12 +23,14 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace MPWebStream.MediaTranscoding {
     public class Log {
         public delegate void LogWrite(string message);
 
         private static LogWrite callback = null;
+        private static object lockObj = new Object();
 
         public static void RegisterWriter(LogWrite writer) {
             callback = writer;
@@ -49,8 +51,10 @@ namespace MPWebStream.MediaTranscoding {
 
         private static void PerformWrite(string format, params object[] arg) {
             string text = string.Format(format, arg);
-            if (callback != null)
-                callback.Invoke(text);
+            if (callback != null) {
+                lock (lockObj)  // avoid calling it in concurrent
+                    callback.Invoke(text);
+            }
         }
     }
 }

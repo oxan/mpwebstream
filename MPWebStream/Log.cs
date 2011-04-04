@@ -22,10 +22,12 @@
 
 using System;
 using System.IO;
+using System.Threading;
 
 namespace MPWebStream.Site {
     class Log {
-        static TextWriter writer;
+        private static TextWriter writer;
+        private static object lockObj = new Object();
 
         static Log() {
             Configuration config = new Configuration();
@@ -58,9 +60,11 @@ namespace MPWebStream.Site {
         }
 
         private static void PerformWrite(string format, params object[] arg) {
-            string text = string.Format(format, arg);
-            writer.WriteLine("{0:yyyy-MM-dd HH:mm:ss.ffffff}: {1}", DateTime.Now, text);
-            writer.Flush();
+            lock (lockObj) { // avoid multiple log entries on the smaae line and other weird stuff like that
+                string text = Thread.CurrentThread.ManagedThreadId + ": " + string.Format(format, arg);
+                writer.WriteLine("{0:yyyy-MM-dd HH:mm:ss.ffffff}: {1}", DateTime.Now, text);
+                writer.Flush();
+            }
         }
     }
 }

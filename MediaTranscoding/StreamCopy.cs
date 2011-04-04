@@ -23,6 +23,8 @@
 
 using System;
 using System.IO;
+using System.Web;
+using System.Threading;
 
 namespace MPWebStream.MediaTranscoding {
     class StreamCopy {
@@ -40,10 +42,30 @@ namespace MPWebStream.MediaTranscoding {
             this.log = log;
         }
 
-        private void CopyStream() {
+        private void CopyStream(bool retry) {
             // do a parallel read
             buffer = new byte[bufferSize];
-            source.BeginRead(buffer, 0, buffer.Length, MediaReadAsyncCallback, new object());
+            try {
+                source.BeginRead(buffer, 0, buffer.Length, MediaReadAsyncCallback, new object());
+            } catch (NotSupportedException e) {
+                // we only do a workaround for TsBuffer here, nothing for other errors
+                if (!(source is TsBuffer))
+                    throw e;
+
+                TsBuffer stream = (TsBuffer)source;
+                Log.Error(string.Format("StreamCopy {0}: NotSupportedException when trying to read from TsBuffer", log), e);
+                Log.Write("StreamCopy {0}: TsBuffer dump: CanRead {1}, CanWrite {2}", log, stream.CanRead, stream.CanWrite);
+                Log.Write("StreamCopy {0}:\n\t{1}", stream.DumpStatus());
+                if (retry) {
+                    Thread.Sleep(500);
+                    Log.Write("StreamCopy {0}: Trying to recover", log);
+                    CopyStream(false);
+                }
+            }
+        }
+
+        private void CopyStream() {
+            CopyStream(true);
         }
 
         private void MediaReadAsyncCallback(IAsyncResult ar) {
@@ -62,6 +84,9 @@ namespace MPWebStream.MediaTranscoding {
                     } catch (IOException e) {
                         Log.Write("StreamCopy {0}: IOException in inner stream copy (is usually ok)", log);
                         Log.Write("StreamCopy {0}: {1}", log, e.Message);
+                    } catch (HttpException e) {
+                        // we handle that somewhere else
+                        throw e;
                     } catch (Exception e) {
                         Log.Error(string.Format("StreamCopy {0}: Failure in inner stream copy", log), e);
                     }
@@ -69,6 +94,9 @@ namespace MPWebStream.MediaTranscoding {
             } catch (IOException e) {
                 Log.Write("StreamCopy {0}: IOException in outer stream copy (is usually ok)", log);
                 Log.Write("StreamCopy {0}: {1}", log, e.Message);
+            } catch (HttpException e) {
+                // we handle that somewhere else
+                throw e;
             } catch (Exception e) {
                 Log.Error(string.Format("StreamCopy {0}: Failure in outer stream copy", log), e);
             }
