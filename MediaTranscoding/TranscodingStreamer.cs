@@ -105,12 +105,16 @@ namespace MPWebStream.MediaTranscoding {
             StartWriteToStream(response.OutputStream);
             encoder.OutputStream = response.OutputStream;
             Log.Write("Waiting for transcoder to end or client to disconnect now");
-            while (true) {
-                if (response.IsClientConnected && (Transcoder.UseTranscoding ? encoder.TranscoderRunning : true)) {
-                    System.Threading.Thread.Sleep(5000);
-                } else {
-                    break;
+            try {
+                while (true) {
+                    if (response.IsClientConnected && (Transcoder.UseTranscoding ? encoder.TranscoderRunning : true)) {
+                        System.Threading.Thread.Sleep(5000);
+                    } else {
+                        break;
+                    }
                 }
+            } catch (HttpException ex) {
+                Log.Write("HttpException in TranscodeToClient, usually client disconnect, message {0}", ex.Message);
             }
             currentState = State.StreamingFinished;
 
