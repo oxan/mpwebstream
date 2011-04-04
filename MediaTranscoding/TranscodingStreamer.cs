@@ -155,6 +155,8 @@ namespace MPWebStream.MediaTranscoding {
         /// Stop the transcoding.
         /// </summary>
         public void StopTranscoding() {
+            if (currentState == State.TranscodingStopped || currentState == State.Initialized)
+                return;
             Log.Write("Finishing transcoding");
             try {
                 if (encoder != null) encoder.StopTranscode();
