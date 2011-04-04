@@ -1,5 +1,6 @@
 ﻿#region Copyright
 /* 
+ *  Copyright (C) 2008, 2009 StreamTv, http://code.google.com/p/mpstreamtv/
  *  Copyright (C) 2011, Oxan
  *
  *  This Program is free software; you can redistribute it and/or modify
@@ -21,50 +22,52 @@
 #endregion
 
 using System;
-using System.Threading;
 using System.IO;
-using System.Collections.Generic;
 
 namespace MPWebStream.MediaTranscoding {
     class StreamCopy {
-        private const int _defaultBufferSize = 8192;
-        private static List<Thread> currentThreads = new List<Thread>();
+        private byte[] buffer;
+        private Stream src;
+        private Stream dest;
 
-        // non-static implementation class
-        private string identifier;
-        private Stream original;
-        private Stream destination;
-        private int bufferSize;
-        private StreamCopy(string identifier, Stream original, Stream destination, int bufferSize) {
-            this.identifier = identifier;
-            this.original = original;
-            this.destination = destination;
-            this.bufferSize = bufferSize;
+        public StreamCopy(Stream A, Stream B) {
+            src = A;
+            dest = B;
         }
 
-        private void BlockingCopy() {
-            Log.Write(" IN BC {0}", identifier);
-            byte[] buffer = new byte[bufferSize];
-            int read;
-            while (true) {
-                read = 0;
-                do {
-                    Log.Write("Reading from {0}, canRead {1}", original.ToString(), original.CanRead);
-                    read = original.Read(buffer, 0, buffer.Length);
-                    Log.Write("BC {0}: read {1}, canRead: {2}, canWrite: {3}", identifier, read, original.CanRead, destination.CanWrite);
-                } while (read == 0 && original.CanRead && destination.CanWrite);
-                Log.Write("BX {0}: read {1}, canRead: {2}, canWrite: {3}", identifier, read, original.CanRead, destination.CanWrite);
-                if(destination.CanWrite)
-                    destination.Write(buffer, 0, read);
+        private void CopyStream() {
+            buffer = new byte[0x1000];
+            src.BeginRead(buffer, 0, buffer.Length, MediaReadAsyncCallback, src);
+        }
+
+        private void MediaReadAsyncCallback(IAsyncResult ar) {
+            try {
+                Stream media = ar.AsyncState as Stream;
+
+                int read = media.EndRead(ar);
+                if (read > 0) {
+                    dest.BeginWrite(buffer, 0, read, writeResult => {
+                        try {
+                            dest.EndWrite(writeResult);
+                            media.BeginRead(
+                                buffer, 0, buffer.Length, MediaReadAsyncCallback, media);
+                        } catch (Exception exc) {
+                            System.Diagnostics.Debug.WriteLine("Stream copy complete.");
+                            System.Diagnostics.Debug.WriteLine(String.Format("Exception: {0}", exc.Message));
+                        }
+                    }, null);
+                } else {
+                    return;
+                }
+            } catch (Exception exc) {
+                System.Diagnostics.Debug.WriteLine("Stream copy complete.");
+                System.Diagnostics.Debug.WriteLine(String.Format("Exception: {0}", exc.Message));
             }
         }
 
         public static void AsyncStreamCopy(Stream original, Stream destination, string logIdentifier) {
-            Log.Write("A {0}", logIdentifier);
-            StreamCopy copy = new StreamCopy(logIdentifier, original, destination, _defaultBufferSize);
-            Thread thread = new Thread(new ThreadStart(copy.BlockingCopy));
-            thread.Start();
-            currentThreads.Add(thread);
+            StreamCopy copy = new StreamCopy(original, destination);
+            copy.CopyStream();
         }
 
         public static void AsyncStreamCopy(Stream original, Stream destination) {
