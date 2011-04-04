@@ -2,7 +2,6 @@
 /* 
  *  Copyright (C) 2008, 2009 StreamTv, http://code.google.com/p/mpstreamtv/
  *  Copyright (C) 2009, 2010 Gemx
- *  Copyright (C) 2011 Oxan
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

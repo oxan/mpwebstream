@@ -1,6 +1,5 @@
 ﻿#region Copyright
 /* 
- *  Copyright (C) 2009, 2010 Gemx
  *  Copyright (C) 2010, 2011 Oxan
  *
  *  This Program is free software; you can redistribute it and/or modify
