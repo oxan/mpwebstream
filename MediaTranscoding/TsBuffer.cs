@@ -34,7 +34,7 @@ using System.Linq;
 using System.Text;
 #endregion
 
-namespace MPWebStream.Streaming
+namespace MPWebStream.MediaTranscoding
 {
   public class TsBuffer : Stream 
   {

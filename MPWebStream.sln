@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cassini-v35", "Cassini-v35\
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaTranscoding", "MediaTranscoding\MediaTranscoding.csproj", "{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,16 @@ Global
 		{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}.Release|Any CPU.ActiveCfg = Release
 		{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}.Release|Mixed Platforms.ActiveCfg = Release
 		{8AD6DA70-0C31-47EA-A562-901F43B3A7EF}.Release|x86.ActiveCfg = Release
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

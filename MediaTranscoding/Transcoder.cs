@@ -20,12 +20,11 @@
  */
 #endregion
 
-using MPWebStream.Site;
 using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace MPWebStream.Streaming {
+namespace MPWebStream.MediaTranscoding {
     public class Transcoder {
         #region Properties
         public TranscoderProfile transcoder {

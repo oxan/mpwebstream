@@ -20,13 +20,12 @@
  */
 #endregion
 
-using MPWebStream.Site;
 using System;
 using System.Threading;
 using System.IO;
 using System.Collections.Generic;
 
-namespace MPWebStream.Streaming {
+namespace MPWebStream.MediaTranscoding {
     public class StreamCopy {
         private const int _defaultBufferSize = 8192;
         private static List<Thread> currentThreads = new List<Thread>();

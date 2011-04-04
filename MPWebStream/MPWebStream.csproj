@@ -86,10 +86,6 @@
       <DependentUpon>Stream.ashx</DependentUpon>
     </Compile>
     <Compile Include="Streamer.cs" />
-    <Compile Include="Streaming\NamedPipe.cs" />
-    <Compile Include="Streaming\StreamCopy.cs" />
-    <Compile Include="Streaming\Transcoder.cs" />
-    <Compile Include="Streaming\TsBuffer.cs" />
     <Compile Include="MediaStream.svc.cs">
       <DependentUpon>MediaStream.svc</DependentUpon>
     </Compile>

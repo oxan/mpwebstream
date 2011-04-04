@@ -25,7 +25,7 @@ using System.IO;
 using System.Xml;
 using System.Collections.Generic;
 
-namespace MPWebStream {
+namespace MPWebStream.MediaTranscoding {
     public enum TransportMethod {
         Filename,
         NamedPipe,
