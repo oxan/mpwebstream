@@ -95,7 +95,7 @@ namespace MPWebStream.MediaTranscoding {
 
             // output stream
             if (transcoder.OutputMethod == TransportMethod.Filename) {
-                // TODO
+                output = Path.GetTempFileName(); // this doesn't work yet
             } else if (transcoder.OutputMethod == TransportMethod.NamedPipe) {
                 transcoderOutputStream = new NamedPipe();
                 output = ((NamedPipe)transcoderOutputStream).Url;
@@ -112,6 +112,8 @@ namespace MPWebStream.MediaTranscoding {
                 transcoderInputStream = transcoderApplication.StandardInput.BaseStream;
             if (transcoder.OutputMethod == TransportMethod.StandardOut)
                 transcoderOutputStream = transcoderApplication.StandardOutput.BaseStream;
+            if (transcoder.OutputMethod == TransportMethod.Filename)
+                transcoderOutputStream = new FileStream(output, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (transcoder.OutputMethod == TransportMethod.NamedPipe) {
                 Log.Write("Starting named pipe {0}, being output stream", output);
                 ((NamedPipe)transcoderOutputStream).Start(false);
