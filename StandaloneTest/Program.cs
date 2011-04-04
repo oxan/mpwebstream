@@ -11,8 +11,11 @@ namespace MPWebStream.StandaloneTest {
             string source = @"T:\test-input.ts";
             string destination = @"T:\test-output.ts";
             TranscoderProfile profile = new TranscoderProfile();
-            profile.Id = 0;
-            profile.UseTranscoding = false;
+            profile.UseTranscoding = true;
+            profile.InputMethod = TransportMethod.NamedPipe;
+            profile.OutputMethod = TransportMethod.NamedPipe;
+            profile.Transcoder = @".\ffmpeg\bin\ffmpeg.exe";
+            profile.Parameters = "-i {0} -sameq -vcodec libxvid -acodec aac -strict experimental -f mpegts {1}";
 
             // do it
             TranscodingStreamer stream = new TranscodingStreamer(source, profile);
@@ -27,7 +30,7 @@ namespace MPWebStream.StandaloneTest {
 
     static class ConsoleLogger {
         public static void Write(string message) {
-            System.Console.WriteLine(message);
+            System.Console.WriteLine("{0:yyyy-MM-dd HH:mm:ss.ffffff}: {1}", DateTime.Now, message);
         }
     }
 }
