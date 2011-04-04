@@ -8,8 +8,8 @@
     <ProjectGuid>{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MediaTranscoding</RootNamespace>
-    <AssemblyName>MediaTranscoding</AssemblyName>
+    <RootNamespace>MPWebStream.MediaTranscoding</RootNamespace>
+    <AssemblyName>MPWebStream.MediaTranscoding</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
