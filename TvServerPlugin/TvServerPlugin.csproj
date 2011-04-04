@@ -41,11 +41,10 @@
       <HintPath>..\lib\SetupControls.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.XML" />
     <Reference Include="TvControl, Version=1.1.2.20631, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\TvControl.dll</HintPath>
@@ -72,6 +71,12 @@
     <EmbeddedResource Include="ConfigurationInterface.resx">
       <DependentUpon>ConfigurationInterface.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MediaTranscoding\MediaTranscoding.csproj">
+      <Project>{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}</Project>
+      <Name>MediaTranscoding</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

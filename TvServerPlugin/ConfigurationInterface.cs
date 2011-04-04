@@ -20,6 +20,7 @@
  */
 #endregion
 
+using MPWebStream.MediaTranscoding;
 using System;
 using System.Windows.Forms;
 using System.ServiceProcess;
