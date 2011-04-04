@@ -47,11 +47,33 @@ namespace MPWebStream.MediaTranscoding {
 
         private Transcoder encoder;
 
+        /// <summary>
+        /// Base constructor.
+        /// </summary>
+        /// <param name="source">The source to transcode, most commonly path to a file.</param>
+        /// <param name="transcoder">The transcoder to use.</param>
         public TranscodingStreamer(string source, TranscoderProfile transcoder) {
             this.Source = source;
             this.Transcoder = transcoder;
         }
 
+        /// <summary>
+        /// Convenience method to use when streaming live TV.
+        /// 
+        /// Based on the transcoder configuration, we need to pass an RTSP url, a path to the TS buffer file to the transcoder, or we need to read the TS
+        /// buffer file ourself. This method abstracts that choose from your application.
+        /// </summary>
+        /// <param name="RTSPurl">URL to the RTSP</param>
+        /// <param name="tsbuffer">Path</param>
+        /// <param name="transcoder"></param>
+        public TranscodingStreamer(string RTSPurl, string tsbuffer, TranscoderProfile transcoder) {
+            this.Source = transcoder.InputMethod == TransportMethod.Filename ? RTSPurl : tsbuffer;
+            this.Transcoder = transcoder;
+        }
+
+        /// <summary>
+        /// Start the transcoding.
+        /// </summary>
         public void StartTranscoding() {
             // encoder configuration
             Log.Write("============================================");
@@ -65,6 +87,10 @@ namespace MPWebStream.MediaTranscoding {
             Log.Write("Transcoding started!");
         }
 
+        /// <summary>
+        /// Starting writing the output of the transcoder to a stream.
+        /// </summary>
+        /// <param name="output">The stream to write to</param>
         public void StartWriteToStream(Stream output) {
             // stream it
             encoder.OutputStream = output;
@@ -73,6 +99,12 @@ namespace MPWebStream.MediaTranscoding {
             Log.Write("Streaming started!");
         }
 
+        /// <summary>
+        /// Write the output of the transcoder to an HTTP client, waiting till we're at the end of the stream or the client disconnects.
+        /// 
+        /// This method abstracts the handling of HTTP Content-Type headers and waiting till the client disconnects for you. You will probably use this method
+        /// instead of StartWriteToStream when you do something with HTTP.
+        /// </summary>
         public void WriteToClient(HttpResponse response) {
             // setup response
             response.Clear();
@@ -95,6 +127,9 @@ namespace MPWebStream.MediaTranscoding {
             }
         }
 
+        /// <summary>
+        /// Stop the transcoding.
+        /// </summary>
         public void StopTranscoding() {
             Log.Write("Finishing transcoding");
             try {
