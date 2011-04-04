@@ -71,8 +71,8 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Service\IMediaStream.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Service\IMediaStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Channel.cs" />
     <Compile Include="Service\Recording.cs" />

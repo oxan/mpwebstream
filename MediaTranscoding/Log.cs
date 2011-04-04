@@ -22,38 +22,35 @@
 
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace MPWebStream.MediaTranscoding {
-    class Log {
-        static TextWriter writer;
+    public class Log {
+        public delegate void LogWrite(string message);
 
-        static Log() {
-            Configuration config = new Configuration();
-            try {
-                writer = new StreamWriter(config.LogFile, true);
-            } catch (IOException) {
-                // probably not a valid path, just use some place to at least have a log and don't crash. 
-                writer = new StreamWriter(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "mpwebstream.log"), true);
-            }
+        private static LogWrite callback = null;
+
+        public static void RegisterWriter(LogWrite writer) {
+            callback = writer;
         }
 
-        public static void Write(string message, params object[] arg) {
+        internal static void Write(string message, params object[] arg) {
             PerformWrite(message, arg);
         }
 
-        public static void Error(string message, params object[] arg) {
+        internal static void Error(string message, params object[] arg) {
             PerformWrite(String.Format("ERROR: {0}", message), arg);
         }
 
-        public static void Error(string message, Exception ex) {
+        internal static void Error(string message, Exception ex) {
             Error(message);
             PerformWrite(String.Format("Exception: {0}", ex)); 
         }
 
         private static void PerformWrite(string format, params object[] arg) {
             string text = string.Format(format, arg);
-            writer.WriteLine("{0:yyyy-MM-dd HH:mm:ss.ffffff}: {1}", DateTime.Now, text);
-            writer.Flush();
+            if (callback != null)
+                callback.Invoke(text);
         }
     }
 }

@@ -24,7 +24,7 @@ using System;
 using System.IO;
 
 namespace MPWebStream.Site {
-    public class Log {
+    class Log {
         static TextWriter writer;
 
         static Log() {
@@ -32,9 +32,16 @@ namespace MPWebStream.Site {
             try {
                 writer = new StreamWriter(config.LogFile, true);
             } catch (IOException) {
-                // probably not a valid path, just use some place to at least have a log and don't crash. 
+                // probably not a good path, just use some place to at least have a log and don't crash. 
                 writer = new StreamWriter(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "mpwebstream.log"), true);
             }
+
+            // register us for logs from MPWebStream.MediaTranscoding
+            MPWebStream.MediaTranscoding.Log.RegisterWriter(new MPWebStream.MediaTranscoding.Log.LogWrite(Log.Write));
+        }
+
+        public static void Write(string message) {
+            PerformWrite(message);
         }
 
         public static void Write(string message, params object[] arg) {
@@ -47,7 +54,7 @@ namespace MPWebStream.Site {
 
         public static void Error(string message, Exception ex) {
             Error(message);
-            PerformWrite(String.Format("Exception: {0}", ex)); 
+            PerformWrite(String.Format("Exception: {0}", ex));
         }
 
         private static void PerformWrite(string format, params object[] arg) {
