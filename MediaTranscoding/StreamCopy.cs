@@ -26,8 +26,7 @@ using System.IO;
 
 namespace MPWebStream.MediaTranscoding {
     class StreamCopy {
-        private const int _defaultBufferSize = 4096;
-
+        private const int _defaultBufferSize = 0x10000;
         private byte[] buffer;
         private Stream source;
         private Stream destination;
