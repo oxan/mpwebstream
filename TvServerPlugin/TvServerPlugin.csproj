@@ -55,6 +55,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\MediaTranscoding\TranscoderProfile.cs">
+      <Link>TranscoderProfile.cs</Link>
+    </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationInterface.cs">
       <SubType>UserControl</SubType>
@@ -71,12 +74,6 @@
     <EmbeddedResource Include="ConfigurationInterface.resx">
       <DependentUpon>ConfigurationInterface.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MediaTranscoding\MediaTranscoding.csproj">
-      <Project>{5DBFCC45-2EFE-4E17-8FE6-C3759E361E60}</Project>
-      <Name>MediaTranscoding</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
