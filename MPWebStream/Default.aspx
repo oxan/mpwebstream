@@ -31,8 +31,17 @@
 </head>
 <body>
     <form runat="server">
-        <asp:Table ID="StreamTable" runat="server">
-        </asp:Table>
+        <p>
+            <h2>Live TV</h2>
+            <asp:Table ID="StreamTable" runat="server">
+            </asp:Table>
+        </p>
+
+        <p>
+            <h2>Recordings</h2>
+            <asp:Table ID="RecordingTable" runat="server">
+            </asp:Table>
+        </p>
     </form>
 </body>
 </html>

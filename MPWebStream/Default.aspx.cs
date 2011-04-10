@@ -29,13 +29,71 @@ using System.Collections.Specialized;
 namespace MPWebStream.Site {
     public partial class Default : System.Web.UI.Page {
         protected void Page_Load(object sender, EventArgs e) {
-            // this whole site probably qualifies for The Daily WTF, but I'm not a ASP.NET coder and I don't have enough time to learn it. Suggestions and patches welcome.
+            // this whole page probably qualifies for The Daily WTF, but I'm not a ASP.NET coder and I don't have enough time to learn it. Suggestions and patches welcome.
             if (!Authentication.authenticate(HttpContext.Current))
                 return;
 
             Configuration config = new Configuration();
             MediaStream remoteControl = new MediaStream();
+            SetupStreamTable(remoteControl, config);
+            SetupRecordingTable(remoteControl, config);
+        }
 
+        private void SetupRecordingTable(MediaStream remoteControl, Configuration config) {
+            // header
+            TableHeaderRow hrow = new TableHeaderRow();
+            TableHeaderCell dcell = new TableHeaderCell();
+            dcell.Text = "Date";
+            hrow.Cells.Add(dcell);
+            TableHeaderCell tcell = new TableHeaderCell();
+            tcell.Text = "Title";
+            hrow.Cells.Add(tcell);
+            foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
+                TableHeaderCell ccell = new TableHeaderCell();
+                ccell.Text = transcoder.Name;
+                hrow.Cells.Add(ccell);
+            }
+            RecordingTable.Rows.Add(hrow);
+
+            foreach (Recording rec in remoteControl.GetRecordings()) {
+                // base cells
+                TableRow row = new TableRow();
+                TableCell date = new TableCell();
+                date.Text = rec.StartTime.ToShortDateString() + " " + rec.StartTime.ToShortTimeString();
+                row.Cells.Add(date);
+                TableCell title = new TableCell();
+                title.Text = rec.Title;
+                row.Cells.Add(title);
+
+                // all transcoders
+                foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
+                    TableCell item = new TableCell();
+
+                    HyperLink direct = new HyperLink();
+                    direct.NavigateUrl = remoteControl.GetTranscodedRecordingStreamUrl(rec.Id, config.Username, config.Password, transcoder.Id);
+                    direct.Text = "Direct";
+                    item.Controls.Add(direct);
+
+                    // really 3SLOC for a simple dash? 
+                    Label label = new Label();
+                    label.Text = " - ";
+                    item.Controls.Add(label);
+
+                    HyperLink vlc = new HyperLink();
+                    NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
+                    queryString["recordingId"] = rec.Id.ToString();
+                    queryString["transcoder"] = transcoder.Id.ToString();
+                    vlc.NavigateUrl = "VLC.aspx?" + queryString.ToString();
+                    vlc.Text = "VLC";
+                    item.Controls.Add(vlc);
+
+                    row.Cells.Add(item);
+                }
+                RecordingTable.Rows.Add(row);
+            }
+        }
+
+        private void SetupStreamTable(MediaStream remoteControl, Configuration config) {
             // header row
             TableHeaderRow hrow = new TableHeaderRow();
             TableHeaderCell cell = new TableHeaderCell();
@@ -51,7 +109,7 @@ namespace MPWebStream.Site {
             foreach (Channel channel in remoteControl.GetChannels()) {
                 // channel name header cell
                 TableRow row = new TableRow();
-                TableCell title = new TableHeaderCell();
+                TableCell title = new TableCell();
                 title.Text = channel.DisplayName;
                 row.Cells.Add(title);
 
