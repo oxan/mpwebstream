@@ -81,24 +81,24 @@ namespace MPWebStream.MediaTranscoding {
 
                         // and read again...
                         source.BeginRead(buffer, 0, buffer.Length, MediaReadAsyncCallback, new object());
-                    } catch (IOException e) {
-                        Log.Write("StreamCopy {0}: IOException in inner stream copy (is usually ok)", log);
-                        Log.Write("StreamCopy {0}: {1}", log, e.Message);
-                    } catch (HttpException e) {
-                        // we handle that somewhere else
-                        throw e;
                     } catch (Exception e) {
-                        Log.Error(string.Format("StreamCopy {0}: Failure in inner stream copy", log), e);
+                        HandleException(e, "inner");
                     }
                 }, null);
-            } catch (IOException e) {
-                Log.Write("StreamCopy {0}: IOException in outer stream copy (is usually ok)", log);
-                Log.Write("StreamCopy {0}: {1}", log, e.Message);
-            } catch (HttpException e) {
-                // we handle that somewhere else
-                throw e;
             } catch (Exception e) {
-                Log.Error(string.Format("StreamCopy {0}: Failure in outer stream copy", log), e);
+                HandleException(e, "outer");
+            }
+        }
+
+        private void HandleException(Exception e, string type) {
+            if (e is IOException) {
+                // end of pipe etc
+                Log.Write("StreamCopy {0}: IOException in {1} stream copy, is usually ok: {2}", log, type, e.Message);
+            } else if (e is HttpException) {
+                // client disconnected, picked up by TranscodingStreamer.TranscodeToClient
+                Log.Write("StreamCopy {0}: HttpException in {1} stream copy, is usually ok: {2}", log, type, e.Message);
+            } else {
+                Log.Error(string.Format("StreamCopy {0}: Failure in {1} stream copy", log, type), e);
             }
         }
 
