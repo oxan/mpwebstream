@@ -149,6 +149,12 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public void StopTranscode() {
+            // close streams
+            CloseStream(inputStream, "input");
+            CloseStream(transcoderInputStream, "transcoder input");
+            CloseStream(transcoderOutputStream, "transcoder output");
+            CloseStream(OutputStream, "output");
+
             if (transcoderApplication != null && !transcoderApplication.HasExited) {
                 Log.Write("Killing transcoder");
                 try {
@@ -156,6 +162,14 @@ namespace MPWebStream.MediaTranscoding {
                 } catch (Exception e) {
                     Log.Error("Failed to kill transcoder", e);
                 }
+            }
+        }
+
+        private void CloseStream(Stream stream, string logName) {
+            try {
+                if (stream != null) stream.Close();
+            } catch (Exception e) {
+                Log.Write("Failed to close {0} stream: {1}", logName, e.Message);
             }
         }
 
