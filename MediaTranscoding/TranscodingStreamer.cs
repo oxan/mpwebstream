@@ -127,12 +127,10 @@ namespace MPWebStream.MediaTranscoding {
         /// </summary>
         public void StartTranscoding() {
             // encoder configuration
-            Log.Write("Using a transcoder named {0}", Transcoder.Name);
-            Log.Write("Selected {0} as input for transcoding", Source);
+            Log.Write("Starting transcoding of {0} with transcoder named {1}", Source, Transcoder.Name);
 
             // create encoder
             encoder = new Transcoder(Transcoder, Source);
-            Log.Write("Setting up transcoding...");
             encoder.StartTranscode();
             Log.Write("Transcoding started!");
             currentState = State.TranscodingStarted;
@@ -145,7 +143,6 @@ namespace MPWebStream.MediaTranscoding {
         public void StartWriteToStream(Stream output) {
             // stream it
             encoder.OutputStream = output;
-            Log.Write("Writing to stream {0}", output);
             encoder.StartStreaming();
             currentState = State.Streaming;
             Log.Write("Streaming started!");

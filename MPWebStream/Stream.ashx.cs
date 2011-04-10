@@ -76,6 +76,7 @@ namespace MPWebStream.Site {
                     Log.Write("Trying to switch to channel {0} with username {1}", channel.IdChannel, username);
                     card = tvServiceInterface.SwitchTVServerToChannelAndGetVirtualCard(username, channel.IdChannel);
                     source = transcoder.InputMethod == TransportMethod.Filename ? card.RTSPUrl : card.TimeShiftFileName; // FIXME
+                    Log.Write("Channel switch succeeded");
                 } else if (context.Request.Params["recordingId"] != null) {
                     // recording streaming
                     type = StreamType.Recording;
@@ -88,7 +89,6 @@ namespace MPWebStream.Site {
                     context.Response.Write("Specify at least a channelId or recordingId parameter");
                     return;
                 }
-                Log.Write("Selected {0} as input URL", source);
 
                 // run
                 TranscodingStreamer streamer = new TranscodingStreamer(source, transcoder);
@@ -110,6 +110,7 @@ namespace MPWebStream.Site {
             } finally {
                 // stop timeshifting if needed
                 if (type == StreamType.Channel && username != "") {
+                    Log.Write("Finishing timeshifting");
                     try {
                         tvServiceInterface.CancelCurrentTimeShifting(username);
                     } catch (Exception e) {
