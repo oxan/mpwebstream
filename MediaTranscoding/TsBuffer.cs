@@ -387,17 +387,17 @@ namespace MPWebStream.MediaTranscoding
 
     public string DumpStatus() {
       string ret;
-      ret = string.Format("State: " + state.ToString() + "\n");
-      ret += string.Format("tsWriterPosition: {0}, tsReaderPosition {1}\n", tsWriterPosition, tsReaderPosition);
-      ret += string.Format("tsBufferAdded: {0}, tsBufferRemoved {1}\n", tsBufferAdded, tsBufferRemoved);
+      ret = string.Format("State: {0}\r\n", state.ToString());
+      ret += string.Format("tsWriterPosition: {0}, tsReaderPosition {1}\r\n", tsWriterPosition, tsReaderPosition);
+      ret += string.Format("tsBufferAdded: {0}, tsBufferRemoved {1}\r\n", tsBufferAdded, tsBufferRemoved);
       if (tsReaderFile != null) {
-        ret += string.Format("Current file: location {0}, length {1}\n", tsReaderFile.Location, tsReaderFile.Length);
+        ret += string.Format("Current file: location {0}, length {1}\r\n", tsReaderFile.Location, tsReaderFile.Length);
       } else {
-        ret += string.Format("Current file: null\n");
+        ret += string.Format("Current file: null\r\n");
       }
-      ret += string.Format("All files in the buffer:\n");
+      ret += string.Format("All files in the buffer:\r\n");
       foreach(TsFile file in tsFiles) {
-        ret += string.Format("  location {0}, length {1}\n", file.Location, file.Length);
+        ret += string.Format("  location {0}, length {1}\r\n", file.Location, file.Length);
       }
       return ret;
     }

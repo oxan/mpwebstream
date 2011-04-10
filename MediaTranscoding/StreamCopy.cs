@@ -55,7 +55,7 @@ namespace MPWebStream.MediaTranscoding {
                 TsBuffer stream = (TsBuffer)source;
                 Log.Error(string.Format("StreamCopy {0}: NotSupportedException when trying to read from TsBuffer", log), e);
                 Log.Write("StreamCopy {0}: TsBuffer dump: CanRead {1}, CanWrite {2}", log, stream.CanRead, stream.CanWrite);
-                Log.Write("StreamCopy {0}:\n\t{1}", stream.DumpStatus());
+                Log.Write("StreamCopy {0}:\r\n{1}", log, stream.DumpStatus());
                 if (retry) {
                     Thread.Sleep(500);
                     Log.Write("StreamCopy {0}: Trying to recover", log);
