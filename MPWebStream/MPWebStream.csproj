@@ -47,6 +47,7 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="MediaStream.svc" />
+    <Content Include="Playlist.aspx" />
     <Content Include="VLC.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -72,6 +73,12 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Log.cs" />
+    <Compile Include="Playlist.aspx.cs">
+      <DependentUpon>Playlist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Playlist.aspx.designer.cs">
+      <DependentUpon>Playlist.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Service\IMediaStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Channel.cs" />
