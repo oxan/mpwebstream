@@ -1,6 +1,7 @@
 ﻿#region Copyright
 /* 
- *  Copyright (C) 2010, 2011 Oxan
+ *  Copyright (C) 2011 Heerfordt
+ *  Copyright (C) 2011 Oxan
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,40 +31,41 @@ using System.Text;
 namespace MPWebStream.Site {
     public partial class Playlist : System.Web.UI.Page {
         protected void Page_Load(object sender, EventArgs e) {
-            // this whole page probably qualifies for The Daily WTF, but I'm not a ASP.NET coder and I don't have enough time to learn it. Suggestions and patches welcome.
             if (!Authentication.authenticate(HttpContext.Current))
                 return;
 
             Configuration config = new Configuration();
             MediaStream remoteControl = new MediaStream();
+            int transcoderId = 0;
+            Int32.TryParse(HttpContext.Current.Request.Params["transcoder"], out transcoderId);
             
             Response.ContentType = "audio/x-mpegurl";
             Response.Write("#EXTM3U\r\n");
-            Response.Write(GetPlayList(remoteControl, config));
-
+            Response.Write(GetPlayList(remoteControl, config, transcoderId));
+            Response.End();
         }
 
-        private String GetPlayList(MediaStream remoteControl, Configuration config) {
-
+        private string GetPlayList(MediaStream remoteControl, Configuration config, int transcoderId) {
             StringBuilder builder = new StringBuilder();
-            int pos = 0;
             foreach (Channel channel in remoteControl.GetChannels()) {
-                // all transcoders
                 foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
-                        String name = "#EXTINF:"+(++pos)+","+channel.Name;
-                        String streamurl = remoteControl.GetTranscodedTvStreamUrl(channel.IdChannel, config.Username, config.Password, transcoder.Id);
-                        builder.Append(name);
-                        builder.Append("\r\n");
-                        builder.Append(streamurl);
-                        builder.Append("\r\n");
-                        builder.Append("\r\n");
-                        break;
-
+                    // show all transcoders, except when transcoderId is given
+                    if (transcoderId != 0 && transcoder.Id != transcoderId)
+                        continue;
+                    string name = channel.Name + (transcoderId == 0 ? " (" + transcoder.Name + ")" : "");
+                    string streamurl = remoteControl.GetTranscodedTvStreamUrl(channel.IdChannel, config.Username, config.Password, transcoder.Id);
+                    builder.Append("#EXTINF:-1," + name);
+                    builder.Append("\r\n");
+                    builder.Append(streamurl);
+                    builder.Append("\r\n\r\n");
                 }
             }
 
-
             return builder.ToString();
+        }
+
+        private string GetPlayList(MediaStream remoteControl, Configuration config) {
+            return GetPlayList(remoteControl, config, 0);
         }
     }
 }
