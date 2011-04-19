@@ -106,6 +106,19 @@ namespace MPWebStream.Site {
             }
             StreamTable.Rows.Add(hrow);
 
+            // link to the playlist
+            TableRow prow = new TableRow();
+            prow.Cells.Add(new TableCell());
+            foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
+                TableCell pcell = new TableCell();
+                HyperLink link = new HyperLink();
+                link.NavigateUrl = "Playlist.aspx?transcoder=" + transcoder.Id.ToString();
+                link.Text = "Playlist";
+                pcell.Controls.Add(link);
+                prow.Cells.Add(pcell);
+            }
+            StreamTable.Rows.Add(prow);
+
             foreach (Channel channel in remoteControl.GetChannels()) {
                 // channel name header cell
                 TableRow row = new TableRow();
