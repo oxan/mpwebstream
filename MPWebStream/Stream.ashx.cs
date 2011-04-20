@@ -92,12 +92,16 @@ namespace MPWebStream.Site {
 
                 // run
                 TranscodingStreamer streamer = new TranscodingStreamer(source, transcoder);
-                streamer.StartTranscoding();
-                if (context.Response.IsClientConnected) { // client could have disconnected in the meantime
-                    streamer.TranscodeToClient(context.Response);
-                    dataSend = true;
+                if (!context.Response.IsClientConnected) {
+                    Log.Write("Client has disconnected, not even bothering to start transcoding");
+                } else {
+                    streamer.StartTranscoding();
+                    if (context.Response.IsClientConnected) { // client could have disconnected in the meantime
+                        streamer.TranscodeToClient(context.Response);
+                        dataSend = true;
+                    }
+                    streamer.StopTranscoding();
                 }
-                streamer.StopTranscoding();
             } catch (FaultException e) {
                 // exception from TV4Home, so display message to user, probably not our fault. 
                 Log.Error("Got error response from the TV Server", e);
