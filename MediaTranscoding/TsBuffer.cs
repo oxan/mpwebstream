@@ -166,6 +166,7 @@ namespace MPWebStream.MediaTranscoding {
         ///     or zero (0) if the end of the stream has been reached.</returns>
         public override int Read(byte[] buffer, int offset, int count) {
             if (state != State.Playing) {
+                Log("Trying to read from a non-playing stream");
                 return 0;
             }
 
@@ -207,37 +208,32 @@ namespace MPWebStream.MediaTranscoding {
                             }
                         } else {
                             // Check if there is enough data to fill the buffer.
-                            if ((tsWriterPosition - tsReaderPosition - count) > count) // Make sure there is a extra packets buffer.
-              {
+                            if ((tsWriterPosition - tsReaderPosition - count) > count) { // Make sure there is a extra packets buffer.
                                 // Should be enough data.
                                 int byteCount = tsReader.Read(buffer, offset, count);
 
                                 // Increment the current position.
                                 tsReaderPosition += byteCount;
-#if RELEASE
-                                System.Diagnostics.Debug.WriteLine(String.Format("Tries: {0}", tries));
-#endif
 
                                 return byteCount;
                             }
                         }
-                    }
 #if DEBUG
- catch (Exception e) {
-                        System.Diagnostics.Debug.WriteLine(String.Format("Read Exception: {0}", e));
+                    } catch (Exception e) {
+                        Log("Read outer exception: {0}", e);
                     }
 #else
-          catch (Exception)
-          {
-          }
+                    } catch (Exception e) { }
 #endif
+
                     // This is added because the CPU scans so bloody fast that the loop would be pointless without it.
                     // Need to find a better way.
                     System.Threading.Thread.Sleep(1);
                 } while (--tries != 0);
 
                 return 0;
-            } catch (Exception) {
+            } catch (Exception e) {
+                Log("Read outer exception: {0}", e);
                 return 0;
             }
         } // Read
@@ -380,9 +376,8 @@ namespace MPWebStream.MediaTranscoding {
         /// Refresh the .tsBuffer details.
         /// </summary>
         private void RefreshTsBuffer() {
-            //System.Diagnostics.Debug.WriteLine("Refresh Triggered.");
-
             if (tsBuffer == null) {
+                Log("Setting state to invalid file due to null input file");
                 state = State.InvalidFile;
                 return;
             }
@@ -420,10 +415,10 @@ namespace MPWebStream.MediaTranscoding {
                     // Check if the file size is acceptable.
                     if (tsBuffer.Length <= (sizeof(Int64) + sizeof(long) + sizeof(long) + sizeof(char) + sizeof(long) + sizeof(long))) {
                         // File size too small to be a valid.
+                        Log("Failed to refresh tsBuffer file, length {0} should be <= {1}", tsBuffer.Length, (sizeof(Int64) + sizeof(long) + sizeof(long) + sizeof(char) + sizeof(long) + sizeof(long)));
                         throw new InvalidDataException("File size is too small.");
                     }
 
-                    //tsBuffer.Seek(0, SeekOrigin.Begin);
                     tsBuffer.Position = 0;
 
                     #region Extra DEBUG Output
@@ -496,12 +491,12 @@ namespace MPWebStream.MediaTranscoding {
                     remainingLength = tsBuffer.Length - sizeof(Int64) - sizeof(Int32) - sizeof(Int32) - sizeof(Int32) - sizeof(Int32);
 
                     // Above 100kb or below 0 seems stupid and figure out a problem !!!
-                    if ((remainingLength > 100000) || (remainingLength < 0)) {
-                        if (remainingLength > 0) {
-                            throw new InvalidDataException("File size is too big.");
-                        } else {
-                            throw new InvalidDataException("File size is too small.");
-                        }
+                    if (remainingLength < 0) {
+                        Log("We have a remaining length of {0}, which is below zero?", remainingLength);
+                        throw new InvalidDataException("File size is too small.");
+                    } else if (remainingLength > 100000) {
+                        Log("Remaining length is too big: {0}", remainingLength);
+                        throw new InvalidDataException("File size is too big.");
                     }
 
                     // Load the file list.
@@ -523,13 +518,15 @@ namespace MPWebStream.MediaTranscoding {
 
                     // Check if they match.
                     if ((filesAdded2 != filesAdded) || (filesRemoved2 != filesRemoved)) {
+                        Log("Read invalid data from file: {0} != {1} || {2} != {3}", filesAdded2, filesAdded, filesRemoved2, filesRemoved);
                         throw new InvalidDataException("Invalid data read from file.");
                     }
 
                     tsDetails = null;
 
                     break;
-                } catch (Exception) {
+                } catch (Exception e) {
+                    Log("Some exception happened during refreshing the stream buffer: {0}", e);
                     error = true;
                 }
             } while (--tries != 0);
@@ -546,18 +543,14 @@ namespace MPWebStream.MediaTranscoding {
                 Int64 filesToRemove = Convert.ToInt64(filesRemoved) - tsBufferRemoved;
                 Int64 filesToAdd = Convert.ToInt64(filesAdded) - tsBufferAdded;
                 Int64 fileID = Convert.ToInt64(filesRemoved);
-#if DEBUG
-                System.Diagnostics.Debug.WriteLine(String.Format("Files Added {0}, Removed {1}", filesToAdd, filesToRemove));
-#endif
+                Log("Files added {0}, removed {1}", filesToAdd, filesToRemove);
 
                 // Removed files that aren't present anymore.
                 while ((filesToRemove > 0) && (tsFiles.Count > 0)) {
-#if DEBUG
-                    System.Diagnostics.Debug.WriteLine(String.Format("Removing file {0}", tsFiles[0]));
-#endif
+                    Log("Removing file {0}", tsFiles[0]);
+
                     // Remove the last file.
                     tsFiles.RemoveAt(0);
-
                     filesToRemove--;
                 }
 
@@ -565,11 +558,10 @@ namespace MPWebStream.MediaTranscoding {
                 String[] files = new String(Encoding.Default.GetChars(correctedFileList)).Split(new char[] { '\0' }, StringSplitOptions.RemoveEmptyEntries);
 #if DEBUG
                 if (files.Count() > 0) {
-                    System.Diagnostics.Debug.WriteLine(String.Format("TsBuffer - FileListString: {0}", files[0]));
-                    for (int i = 1; i < files.Count(); i++) {
-                        System.Diagnostics.Debug.WriteLine(String.Format("                           {0}", files[i]));
+                    Log("Files known:");
+                    for (int i = 0; i < files.Count(); i++) {
+                        Log("  {0}", files[i]);
                     }
-                    System.Diagnostics.Debug.WriteLine("");
                 }
 #endif
 
@@ -644,6 +636,16 @@ namespace MPWebStream.MediaTranscoding {
                 Seek(0, SeekOrigin.End);
             }
         } // Load
+
+        /// <summary>
+        /// Log a message
+        /// </summary>
+        /// <param name="message">The message to log, with string formatting supported</param>
+        /// <param name="arg">Parameters for string formatting</param>
+        private void Log(string message, params object[] arg) {
+            string fullMessage = string.Format("TsBuffer: {0}", string.Format(message, arg));
+            MPWebStream.MediaTranscoding.Log.Write(fullMessage);
+        }
         #endregion
     }
 
