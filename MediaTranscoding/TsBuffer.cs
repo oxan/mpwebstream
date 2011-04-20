@@ -415,7 +415,7 @@ namespace MPWebStream.MediaTranscoding {
                     // Check if the file size is acceptable.
                     if (tsBuffer.Length <= (sizeof(Int64) + sizeof(long) + sizeof(long) + sizeof(char) + sizeof(long) + sizeof(long))) {
                         // File size too small to be a valid.
-                        Log("Failed to refresh tsBuffer file, length {0} should be <= {1}", tsBuffer.Length, (sizeof(Int64) + sizeof(long) + sizeof(long) + sizeof(char) + sizeof(long) + sizeof(long)));
+                        Log("Failed to refresh tsBuffer file, length {0} should not be <= {1}", tsBuffer.Length, (sizeof(Int64) + sizeof(long) + sizeof(long) + sizeof(char) + sizeof(long) + sizeof(long)));
                         throw new InvalidDataException("File size is too small.");
                     }
 
@@ -528,6 +528,9 @@ namespace MPWebStream.MediaTranscoding {
                 } catch (Exception e) {
                     Log("Some exception happened during refreshing the stream buffer: {0}", e);
                     error = true;
+
+                    // wait 100ms before trying again
+                    System.Threading.Thread.Sleep(100);
                 }
             } while (--tries != 0);
             #endregion
