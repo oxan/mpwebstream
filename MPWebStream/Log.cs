@@ -60,9 +60,13 @@ namespace MPWebStream.Site {
         }
 
         private static void PerformWrite(string format, params object[] arg) {
-            lock (lockObj) { // avoid multiple log entries on the smaae line and other weird stuff like that
-                string text = Thread.CurrentThread.ManagedThreadId + ": " + string.Format(format, arg);
-                writer.WriteLine("{0:yyyy-MM-dd HH:mm:ss.ffffff}: {1}", DateTime.Now, text);
+            lock (lockObj) { // avoid multiple log entries on the same line and other weird stuff like that
+                string text = string.Format(format, arg);
+                bool first = true;
+                foreach (string line in text.Split('\n')) {
+                    writer.WriteLine("{0:yyyy-MM-dd HH:mm:ss.ffffff}: {1,-2}: {2}", DateTime.Now, Thread.CurrentThread.ManagedThreadId, (!first ? "  " : "") + line.Trim());
+                    first = false;
+                }
                 writer.Flush();
             }
         }
