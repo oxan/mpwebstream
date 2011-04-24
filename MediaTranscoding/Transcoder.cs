@@ -104,7 +104,11 @@ namespace MPWebStream.MediaTranscoding {
             }
 
             // start transcoder
-            Log.Write("Transcoder configuration dump; input {0}, output {1}, needsStdin {2}, needsStdout {3}", input, output, needsStdin, needsStdout);
+            Log.Write("Transcoder configuration dump");
+            Log.Write("  input {0}, output {1}", input, output);
+            Log.Write("  needsStdin {0}, needsStdout {1}", needsStdin, needsStdout);
+            Log.Write("  path {0}", transcoder.Transcoder);
+            Log.Write("  arguments {0}", transcoder.Parameters);
             SpawnTranscoder(input, output, needsStdin, needsStdout);
 
             // finish stream setup
@@ -140,6 +144,13 @@ namespace MPWebStream.MediaTranscoding {
                     WaitTillReady((NamedPipe)transcoderInputStream);
                 StreamCopy.AsyncStreamCopy(inputStream, transcoderInputStream, "transinput");
             }
+
+            // but make sure that the transcoder is running now
+            if (transcoder.UseTranscoding && !TranscoderRunning) {
+                Log.Write("ERROR: The transcoder isn't running anymore, refusing to copy the output stream");
+                return;
+            }
+
             if (transcoderOutputStream != null && OutputStream != null) {
                 Log.Write("Copy transcoder output stream of type {0} into output stream of type {1}", transcoderOutputStream.ToString(), OutputStream.ToString());
                 if (transcoderOutputStream is NamedPipe)

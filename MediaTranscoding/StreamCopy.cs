@@ -93,10 +93,10 @@ namespace MPWebStream.MediaTranscoding {
         private void HandleException(Exception e, string type) {
             if (e is IOException) {
                 // end of pipe etc
-                Log.Write("StreamCopy {0}: IOException in {1} stream copy, is usually ok: {2}", log, type, e.Message);
+                Log.Write("StreamCopy {0}: IOException in {1} stream copy, is usually ok: {2}", log, type, e);
             } else if (e is HttpException) {
                 // client disconnected, picked up by TranscodingStreamer.TranscodeToClient
-                Log.Write("StreamCopy {0}: HttpException in {1} stream copy, is usually ok: {2}", log, type, e.Message);
+                Log.Write("StreamCopy {0}: HttpException in {1} stream copy, is usually ok: {2}", log, type, e);
             } else {
                 Log.Error(string.Format("StreamCopy {0}: Failure in {1} stream copy", log, type), e);
             }
