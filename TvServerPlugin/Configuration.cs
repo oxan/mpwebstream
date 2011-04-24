@@ -144,6 +144,26 @@ namespace MPWebStream {
                 Id = 1
             });
 
+            // default transcoders
+            Dictionary<string, string> configurations = new Dictionary<string, string>();
+            /*
+            configurations["A"] = "HOI";
+            configurations["B"] = "BLA";
+             */
+            int i = 2;
+            foreach (KeyValuePair<string, string> config in configurations) {
+                Transcoders.Add(new TranscoderProfile() {
+                    Name = config.Key,
+                    UseTranscoding = true,
+                    Transcoder = Path.Combine(BasePath, "@ffmpeg\bin\ffmpeg.exe"),
+                    Parameters = config.Value,
+                    InputMethod = TransportMethod.NamedPipe,
+                    OutputMethod = TransportMethod.NamedPipe,
+                    Id = i
+                });
+                i++;
+            }
+
             // create file if it doesn't exists
             if (!File.Exists(ConfigPath))
                 Write();
