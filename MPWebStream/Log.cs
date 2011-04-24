@@ -26,6 +26,11 @@ using System.Threading;
 
 namespace MPWebStream.Site {
     class Log {
+        public static string LogPath {
+            get;
+            private set;
+        }
+
         private static TextWriter writer;
         private static object lockObj = new Object();
 
@@ -33,8 +38,10 @@ namespace MPWebStream.Site {
             Configuration config = new Configuration();
             try {
                 writer = new StreamWriter(config.LogFile, true);
+                LogPath = config.LogFile;
             } catch (IOException) {
                 // probably not a good path, just use some place to at least have a log and don't crash. 
+                LogPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "mpwebstream.log");
                 writer = new StreamWriter(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "mpwebstream.log"), true);
             }
 
@@ -47,24 +54,23 @@ namespace MPWebStream.Site {
         }
 
         public static void Write(string message, params object[] arg) {
-            PerformWrite(message, arg);
+            PerformWrite(string.Format(message, arg));
         }
 
         public static void Error(string message, params object[] arg) {
-            PerformWrite(String.Format("ERROR: {0}", message), arg);
+            PerformWrite(string.Format("ERROR: " + message, arg));
         }
 
         public static void Error(string message, Exception ex) {
             Error(message);
-            PerformWrite(String.Format("Exception: {0}", ex));
+            PerformWrite(string.Format("Exception: {0}", ex));
         }
 
-        private static void PerformWrite(string format, params object[] arg) {
+        private static void PerformWrite(string text) {
             lock (lockObj) { // avoid multiple log entries on the same line and other weird stuff like that
-                string text = string.Format(format, arg);
                 bool first = true;
                 foreach (string line in text.Split('\n')) {
-                    writer.WriteLine("{0:yyyy-MM-dd HH:mm:ss.ffffff}: {1,-2}: {2}", DateTime.Now, Thread.CurrentThread.ManagedThreadId, (!first ? "  " : "") + line.Trim());
+                    writer.WriteLine("{0:yyyy-MM-dd HH:mm:ss.ffffff}: {1,-2}: {2}", DateTime.Now, Thread.CurrentThread.ManagedThreadId, (!first ? "  " : "") + line);
                     first = false;
                 }
                 writer.Flush();
