@@ -29,15 +29,28 @@ using MPWebStream.MediaTranscoding;
 namespace MPWebStream {
     class Configuration {
         #region Properties
+        public string BasePath {
+            get {
+                // different detection needed from MPWebStream and the TvServerPlugin
+                if (AppDomain.CurrentDomain.BaseDirectory.IndexOf(@"MPWebStream\Site") == -1)
+                    // called from the TvServerPlugin in MP\Plugins, so add MPWebStream to it
+                    return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "MPWebStream");
+
+                // called from the ASP.NET app (in MP\Plugins\MPWebStream\Site\), so remove the Site part
+                string sitedir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+                return Path.GetDirectoryName(sitedir.Substring(0, sitedir.Length - 4)); // sanitize
+            }
+        }
+
         public string SitePath {
             get {
-                return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\Site");
+                return Path.Combine(BasePath, "Site");
             }
         }
 
         public string CassiniServerPath {
             get {
-                return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\Cassini.exe");
+                return Path.Combine(BasePath, "Cassini.exe");
             }
         }
 
@@ -113,7 +126,7 @@ namespace MPWebStream {
             Password = "admin";
             EnableAuthentication = true;
             SiteRoot = "http://" + System.Environment.MachineName + "/";
-            LogFile = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"MPWebStream\log.txt");
+            LogFile = Path.Combine(BasePath, "log.txt");
             Transcoders = new List<TranscoderProfile>();
             Transcoders.Add(new TranscoderProfile() {
                 Name = "Direct",
