@@ -37,6 +37,9 @@ namespace MPWebStream.Site {
             MediaStream remoteControl = new MediaStream();
             SetupStreamTable(remoteControl, config);
             SetupRecordingTable(remoteControl, config);
+
+            LogPath.Text = Log.LogPath;
+            Config.Text = config.ConfigPath;
         }
 
         private void SetupRecordingTable(MediaStream remoteControl, Configuration config) {
