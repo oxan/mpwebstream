@@ -35,16 +35,33 @@ namespace MPWebStream.MediaTranscoding {
             TranscodingStopped
         }
 
+        /// <summary>
+        /// The transcoder that is used for streaming
+        /// </summary>
         public TranscoderProfile Transcoder {
             get;
             set;
         }
 
+        /// <summary>
+        /// The source media file that is streamed
+        /// </summary>
         public string Source {
             get;
             set;
         }
 
+        /// <summary>
+        /// The logfile to which the output of the transcoder (on stderr) is written
+        /// </summary>
+        public string TranscoderLog {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Is the transcoder currently running? A false return indicates that we're at the end of the input stream
+        /// </summary>
         public bool IsTranscoding {
             get { 
                 bool running = Transcoder.UseTranscoding ? encoder.TranscoderRunning : true; // FIXME
@@ -73,11 +90,11 @@ namespace MPWebStream.MediaTranscoding {
         /// Convenience method to use when streaming live TV.
         /// 
         /// Based on the transcoder configuration, we need to pass an RTSP url, a path to the TS buffer file to the transcoder, or we need to read the TS
-        /// buffer file ourself. This method abstracts that choose from your application.
+        /// buffer file ourself. This method abstracts that choice from your application.
         /// </summary>
-        /// <param name="RTSPurl">URL to the RTSP</param>
-        /// <param name="tsbuffer">Path</param>
-        /// <param name="transcoder"></param>
+        /// <param name="RTSPurl">URL to the RTSP stream.</param>
+        /// <param name="tsbuffer">Path to the TsBuffer file.</param>
+        /// <param name="transcoder">The transcoder to use.</param>
         public TranscodingStreamer(string RTSPurl, string tsbuffer, TranscoderProfile transcoder) :
             this(transcoder.InputMethod == TransportMethod.Filename ? RTSPurl : tsbuffer, transcoder) {
         }
@@ -131,6 +148,7 @@ namespace MPWebStream.MediaTranscoding {
 
             // create encoder
             encoder = new Transcoder(Transcoder, Source);
+            encoder.TranscoderLog = TranscoderLog;
             encoder.StartTranscode();
             Log.Write("Transcoding started!");
             currentState = State.TranscodingStarted;
