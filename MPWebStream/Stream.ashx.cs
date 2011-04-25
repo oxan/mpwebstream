@@ -22,6 +22,7 @@
 
 using MPWebStream.MediaTranscoding;
 using System;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Web;
@@ -90,8 +91,16 @@ namespace MPWebStream.Site {
                     return;
                 }
 
+                // stderr log
+                string logdir = Path.Combine(config.BasePath, "transcoderlogs");
+                if (!Directory.Exists(logdir))
+                    Directory.CreateDirectory(logdir);
+                string logfile = Path.Combine(logdir, String.Format("{0:dd_MM_yyyy_HH_mm}.log", DateTime.Now));
+                Log.Write("Writing transcoder output to {0}", logfile);
+
                 // run
                 TranscodingStreamer streamer = new TranscodingStreamer(source, transcoder);
+                streamer.TranscoderLog = logfile;
                 if (!context.Response.IsClientConnected) {
                     Log.Write("Client has disconnected, not even bothering to start transcoding");
                 } else {
