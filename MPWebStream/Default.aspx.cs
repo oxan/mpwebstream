@@ -40,6 +40,7 @@ namespace MPWebStream.Site {
 
             LogPath.Text = Log.LogPath;
             Config.Text = config.ConfigPath;
+            TranscoderLogPath.Text = System.IO.Path.Combine(config.BasePath, "transcoderlogs");
         }
 
         private void SetupRecordingTable(MediaStream remoteControl, Configuration config) {

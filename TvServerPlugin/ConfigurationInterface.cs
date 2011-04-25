@@ -46,6 +46,7 @@ namespace MPWebStream.TvServerPlugin {
             userName.Text = config.Username;
             password.Text = config.Password;
             siteroot.Text = config.SiteRoot;
+            logTranscoder.Checked = config.TranscoderLog;
 
             // show warning when TV4Home is not installed
             ServiceController controller = new ServiceController("TV4HomeCoreService");
@@ -85,6 +86,7 @@ namespace MPWebStream.TvServerPlugin {
             config.Password = password.Text;
             config.EnableAuthentication = requireAuthentication.Checked;
             config.SiteRoot = siteroot.Text;
+            config.TranscoderLog = logTranscoder.Checked;
 
             // transcoders
             config.Transcoders = new List<TranscoderProfile>();

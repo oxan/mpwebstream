@@ -105,6 +105,11 @@ namespace MPWebStream {
             set;
         }
 
+        public bool TranscoderLog {
+            get;
+            set;
+        }
+
         public int MonitorPollInterval {
             get { return 30; }
         }
@@ -127,6 +132,7 @@ namespace MPWebStream {
             EnableAuthentication = true;
             SiteRoot = "http://" + System.Environment.MachineName + "/";
             LogFile = Path.Combine(BasePath, "log.txt");
+            TranscoderLog = true;
             Transcoders = new List<TranscoderProfile>();
             Transcoders.Add(new TranscoderProfile() {
                 Name = "Direct",
@@ -155,6 +161,8 @@ namespace MPWebStream {
                 SiteRoot = doc.SelectSingleNode("/mpwebstream/siteroot").InnerText;
             if (doc.SelectSingleNode("/mpwebstream/logfile") != null)
                 LogFile = doc.SelectSingleNode("/mpwebstream/logfile").InnerText;
+            if (doc.SelectSingleNode("/mpwebstream/transcoderlog") != null)
+                TranscoderLog = doc.SelectSingleNode("/mpwebstream/transcoderlog").InnerText == "true";
             if (doc.SelectSingleNode("/mpwebstream/transcoderProfiles") != null) {
                 Transcoders = new List<TranscoderProfile>();
                 XmlNodeList nodes = doc.SelectNodes("/mpwebstream/transcoderProfiles/transcoder");
@@ -189,6 +197,7 @@ namespace MPWebStream {
             AddChild(doc, root, "enableAuthentication", EnableAuthentication);
             AddChild(doc, root, "siteroot", SiteRoot);
             AddChild(doc, root, "logfile", LogFile);
+            AddChild(doc, root, "transcoderlog", TranscoderLog);
 
             XmlNode transcoders = doc.CreateElement("transcoderProfiles");
             foreach (TranscoderProfile profile in Transcoders) {

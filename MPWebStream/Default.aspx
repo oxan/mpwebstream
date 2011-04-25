@@ -51,7 +51,7 @@
             <li>The contents of the configuration file: <strong><asp:Label ID="Config" runat="server"></asp:Label></strong> (WARNING: this file contains your password. Remove it before posting).</li>
             <li>The version of MediaPortal</li>
             <li>The version of MPWebStream (when using a Git version also include the date of download)</li>
-            <li>For transcoding-related problems: does it work without transcoding? Which transcoder and version do you use?</li>
+            <li>For transcoding-related problems: enable the transcoder output log in the configuration. Post the logfile in <strong><asp:Label ID="TranscoderLogPath" runat="server"></asp:Label></strong> named after the current date and time.</li>
         </ul>
         </p>
     </form>

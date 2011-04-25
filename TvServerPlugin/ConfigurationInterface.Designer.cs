@@ -72,6 +72,9 @@ namespace MPWebStream.TvServerPlugin {
             this.outputMethod = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.transcoder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelTranscoderLog = new System.Windows.Forms.Label();
+            this.logTranscoder = new System.Windows.Forms.CheckBox();
+            this.labelTranscoderLogExplain = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.port)).BeginInit();
@@ -89,11 +92,14 @@ namespace MPWebStream.TvServerPlugin {
             this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(547, 360);
+            this.tabControl.Size = new System.Drawing.Size(417, 408);
             this.tabControl.TabIndex = 0;
             // 
             // tabGeneral
             // 
+            this.tabGeneral.Controls.Add(this.labelTranscoderLogExplain);
+            this.tabGeneral.Controls.Add(this.logTranscoder);
+            this.tabGeneral.Controls.Add(this.labelTranscoderLog);
             this.tabGeneral.Controls.Add(this.labelTV4HomeInstalled);
             this.tabGeneral.Controls.Add(this.siteroot);
             this.tabGeneral.Controls.Add(this.labelSiteroot);
@@ -114,7 +120,7 @@ namespace MPWebStream.TvServerPlugin {
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(539, 334);
+            this.tabGeneral.Size = new System.Drawing.Size(409, 382);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
@@ -125,9 +131,9 @@ namespace MPWebStream.TvServerPlugin {
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTV4HomeInstalled.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTV4HomeInstalled.ForeColor = System.Drawing.Color.Red;
-            this.labelTV4HomeInstalled.Location = new System.Drawing.Point(7, 245);
+            this.labelTV4HomeInstalled.Location = new System.Drawing.Point(7, 300);
             this.labelTV4HomeInstalled.Name = "labelTV4HomeInstalled";
-            this.labelTV4HomeInstalled.Size = new System.Drawing.Size(526, 37);
+            this.labelTV4HomeInstalled.Size = new System.Drawing.Size(396, 37);
             this.labelTV4HomeInstalled.TabIndex = 18;
             this.labelTV4HomeInstalled.Text = "Warning: The TV4Home Core Service is not installed. MPWebStream is unusable witho" +
                 "ut it. ";
@@ -136,15 +142,15 @@ namespace MPWebStream.TvServerPlugin {
             // 
             this.siteroot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.siteroot.Location = new System.Drawing.Point(183, 222);
+            this.siteroot.Location = new System.Drawing.Point(183, 273);
             this.siteroot.Name = "siteroot";
-            this.siteroot.Size = new System.Drawing.Size(350, 20);
+            this.siteroot.Size = new System.Drawing.Size(220, 20);
             this.siteroot.TabIndex = 15;
             // 
             // labelSiteroot
             // 
             this.labelSiteroot.AutoSize = true;
-            this.labelSiteroot.Location = new System.Drawing.Point(7, 225);
+            this.labelSiteroot.Location = new System.Drawing.Point(7, 276);
             this.labelSiteroot.Name = "labelSiteroot";
             this.labelSiteroot.Size = new System.Drawing.Size(49, 13);
             this.labelSiteroot.TabIndex = 14;
@@ -155,7 +161,7 @@ namespace MPWebStream.TvServerPlugin {
             this.requireAuthentication.AutoSize = true;
             this.requireAuthentication.Checked = true;
             this.requireAuthentication.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.requireAuthentication.Location = new System.Drawing.Point(183, 150);
+            this.requireAuthentication.Location = new System.Drawing.Point(183, 201);
             this.requireAuthentication.Name = "requireAuthentication";
             this.requireAuthentication.Size = new System.Drawing.Size(15, 14);
             this.requireAuthentication.TabIndex = 13;
@@ -165,7 +171,7 @@ namespace MPWebStream.TvServerPlugin {
             // labelRequireAuthentication
             // 
             this.labelRequireAuthentication.AutoSize = true;
-            this.labelRequireAuthentication.Location = new System.Drawing.Point(6, 150);
+            this.labelRequireAuthentication.Location = new System.Drawing.Point(7, 202);
             this.labelRequireAuthentication.Name = "labelRequireAuthentication";
             this.labelRequireAuthentication.Size = new System.Drawing.Size(117, 13);
             this.labelRequireAuthentication.TabIndex = 12;
@@ -175,25 +181,25 @@ namespace MPWebStream.TvServerPlugin {
             // 
             this.password.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.password.Location = new System.Drawing.Point(183, 196);
+            this.password.Location = new System.Drawing.Point(183, 247);
             this.password.Name = "password";
             this.password.PasswordChar = '*';
-            this.password.Size = new System.Drawing.Size(350, 20);
+            this.password.Size = new System.Drawing.Size(220, 20);
             this.password.TabIndex = 11;
             // 
             // userName
             // 
             this.userName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.userName.Location = new System.Drawing.Point(183, 170);
+            this.userName.Location = new System.Drawing.Point(183, 221);
             this.userName.Name = "userName";
-            this.userName.Size = new System.Drawing.Size(350, 20);
+            this.userName.Size = new System.Drawing.Size(220, 20);
             this.userName.TabIndex = 10;
             // 
             // labelPassword
             // 
             this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(7, 199);
+            this.labelPassword.Location = new System.Drawing.Point(7, 250);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(56, 13);
             this.labelPassword.TabIndex = 9;
@@ -202,7 +208,7 @@ namespace MPWebStream.TvServerPlugin {
             // labelUsername
             // 
             this.labelUsername.AutoSize = true;
-            this.labelUsername.Location = new System.Drawing.Point(7, 173);
+            this.labelUsername.Location = new System.Drawing.Point(7, 224);
             this.labelUsername.Name = "labelUsername";
             this.labelUsername.Size = new System.Drawing.Size(58, 13);
             this.labelUsername.TabIndex = 8;
@@ -257,7 +263,7 @@ namespace MPWebStream.TvServerPlugin {
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelUseWebserverExplain.Location = new System.Drawing.Point(7, 75);
             this.labelUseWebserverExplain.Name = "labelUseWebserverExplain";
-            this.labelUseWebserverExplain.Size = new System.Drawing.Size(526, 47);
+            this.labelUseWebserverExplain.Size = new System.Drawing.Size(396, 47);
             this.labelUseWebserverExplain.TabIndex = 4;
             this.labelUseWebserverExplain.Text = "Disable this if you use some other webserver (such as IIS) for hosting the websit" +
                 "e (note: only for expert users, enable if you\'re not sure).";
@@ -288,7 +294,7 @@ namespace MPWebStream.TvServerPlugin {
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelManageTV4HomeExplain.Location = new System.Drawing.Point(7, 24);
             this.labelManageTV4HomeExplain.Name = "labelManageTV4HomeExplain";
-            this.labelManageTV4HomeExplain.Size = new System.Drawing.Size(526, 31);
+            this.labelManageTV4HomeExplain.Size = new System.Drawing.Size(396, 31);
             this.labelManageTV4HomeExplain.TabIndex = 1;
             this.labelManageTV4HomeExplain.Text = "Disable this if you want to keep the TV4Home Core Service running after the TV Se" +
                 "rver stops. Not very useful.";
@@ -308,7 +314,7 @@ namespace MPWebStream.TvServerPlugin {
             this.tabTranscoding.Location = new System.Drawing.Point(4, 22);
             this.tabTranscoding.Name = "tabTranscoding";
             this.tabTranscoding.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTranscoding.Size = new System.Drawing.Size(868, 334);
+            this.tabTranscoding.Size = new System.Drawing.Size(539, 334);
             this.tabTranscoding.TabIndex = 1;
             this.tabTranscoding.Text = "Transcoding";
             this.tabTranscoding.UseVisualStyleBackColor = true;
@@ -375,6 +381,37 @@ namespace MPWebStream.TvServerPlugin {
             this.parameters.HeaderText = "Parameters";
             this.parameters.Name = "parameters";
             // 
+            // labelTranscoderLog
+            // 
+            this.labelTranscoderLog.AutoSize = true;
+            this.labelTranscoderLog.Location = new System.Drawing.Point(7, 150);
+            this.labelTranscoderLog.Name = "labelTranscoderLog";
+            this.labelTranscoderLog.Size = new System.Drawing.Size(114, 13);
+            this.labelTranscoderLog.TabIndex = 19;
+            this.labelTranscoderLog.Text = "Log transcoder output:";
+            // 
+            // logTranscoder
+            // 
+            this.logTranscoder.AutoSize = true;
+            this.logTranscoder.Checked = true;
+            this.logTranscoder.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.logTranscoder.Location = new System.Drawing.Point(183, 149);
+            this.logTranscoder.Name = "logTranscoder";
+            this.logTranscoder.Size = new System.Drawing.Size(15, 14);
+            this.logTranscoder.TabIndex = 20;
+            this.logTranscoder.UseVisualStyleBackColor = true;
+            // 
+            // labelTranscoderLogExplain
+            // 
+            this.labelTranscoderLogExplain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTranscoderLogExplain.Location = new System.Drawing.Point(7, 166);
+            this.labelTranscoderLogExplain.Name = "labelTranscoderLogExplain";
+            this.labelTranscoderLogExplain.Size = new System.Drawing.Size(396, 30);
+            this.labelTranscoderLogExplain.TabIndex = 21;
+            this.labelTranscoderLogExplain.Text = "This can have a negative impact on performance and can produce big logfiles. Enab" +
+                "le this if you have problems with transcoders.";
+            // 
             // ConfigurationInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -382,7 +419,7 @@ namespace MPWebStream.TvServerPlugin {
             this.Controls.Add(this.tabControl);
             this.MinimumSize = new System.Drawing.Size(275, 270);
             this.Name = "ConfigurationInterface";
-            this.Size = new System.Drawing.Size(553, 363);
+            this.Size = new System.Drawing.Size(423, 411);
             this.tabControl.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.tabGeneral.PerformLayout();
@@ -422,5 +459,8 @@ namespace MPWebStream.TvServerPlugin {
         private System.Windows.Forms.Label labelSiteroot;
         private System.Windows.Forms.TextBox siteroot;
         private System.Windows.Forms.Label labelTV4HomeInstalled;
+        private System.Windows.Forms.CheckBox logTranscoder;
+        private System.Windows.Forms.Label labelTranscoderLog;
+        private System.Windows.Forms.Label labelTranscoderLogExplain;
     }
 }

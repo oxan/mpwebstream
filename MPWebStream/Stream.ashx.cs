@@ -91,16 +91,19 @@ namespace MPWebStream.Site {
                     return;
                 }
 
+                TranscodingStreamer streamer = new TranscodingStreamer(source, transcoder);
+
                 // stderr log
-                string logdir = Path.Combine(config.BasePath, "transcoderlogs");
-                if (!Directory.Exists(logdir))
-                    Directory.CreateDirectory(logdir);
-                string logfile = Path.Combine(logdir, String.Format("{0:dd_MM_yyyy_HH_mm}.log", DateTime.Now));
-                Log.Write("Writing transcoder output to {0}", logfile);
+                if (config.TranscoderLog) {
+                    string logdir = Path.Combine(config.BasePath, "transcoderlogs");
+                    if (!Directory.Exists(logdir))
+                        Directory.CreateDirectory(logdir);
+                    string logfile = Path.Combine(logdir, String.Format("{0:dd_MM_yyyy_HH_mm}.log", DateTime.Now));
+                    Log.Write("Writing transcoder output to {0}", logfile);
+                    streamer.TranscoderLog = logfile;
+                }
 
                 // run
-                TranscodingStreamer streamer = new TranscodingStreamer(source, transcoder);
-                streamer.TranscoderLog = logfile;
                 if (!context.Response.IsClientConnected) {
                     Log.Write("Client has disconnected, not even bothering to start transcoding");
                 } else {
