@@ -98,7 +98,7 @@ namespace MPWebStream.Site {
                     string logdir = Path.Combine(config.BasePath, "transcoderlogs");
                     if (!Directory.Exists(logdir))
                         Directory.CreateDirectory(logdir);
-                    string logfile = Path.Combine(logdir, String.Format("{0:dd_MM_yyyy_HH_mm}.log", DateTime.Now));
+                    string logfile = Path.Combine(logdir, String.Format("{0:dd_MM_yyyy_HH_mm_ss}.log", DateTime.Now));
                     Log.Write("Writing transcoder output to {0}", logfile);
                     streamer.TranscoderLog = logfile;
                 }
