@@ -34,6 +34,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -46,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
+    <Content Include="HTML5.aspx" />
     <Content Include="MediaStream.svc" />
     <Content Include="Playlist.aspx" />
     <Content Include="VLC.aspx" />
@@ -71,6 +74,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HTML5.aspx.cs">
+      <DependentUpon>HTML5.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HTML5.aspx.designer.cs">
+      <DependentUpon>HTML5.aspx</DependentUpon>
     </Compile>
     <Compile Include="Log.cs" />
     <Compile Include="Playlist.aspx.cs">
