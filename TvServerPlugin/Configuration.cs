@@ -141,25 +141,24 @@ namespace MPWebStream {
                 Parameters = "",
                 InputMethod = TransportMethod.NamedPipe,
                 OutputMethod = TransportMethod.NamedPipe,
-                Id = 1
+                Id = 1,
+                MIME = "video/MP2T"
             });
 
             // default transcoders
             Dictionary<string, string> configurations = new Dictionary<string, string>();
-            /*
-            configurations["A"] = "HOI";
-            configurations["B"] = "BLA";
-             */
+            configurations["A"] = "-i %in -threads %threads %out";
             int i = 2;
             foreach (KeyValuePair<string, string> config in configurations) {
                 Transcoders.Add(new TranscoderProfile() {
                     Name = config.Key,
                     UseTranscoding = true,
-                    Transcoder = Path.Combine(BasePath, "@ffmpeg\bin\ffmpeg.exe"),
-                    Parameters = config.Value,
+                    Transcoder = Path.Combine(BasePath, @"ffmpeg\bin\ffmpeg.exe"),
+                    Parameters = config.Value.Replace("%threads", Environment.ProcessorCount.ToString()).Replace("%in", "\"{0}\"").Replace("%out", "\"{1}\""),
                     InputMethod = TransportMethod.NamedPipe,
                     OutputMethod = TransportMethod.NamedPipe,
-                    Id = i
+                    Id = i,
+                    MIME = "video/MP2T"
                 });
                 i++;
             }
