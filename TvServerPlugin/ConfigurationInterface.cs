@@ -71,6 +71,7 @@ namespace MPWebStream.TvServerPlugin {
                 row.Cells[3].Value = Enum.GetName(typeof(TransportMethod), profile.OutputMethod);
                 row.Cells[4].Value = profile.Transcoder;
                 row.Cells[5].Value = profile.Parameters;
+                row.Cells[6].Value = profile.MIME == null || profile.MIME == string.Empty ? "video/MP2T" : profile.MIME;
                 transcoders.Rows.Add(row);
             }
 
@@ -102,6 +103,7 @@ namespace MPWebStream.TvServerPlugin {
                         Transcoder = row.Cells[4].Value != null ? row.Cells[4].Value.ToString() : "",
                         Parameters = row.Cells[5].Value != null ? row.Cells[5].Value.ToString() : "",
                         Id = (int)row.Tag,
+                        MIME = row.Cells[6].Value != null ? row.Cells[6].Value.ToString() : "",
                     });
                 }
             }

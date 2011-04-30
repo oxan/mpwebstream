@@ -47,6 +47,9 @@ namespace MPWebStream.TvServerPlugin {
         private void InitializeComponent() {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.labelTranscoderLogExplain = new System.Windows.Forms.Label();
+            this.logTranscoder = new System.Windows.Forms.CheckBox();
+            this.labelTranscoderLog = new System.Windows.Forms.Label();
             this.labelTV4HomeInstalled = new System.Windows.Forms.Label();
             this.siteroot = new System.Windows.Forms.TextBox();
             this.labelSiteroot = new System.Windows.Forms.Label();
@@ -72,9 +75,7 @@ namespace MPWebStream.TvServerPlugin {
             this.outputMethod = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.transcoder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.labelTranscoderLog = new System.Windows.Forms.Label();
-            this.logTranscoder = new System.Windows.Forms.CheckBox();
-            this.labelTranscoderLogExplain = new System.Windows.Forms.Label();
+            this.MIME = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.port)).BeginInit();
@@ -124,6 +125,37 @@ namespace MPWebStream.TvServerPlugin {
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // labelTranscoderLogExplain
+            // 
+            this.labelTranscoderLogExplain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTranscoderLogExplain.Location = new System.Drawing.Point(7, 166);
+            this.labelTranscoderLogExplain.Name = "labelTranscoderLogExplain";
+            this.labelTranscoderLogExplain.Size = new System.Drawing.Size(396, 30);
+            this.labelTranscoderLogExplain.TabIndex = 21;
+            this.labelTranscoderLogExplain.Text = "This can have a negative impact on performance and can produce big logfiles. Enab" +
+                "le this if you have problems with transcoders.";
+            // 
+            // logTranscoder
+            // 
+            this.logTranscoder.AutoSize = true;
+            this.logTranscoder.Checked = true;
+            this.logTranscoder.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.logTranscoder.Location = new System.Drawing.Point(183, 149);
+            this.logTranscoder.Name = "logTranscoder";
+            this.logTranscoder.Size = new System.Drawing.Size(15, 14);
+            this.logTranscoder.TabIndex = 20;
+            this.logTranscoder.UseVisualStyleBackColor = true;
+            // 
+            // labelTranscoderLog
+            // 
+            this.labelTranscoderLog.AutoSize = true;
+            this.labelTranscoderLog.Location = new System.Drawing.Point(7, 150);
+            this.labelTranscoderLog.Name = "labelTranscoderLog";
+            this.labelTranscoderLog.Size = new System.Drawing.Size(114, 13);
+            this.labelTranscoderLog.TabIndex = 19;
+            this.labelTranscoderLog.Text = "Log transcoder output:";
             // 
             // labelTV4HomeInstalled
             // 
@@ -314,7 +346,7 @@ namespace MPWebStream.TvServerPlugin {
             this.tabTranscoding.Location = new System.Drawing.Point(4, 22);
             this.tabTranscoding.Name = "tabTranscoding";
             this.tabTranscoding.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTranscoding.Size = new System.Drawing.Size(539, 334);
+            this.tabTranscoding.Size = new System.Drawing.Size(409, 382);
             this.tabTranscoding.TabIndex = 1;
             this.tabTranscoding.Text = "Transcoding";
             this.tabTranscoding.UseVisualStyleBackColor = true;
@@ -331,7 +363,8 @@ namespace MPWebStream.TvServerPlugin {
             this.inputMethod,
             this.outputMethod,
             this.transcoder,
-            this.parameters});
+            this.parameters,
+            this.MIME});
             this.transcoders.Location = new System.Drawing.Point(7, 7);
             this.transcoders.Name = "transcoders";
             this.transcoders.Size = new System.Drawing.Size(1542, 321);
@@ -381,36 +414,10 @@ namespace MPWebStream.TvServerPlugin {
             this.parameters.HeaderText = "Parameters";
             this.parameters.Name = "parameters";
             // 
-            // labelTranscoderLog
+            // MIME
             // 
-            this.labelTranscoderLog.AutoSize = true;
-            this.labelTranscoderLog.Location = new System.Drawing.Point(7, 150);
-            this.labelTranscoderLog.Name = "labelTranscoderLog";
-            this.labelTranscoderLog.Size = new System.Drawing.Size(114, 13);
-            this.labelTranscoderLog.TabIndex = 19;
-            this.labelTranscoderLog.Text = "Log transcoder output:";
-            // 
-            // logTranscoder
-            // 
-            this.logTranscoder.AutoSize = true;
-            this.logTranscoder.Checked = true;
-            this.logTranscoder.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.logTranscoder.Location = new System.Drawing.Point(183, 149);
-            this.logTranscoder.Name = "logTranscoder";
-            this.logTranscoder.Size = new System.Drawing.Size(15, 14);
-            this.logTranscoder.TabIndex = 20;
-            this.logTranscoder.UseVisualStyleBackColor = true;
-            // 
-            // labelTranscoderLogExplain
-            // 
-            this.labelTranscoderLogExplain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelTranscoderLogExplain.Location = new System.Drawing.Point(7, 166);
-            this.labelTranscoderLogExplain.Name = "labelTranscoderLogExplain";
-            this.labelTranscoderLogExplain.Size = new System.Drawing.Size(396, 30);
-            this.labelTranscoderLogExplain.TabIndex = 21;
-            this.labelTranscoderLogExplain.Text = "This can have a negative impact on performance and can produce big logfiles. Enab" +
-                "le this if you have problems with transcoders.";
+            this.MIME.HeaderText = "MIME type";
+            this.MIME.Name = "MIME";
             // 
             // ConfigurationInterface
             // 
@@ -450,17 +457,18 @@ namespace MPWebStream.TvServerPlugin {
         private System.Windows.Forms.Label labelRequireAuthentication;
         private System.Windows.Forms.TabPage tabTranscoding;
         private System.Windows.Forms.DataGridView transcoders;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn transcode;
-        private System.Windows.Forms.DataGridViewComboBoxColumn inputMethod;
-        private System.Windows.Forms.DataGridViewComboBoxColumn outputMethod;
-        private System.Windows.Forms.DataGridViewTextBoxColumn transcoder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn parameters;
         private System.Windows.Forms.Label labelSiteroot;
         private System.Windows.Forms.TextBox siteroot;
         private System.Windows.Forms.Label labelTV4HomeInstalled;
         private System.Windows.Forms.CheckBox logTranscoder;
         private System.Windows.Forms.Label labelTranscoderLog;
         private System.Windows.Forms.Label labelTranscoderLogExplain;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn transcode;
+        private System.Windows.Forms.DataGridViewComboBoxColumn inputMethod;
+        private System.Windows.Forms.DataGridViewComboBoxColumn outputMethod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn transcoder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn parameters;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MIME;
     }
 }

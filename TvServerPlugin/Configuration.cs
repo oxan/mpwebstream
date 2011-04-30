@@ -177,6 +177,7 @@ namespace MPWebStream {
                         if (child.Name == "transcoder") transcoder.Transcoder = child.InnerText;
                         if (child.Name == "parameters") transcoder.Parameters = child.InnerText;
                         if (child.Name == "id") transcoder.Id = Int32.Parse(child.InnerText);
+                        if (child.Name == "mime") transcoder.MIME = child.InnerText;
                     }
                     Transcoders.Add(transcoder);
                 }
@@ -209,6 +210,7 @@ namespace MPWebStream {
                 AddChild(doc, thisTranscoder, "transcoder", profile.Transcoder);
                 AddChild(doc, thisTranscoder, "parameters", profile.Parameters);
                 AddChild(doc, thisTranscoder, "id", profile.Id);
+                AddChild(doc, thisTranscoder, "mime", profile.MIME);
                 transcoders.AppendChild(thisTranscoder);
             }
             root.AppendChild(transcoders);

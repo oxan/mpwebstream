@@ -36,5 +36,6 @@ namespace MPWebStream.MediaTranscoding {
         public string Parameters { get; set; }
         public TransportMethod InputMethod { get; set; }
         public TransportMethod OutputMethod { get; set; }
+        public string MIME { get; set; }
     }
 }

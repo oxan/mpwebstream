@@ -115,7 +115,7 @@ namespace MPWebStream.MediaTranscoding {
             response.Buffer = false;
             response.BufferOutput = false;
             response.AppendHeader("Connection", "Close");
-            response.ContentType = "video/MP2T"; // FIXME
+            response.ContentType = Transcoder.MIME == null || Transcoder.MIME == string.Empty ? "video/MP2T" : Transcoder.MIME;
             response.StatusCode = 200;
 
             // start streaming it
