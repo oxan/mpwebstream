@@ -38,6 +38,11 @@ namespace MPWebStream.Site {
         List<Channel> GetChannels();
 
         [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "GetRecording?idRecording={idRecording}")]
+        Recording GetRecording(int idRecording);
+
+        [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json)]
         List<Recording> GetRecordings();
 

@@ -82,6 +82,10 @@ namespace MPWebStream.Site {
             return client.GetRecordings().Select(rec => new Recording(rec)).ToList();
         }
 
+        public Recording GetRecording(int idRecording) {
+            return client.GetRecordings().Where(rec => rec.IdRecording == idRecording).Select(rec => new Recording(rec)).First();
+        }
+
         public string GetRecordingStreamUrl(int idRecording, string username, string password) {
             return CreateStreamUrl("recordingId", idRecording, username, password);
         }
