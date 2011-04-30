@@ -53,6 +53,7 @@ namespace MPWebStream.Site {
             context.Response.AddHeader("Content-Type", "text/plain");
             context.Response.Write("Authorization Required");
             context.Response.Flush();
+            context.Response.End();
             return false;
         }
 
