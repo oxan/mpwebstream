@@ -22,9 +22,13 @@
 
 using MPWebStream.Site.Service;
 using System;
-using System.Web;
-using System.Web.UI.WebControls;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace MPWebStream.Site {
     public partial class Default : System.Web.UI.Page {
@@ -54,7 +58,7 @@ namespace MPWebStream.Site {
             hrow.Cells.Add(tcell);
             foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
                 TableHeaderCell ccell = new TableHeaderCell();
-                ccell.Text = transcoder.Name;
+                ccell.Text = transcoder.Name.Replace(",", ",<br />");
                 hrow.Cells.Add(ccell);
             }
             RecordingTable.Rows.Add(hrow);
@@ -72,25 +76,7 @@ namespace MPWebStream.Site {
                 // all transcoders
                 foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
                     TableCell item = new TableCell();
-
-                    HyperLink direct = new HyperLink();
-                    direct.NavigateUrl = remoteControl.GetTranscodedRecordingStreamUrl(rec.Id, config.Username, config.Password, transcoder.Id);
-                    direct.Text = "Direct";
-                    item.Controls.Add(direct);
-
-                    // really 3SLOC for a simple dash? 
-                    Label label = new Label();
-                    label.Text = " - ";
-                    item.Controls.Add(label);
-
-                    HyperLink vlc = new HyperLink();
-                    NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
-                    queryString["recordingId"] = rec.Id.ToString();
-                    queryString["transcoder"] = transcoder.Id.ToString();
-                    vlc.NavigateUrl = "VLC.aspx?" + queryString.ToString();
-                    vlc.Text = "VLC";
-                    item.Controls.Add(vlc);
-
+                    item.Text = createCellContents(remoteControl.GetTranscodedRecordingStreamUrl(rec.Id, config.Username, config.Password, transcoder.Id), "recording", rec.Id.ToString(), transcoder);
                     row.Cells.Add(item);
                 }
                 RecordingTable.Rows.Add(row);
@@ -105,7 +91,7 @@ namespace MPWebStream.Site {
             hrow.Cells.Add(cell);
             foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
                 TableHeaderCell tcell = new TableHeaderCell();
-                tcell.Text = transcoder.Name;
+                tcell.Text = transcoder.Name.Replace(",", ",<br />");
                 hrow.Cells.Add(tcell);
             }
             StreamTable.Rows.Add(hrow);
@@ -133,29 +119,44 @@ namespace MPWebStream.Site {
                 // all transcoders
                 foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
                     TableCell item = new TableCell();
-
-                    HyperLink direct = new HyperLink();
-                    direct.NavigateUrl = remoteControl.GetTranscodedTvStreamUrl(channel.IdChannel, config.Username, config.Password, transcoder.Id);
-                    direct.Text = "Direct";
-                    item.Controls.Add(direct);
-
-                    // really 3SLOC for a simple dash? 
-                    Label label = new Label();
-                    label.Text = " - ";
-                    item.Controls.Add(label);
-
-                    HyperLink vlc = new HyperLink();
-                    NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
-                    queryString["channel"] = channel.IdChannel.ToString();
-                    queryString["transcoder"] = transcoder.Id.ToString();
-                    vlc.NavigateUrl = "VLC.aspx?" + queryString.ToString();
-                    vlc.Text = "VLC";
-                    item.Controls.Add(vlc);
-
+                    item.Text = createCellContents(remoteControl.GetTranscodedTvStreamUrl(channel.IdChannel, config.Username, config.Password, transcoder.Id), "channel", channel.IdChannel.ToString(), transcoder);
                     row.Cells.Add(item);
                 }
                 StreamTable.Rows.Add(row);
             }
+        }
+
+        private string createCellContents(string directURL, string queryStringKey, string queryStringValue, Transcoder transcoder) {
+            StringBuilder output = new StringBuilder();
+            HtmlTextWriter writer = new HtmlTextWriter(new System.IO.StringWriter(output));
+
+            // direct
+            HyperLink direct = new HyperLink();
+            direct.NavigateUrl = directURL;
+            direct.Text = "Direct";
+            direct.RenderControl(writer);
+
+            // dynamic stream types
+            Dictionary<string, string> pages = new Dictionary<string, string>();
+            pages["VLC"] = "VLC.aspx";
+            pages["M3U"] = "Playlist.aspx";
+            pages["HTML5"] = "HTML5.aspx";
+
+            // and render them
+            int i = 1;
+            foreach (KeyValuePair<string, string> page in pages) {
+                HyperLink link = new HyperLink();
+                NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
+                queryString["transcoder"] = transcoder.Id.ToString();
+                queryString[queryStringKey] = queryStringValue;
+                link.NavigateUrl = page.Value + "?" + queryString.ToString();
+                link.Text = page.Key;
+                output.Append(i % 2 == 1 ? " - " : "<br />");
+                link.RenderControl(writer);
+                i++;
+            }
+
+            return output.ToString();
         }
     }
 }

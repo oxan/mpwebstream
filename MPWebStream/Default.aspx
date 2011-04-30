@@ -28,18 +28,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>MPWebStream</title>
+    <style type="text/css">
+        table, tr, td {
+            border: 1px solid black;
+        }
+        
+        table {
+            border-collapse: collapse;
+        }
+    </style>
 </head>
 <body>
     <form runat="server">
         <p>
             <h2>Live TV</h2>
-            <asp:Table ID="StreamTable" runat="server">
+            <asp:Table ID="StreamTable" runat="server" CellPadding=1>
             </asp:Table>
         </p>
 
         <p>
             <h2>Recordings</h2>
-            <asp:Table ID="RecordingTable" runat="server">
+            <asp:Table ID="RecordingTable" runat="server" CellPadding=1>
             </asp:Table>
         </p>
 
