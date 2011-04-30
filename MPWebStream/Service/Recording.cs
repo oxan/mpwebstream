@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
 namespace MPWebStream.Site.Service {
+    [DataContract]
     public class Recording {
         [DataMember]
         public int Id { get; set; }
