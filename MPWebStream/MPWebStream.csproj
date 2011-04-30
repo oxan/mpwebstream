@@ -91,6 +91,9 @@
     <Compile Include="MediaStream.svc.cs">
       <DependentUpon>MediaStream.svc</DependentUpon>
     </Compile>
+    <Compile Include="StreamInterface.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="VLC.aspx.cs">
       <DependentUpon>VLC.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
