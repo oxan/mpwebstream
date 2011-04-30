@@ -38,16 +38,22 @@ namespace MPWebStream.Site {
             MediaStream remoteControl = new MediaStream();
             int transcoderId = 0;
             Int32.TryParse(HttpContext.Current.Request.Params["transcoder"], out transcoderId);
+            int channelId = 0;
+            Int32.TryParse(HttpContext.Current.Request.Params["channel"], out channelId);
             
             Response.ContentType = "audio/x-mpegurl";
             Response.Write("#EXTM3U\r\n");
-            Response.Write(GetPlayList(remoteControl, config, transcoderId));
+            Response.Write(GetPlayList(remoteControl, config, transcoderId, channelId));
             Response.End();
         }
 
-        private string GetPlayList(MediaStream remoteControl, Configuration config, int transcoderId) {
+        private string GetPlayList(MediaStream remoteControl, Configuration config, int transcoderId, int channelId) {
             StringBuilder builder = new StringBuilder();
             foreach (Channel channel in remoteControl.GetChannels()) {
+                // show all channels, except when channelId is given
+                if (channelId != 0 && channel.IdChannel != channelId)
+                    continue;
+
                 foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
                     // show all transcoders, except when transcoderId is given
                     if (transcoderId != 0 && transcoder.Id != transcoderId)
@@ -62,10 +68,6 @@ namespace MPWebStream.Site {
             }
 
             return builder.ToString();
-        }
-
-        private string GetPlayList(MediaStream remoteControl, Configuration config) {
-            return GetPlayList(remoteControl, config, 0);
         }
     }
 }
