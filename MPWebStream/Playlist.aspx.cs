@@ -21,12 +21,10 @@
  */
 #endregion
 
-using MPWebStream.Site.Service;
 using System;
-using System.Web;
-using System.Web.UI.WebControls;
-using System.Collections.Specialized;
 using System.Text;
+using System.Web;
+using MPWebStream.Site.Service;
 
 namespace MPWebStream.Site {
     public partial class Playlist : System.Web.UI.Page {
@@ -40,14 +38,20 @@ namespace MPWebStream.Site {
             Int32.TryParse(HttpContext.Current.Request.Params["transcoder"], out transcoderId);
             int channelId = 0;
             Int32.TryParse(HttpContext.Current.Request.Params["channel"], out channelId);
+            int recordingId = 0;
+            Int32.TryParse(HttpContext.Current.Request.Params["recording"], out recordingId);
             
             Response.ContentType = "audio/x-mpegurl";
             Response.Write("#EXTM3U\r\n");
-            Response.Write(GetPlayList(remoteControl, config, transcoderId, channelId));
+            if(recordingId == 0) {
+                Response.Write(GetChannelPlayList(remoteControl, config, transcoderId, channelId));
+            } else {
+                Response.Write(GetRecordingPlayList(remoteControl, config, transcoderId, recordingId));
+            }
             Response.End();
         }
 
-        private string GetPlayList(MediaStream remoteControl, Configuration config, int transcoderId, int channelId) {
+        private string GetChannelPlayList(MediaStream remoteControl, Configuration config, int transcoderId, int channelId) {
             StringBuilder builder = new StringBuilder();
             foreach (Channel channel in remoteControl.GetChannels()) {
                 // show all channels, except when channelId is given
@@ -60,14 +64,38 @@ namespace MPWebStream.Site {
                         continue;
                     string name = channel.Name + (transcoderId == 0 ? " (" + transcoder.Name + ")" : "");
                     string streamurl = remoteControl.GetTranscodedTvStreamUrl(channel.IdChannel, config.Username, config.Password, transcoder.Id);
-                    builder.Append("#EXTINF:-1," + name);
-                    builder.Append("\r\n");
-                    builder.Append(streamurl);
-                    builder.Append("\r\n\r\n");
+                    WriteEntry(builder, name, streamurl);
                 }
             }
 
             return builder.ToString();
+        }
+
+        private string GetRecordingPlayList(MediaStream remoteControl, Configuration config, int transcoderId, int recordingId) {
+            StringBuilder builder = new StringBuilder();
+            foreach (Recording rec in remoteControl.GetRecordings()) {
+                if (recordingId != 0 && rec.Id != recordingId)
+                    continue;
+
+                foreach (Transcoder transcoder in remoteControl.GetTranscoders()) {
+                    // show all transcoders, except when transcoderId is given
+                    if (transcoderId != 0 && transcoder.Id != transcoderId)
+                        continue;
+                    string name = rec.Title + " (" + rec.StartTime.ToShortDateString() + " " + rec.StartTime.ToShortTimeString() +
+                        (transcoderId == 0 ? ", " + transcoder.Name + ")" : ")");
+                    string streamurl = remoteControl.GetTranscodedRecordingStreamUrl(rec.Id, config.Username, config.Password, transcoder.Id);
+                    WriteEntry(builder, name, streamurl);
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        private void WriteEntry(StringBuilder builder, string name, string url) {
+            builder.Append("#EXTINF:-1," + name);
+            builder.Append("\r\n");
+            builder.Append(url);
+            builder.Append("\r\n\r\n");
         }
     }
 }
