@@ -147,7 +147,16 @@ namespace MPWebStream {
 
             // default transcoders
             Dictionary<string, string> configurations = new Dictionary<string, string>();
-            configurations["A"] = "-i %in -threads %threads %out";
+            configurations["Android"] = "-y -i %in -s 800x450 -b 768k -vcodec libx264 -flags +loop+mv4 -cmp 256 -partitions +parti4x4+parti8x8+partp4x4+partp8x8+partb8x8 -subq 7 -trellis 1 -refs  5 -bf 0 -flags2 +mixed_refs -coder 0 -me_range 16 -g 75 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -qmin 10 -qmax 51 -qdiff 4 -async 1 -acodec aac -strict experimental -threads %threads -f mpegts %out";
+            configurations["MPEG4, WVGA, 1.5Mbit/s"] = "-y -i %in -s wvga -b 1350k -bt 250k -vcodec mpeg4 -acodec aac -strict experimental -ab 128k -threads %threads -f mpegts -async 1 %out";
+            configurations["MPEG4, 720p, 6Mbit/s"] = "-y -i %in -s hd720 -b 5700k -bt 500k -vcodec mpeg4 -acodec aac -strict experimental -ab 194k -threads %threads -f mpegts -async 1 %out";
+            configurations["MPEG4, 8Mbit/s"] = "-y -i %in -b 7500k -bt 600k -vcodec mpeg4 -acodec aac -strict experimental -ab 194k -threads %threads -f mpegts -async 1 %out";
+            configurations["H264, 426x240, 500Kbit/s"] = "-y -i %in -s 426x240 -b 500k -bt 75k -vcodec libx264 -preset veryfast -acodec aac -strict experimental -ab 64k -threads %threads -f mpegts -async 1 %out";
+            configurations["H264, WVGA, 1Mbit/s"] = "-y -i %in -s wvga -b 900k -bt 150k -vcodec libx264 -preset veryfast -acodec aac -strict experimental -ab 64k -threads %threads -f mpegts -async 1 %out";
+            configurations["H264, 720p, 2Mbit/s"] = "-y -i %in -s hd720 -b 1800k -bt 250k -vcodec libx264 -preset veryfast -acodec aac -strict experimental -ab 128k -threads %threads -f mpegts -async 1 %out";
+            configurations["H264, 720p, 5Mbit/s"] = "-y -i %in -s hd720 -b 4700k -bt 400k -vcodec libx264 -preset veryfast -acodec aac -strict experimental -ab 194k -threads %threads -f mpegts -async 1 %out";
+            configurations["H264, 5Mbit/s"] = "-y -i %in -b 4700k -bt 400k -vcodec libx264 -preset veryfast -acodec aac -strict experimental -ab 194k -threads %threads -f mpegts -async 1 %out";
+            configurations["H264, 10Mbit/s"] = "-y -i %in -b 9500k -bt 750k -vcodec libx264 -preset veryfast -acodec aac -strict experimental -ab 256k -threads %threads -f mpegts -async 1 %out";
             int i = 2;
             foreach (KeyValuePair<string, string> config in configurations) {
                 Transcoders.Add(new TranscoderProfile() {
