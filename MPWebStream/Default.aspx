@@ -54,13 +54,13 @@
 
         <h2>Troubleshooting</h2>
         <p>
-        If you have problems please report them to the thread on the MediaPortal forums. Include the following details:
+        If you have problems please report them to the <a href="http://forum.team-mediaportal.com/webservice-mobile-access-537/beta-mpwebstream-stream-tv-over-internet-94801/">thread</a> on the MediaPortal forums. Include the following details:
         <ul>
             <li>The contents of the logfile: <strong><asp:Label ID="LogPath" runat="server"></asp:Label></strong></li>
             <li>The contents of the configuration file: <strong><asp:Label ID="Config" runat="server"></asp:Label></strong> (WARNING: this file contains your password. Remove it before posting).</li>
             <li>The version of MediaPortal</li>
             <li>The version of MPWebStream (when using a Git version also include the date of download)</li>
-            <li>For transcoding-related problems: enable the transcoder output log in the configuration. Post the logfile in <strong><asp:Label ID="TranscoderLogPath" runat="server"></asp:Label></strong> named after the current date and time.</li>
+            <li>For transcoding-related problems: enable the transcoder output log in the configuration and post the logfile in <strong><asp:Label ID="TranscoderLogPath" runat="server"></asp:Label></strong> named after the current date and time. If you use another transcoder than the default, please also post details about it (which software, version, and, if possible, a download link).</li>
         </ul>
         </p>
     </form>
