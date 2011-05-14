@@ -44,7 +44,7 @@ namespace MPWebStream.Site {
 
         public List<Transcoder> GetTranscoders() {
             List<Transcoder> result = new List<Transcoder>();
-            foreach (TranscoderProfile transcoder in config.Transcoders)
+            foreach (ExtendedTranscoderProfile transcoder in config.Transcoders)
                 result.Add(new Transcoder(transcoder));
             return result;
         }

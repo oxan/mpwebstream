@@ -17,7 +17,7 @@ namespace MPWebStream.Site.Service {
             this.UsesTranscoding = usesTranscoding;
         }
 
-        public Transcoder(TranscoderProfile transcoder) :
+        public Transcoder(ExtendedTranscoderProfile transcoder) :
             this(transcoder.Id, transcoder.Name, transcoder.UseTranscoding) {
         }
     }

@@ -21,6 +21,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.IO;
 using System.Web;
 using System.Collections.Generic;
@@ -189,7 +190,7 @@ namespace MPWebStream.MediaTranscoding {
         /// </summary>
         public static List<TranscoderProfile> GetConfiguredTranscoders() {
             Configuration config = new Configuration();
-            return config.Transcoders;
+            return (List<TranscoderProfile>)config.Transcoders.Cast<TranscoderProfile>();
         }
     }
 }

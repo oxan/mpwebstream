@@ -29,7 +29,6 @@ namespace MPWebStream.MediaTranscoding {
     }
 
     public class TranscoderProfile {
-        public int Id { get; set; }
         public string Name { get; set; }
         public bool UseTranscoding { get; set; }
         public string Transcoder { get; set; }
@@ -37,5 +36,28 @@ namespace MPWebStream.MediaTranscoding {
         public TransportMethod InputMethod { get; set; }
         public TransportMethod OutputMethod { get; set; }
         public string MIME { get; set; }
+    }
+
+    public enum TranscoderProfileType {
+        System,
+        User
+    }
+
+    public class ExtendedTranscoderProfile : TranscoderProfile {
+        public int Id { get; set; }
+        public TranscoderProfileType Type { get; set; }
+
+        public bool DataEquals(ExtendedTranscoderProfile cmp) {
+            if (cmp == null)
+                return false;
+            return cmp.Name == this.Name &&
+                cmp.UseTranscoding == this.UseTranscoding &&
+                cmp.Transcoder == this.Transcoder &&
+                cmp.Parameters == this.Parameters &&
+                cmp.InputMethod == this.InputMethod &&
+                cmp.OutputMethod == this.OutputMethod &&
+                cmp.MIME == this.MIME &&
+                cmp.Id == this.Id;
+        }
     }
 }

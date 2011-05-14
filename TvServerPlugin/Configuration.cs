@@ -95,7 +95,7 @@ namespace MPWebStream {
             set;
         }
 
-        public List<TranscoderProfile> Transcoders {
+        public List<ExtendedTranscoderProfile> Transcoders {
             get;
             set;
         }
@@ -133,8 +133,8 @@ namespace MPWebStream {
             SiteRoot = "http://" + System.Environment.MachineName + "/";
             LogFile = Path.Combine(BasePath, "log.txt");
             TranscoderLog = true;
-            Transcoders = new List<TranscoderProfile>();
-            Transcoders.Add(new TranscoderProfile() {
+            Transcoders = new List<ExtendedTranscoderProfile>();
+            Transcoders.Add(new ExtendedTranscoderProfile() {
                 Name = "Direct",
                 UseTranscoding = false,
                 Transcoder = "",
@@ -159,7 +159,7 @@ namespace MPWebStream {
             configurations["H264, 10Mbit/s"] = "-y -i %in -b 9500k -bt 750k -vcodec libx264 -preset veryfast -acodec aac -strict experimental -ab 256k -threads %threads -f mpegts -async 1 %out";
             int i = 2;
             foreach (KeyValuePair<string, string> config in configurations) {
-                Transcoders.Add(new TranscoderProfile() {
+                Transcoders.Add(new ExtendedTranscoderProfile() {
                     Name = config.Key,
                     UseTranscoding = true,
                     Transcoder = Path.Combine(BasePath, @"ffmpeg\bin\ffmpeg.exe"),
@@ -167,7 +167,8 @@ namespace MPWebStream {
                     InputMethod = TransportMethod.NamedPipe,
                     OutputMethod = TransportMethod.NamedPipe,
                     Id = i,
-                    MIME = "video/MP2T"
+                    MIME = "video/MP2T",
+                    Type = TranscoderProfileType.System
                 });
                 i++;
             }
@@ -192,11 +193,12 @@ namespace MPWebStream {
             if (doc.SelectSingleNode("/mpwebstream/transcoderlog") != null)
                 TranscoderLog = doc.SelectSingleNode("/mpwebstream/transcoderlog").InnerText == "true";
             if (doc.SelectSingleNode("/mpwebstream/transcoderProfiles") != null) {
-                Transcoders = new List<TranscoderProfile>();
+                Transcoders = new List<ExtendedTranscoderProfile>();
                 XmlNodeList nodes = doc.SelectNodes("/mpwebstream/transcoderProfiles/transcoder");
                 foreach (XmlNode node in nodes) {
                     // TODO: this can be done easier
-                    TranscoderProfile transcoder = new TranscoderProfile();
+                    ExtendedTranscoderProfile transcoder = new ExtendedTranscoderProfile();
+                    transcoder.Type = TranscoderProfileType.User;
                     foreach (XmlNode child in node.ChildNodes) {
                         if (child.Name == "name") transcoder.Name = child.InnerText;
                         if (child.Name == "useTranscoding") transcoder.UseTranscoding = child.InnerText == "true";
@@ -204,8 +206,9 @@ namespace MPWebStream {
                         if (child.Name == "outputMethod") transcoder.OutputMethod = (TransportMethod)Enum.Parse(typeof(TransportMethod), child.InnerText, true);
                         if (child.Name == "transcoder") transcoder.Transcoder = child.InnerText;
                         if (child.Name == "parameters") transcoder.Parameters = child.InnerText;
-                        if (child.Name == "id") transcoder.Id = Int32.Parse(child.InnerText);
                         if (child.Name == "mime") transcoder.MIME = child.InnerText;
+                        if (child.Name == "id") transcoder.Id = Int32.Parse(child.InnerText);
+                        if (child.Name == "type") transcoder.Type = (TranscoderProfileType)Enum.Parse(typeof(TranscoderProfileType), child.InnerText, true);
                     }
                     Transcoders.Add(transcoder);
                 }
@@ -229,7 +232,7 @@ namespace MPWebStream {
             AddChild(doc, root, "transcoderlog", TranscoderLog);
 
             XmlNode transcoders = doc.CreateElement("transcoderProfiles");
-            foreach (TranscoderProfile profile in Transcoders) {
+            foreach (ExtendedTranscoderProfile profile in Transcoders) {
                 XmlNode thisTranscoder = doc.CreateElement("transcoder");
                 AddChild(doc, thisTranscoder, "name", profile.Name);
                 AddChild(doc, thisTranscoder, "useTranscoding", profile.UseTranscoding);
@@ -237,8 +240,9 @@ namespace MPWebStream {
                 AddChild(doc, thisTranscoder, "outputMethod", Enum.GetName(typeof(TransportMethod), profile.OutputMethod));
                 AddChild(doc, thisTranscoder, "transcoder", profile.Transcoder);
                 AddChild(doc, thisTranscoder, "parameters", profile.Parameters);
-                AddChild(doc, thisTranscoder, "id", profile.Id);
                 AddChild(doc, thisTranscoder, "mime", profile.MIME);
+                AddChild(doc, thisTranscoder, "id", profile.Id);
+                AddChild(doc, thisTranscoder, "type", Enum.GetName(typeof(TranscoderProfileType), profile.Type));
                 transcoders.AppendChild(thisTranscoder);
             }
             root.AppendChild(transcoders);
@@ -262,8 +266,8 @@ namespace MPWebStream {
         #endregion
 
         #region Easy access methods
-        public TranscoderProfile GetTranscoder(int transcoderId) {
-            foreach (TranscoderProfile profile in Transcoders) {
+        public ExtendedTranscoderProfile GetTranscoder(int transcoderId) {
+            foreach (ExtendedTranscoderProfile profile in Transcoders) {
                 if (profile.Id == transcoderId)
                     return profile;
             }

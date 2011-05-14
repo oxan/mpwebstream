@@ -59,7 +59,7 @@ namespace MPWebStream.TvServerPlugin {
 
             // transcoders
             transcoders.Rows.Clear();
-            foreach (TranscoderProfile profile in config.Transcoders) {
+            foreach (ExtendedTranscoderProfile profile in config.Transcoders) {
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(transcoders);
                 row.Tag = profile.Id;
@@ -90,12 +90,13 @@ namespace MPWebStream.TvServerPlugin {
             config.TranscoderLog = logTranscoder.Checked;
 
             // transcoders
-            config.Transcoders = new List<TranscoderProfile>();
+            List<ExtendedTranscoderProfile> newTranscoderList = new List<ExtendedTranscoderProfile>();
             foreach (DataGridViewRow row in transcoders.Rows) {
                 if(row.Cells[0].Value != null) {
                     if (row.Tag == null)
                         row.Tag = ++lastTranscoderId;
-                    config.Transcoders.Add(new TranscoderProfile() {
+                    ExtendedTranscoderProfile oldProfile = config.GetTranscoder((int)row.Tag);
+                    ExtendedTranscoderProfile newProfile = new ExtendedTranscoderProfile() {
                         Name = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : "",
                         UseTranscoding = row.Cells[1].Value != null ? (bool)row.Cells[1].Value : false,
                         InputMethod = row.Cells[2].Value != null ? (TransportMethod)Enum.Parse(typeof(TransportMethod), row.Cells[2].Value.ToString(), true) : TransportMethod.NamedPipe,
@@ -104,9 +105,12 @@ namespace MPWebStream.TvServerPlugin {
                         Parameters = row.Cells[5].Value != null ? row.Cells[5].Value.ToString() : "",
                         Id = (int)row.Tag,
                         MIME = row.Cells[6].Value != null ? row.Cells[6].Value.ToString() : "",
-                    });
+                    };
+                    newProfile.Type = newProfile.DataEquals(oldProfile) && oldProfile.Type == TranscoderProfileType.System ? TranscoderProfileType.System : TranscoderProfileType.User;
+                    newTranscoderList.Add(newProfile);
                 }
             }
+            config.Transcoders = newTranscoderList;
 
             config.Write();
             base.OnSectionDeActivated();
