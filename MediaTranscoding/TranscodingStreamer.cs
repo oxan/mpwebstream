@@ -106,7 +106,27 @@ namespace MPWebStream.MediaTranscoding {
         /// This method abstracts the starting/stopping of transcoding, handling of HTTP specific-things and waiting till the client disconnects from you. You
         /// will probably use this method instead of the other three when you do something with HTTP.
         /// </summary>
+        /// <param name="response">The response to write to</param>
+        public void TranscodeToClient(HttpResponseBase response) {
+            TranscodeToClientImplementation(response);
+        }
+
+        /// <summary>
+        /// Transcode and send the output to an HTTP client, waiting till we're at the end of the stream or the client disconnects.
+        /// 
+        /// This method abstracts the starting/stopping of transcoding, handling of HTTP specific-things and waiting till the client disconnects from you. You
+        /// will probably use this method instead of the other three when you do something with HTTP.
+        /// </summary>
+        /// <param name="response">The response to write to</param>
         public void TranscodeToClient(HttpResponse response) {
+            TranscodeToClientImplementation(response);
+        }
+
+        /// <summary>
+        /// Implementation of the TranscodeToClient() methods
+        /// </summary>
+        /// <param name="response">The response. This is guaranteed to be an HttpResponseBase or a HttpResponse object, which are API compatible.</param>
+        private void TranscodeToClientImplementation(dynamic response) {
             // start the transcoding
             if (currentState != State.TranscodingStarted)
                 StartTranscoding();
