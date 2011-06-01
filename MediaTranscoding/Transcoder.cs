@@ -43,6 +43,10 @@ namespace MPWebStream.MediaTranscoding {
             get;
             set;
         }
+        public bool RetrieveOriginalStream {
+            get;
+            set;
+        }
         public Boolean TranscoderRunning {
             get { return transcoderApplication != null && !transcoderApplication.HasExited; }
         }
@@ -58,6 +62,7 @@ namespace MPWebStream.MediaTranscoding {
         public Transcoder(TranscoderProfile transcoder, string input) {
             this.transcoder = transcoder;
             this.input = input;
+            this.RetrieveOriginalStream = false;
         }
 
         public void StartTranscode() {
@@ -149,6 +154,10 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public void StartStreaming() {
+            // when retrieve original stream is set, just point OutputStream to transcoderOutputStream
+            if (RetrieveOriginalStream)
+                OutputStream = transcoderOutputStream;
+
             // copy the inputStream to the transcoderInputStream, and simultaneously copy the transcoderOutputStream to the outputStream
             if (inputStream != null && transcoderInputStream != null) {
                 Log.Write("Copy input stream of type {0} into transcoder input stream of type {1}", inputStream.ToString(), transcoderInputStream.ToString());

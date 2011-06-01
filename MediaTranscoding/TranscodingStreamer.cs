@@ -188,6 +188,18 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         /// <summary>
+        /// Start the output stream of the transcoder and return it
+        /// </summary>
+        /// <returns>Output data stream of transcoder</returns>
+        public Stream StartStream() {
+            encoder.RetrieveOriginalStream = true;
+            encoder.StartStreaming();
+            currentState = State.Streaming;
+            Log.Write("Streaming started!");
+            return encoder.OutputStream;
+        }
+
+        /// <summary>
         /// Stop the transcoding.
         /// </summary>
         public void StopTranscoding() {
