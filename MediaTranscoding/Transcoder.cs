@@ -172,7 +172,11 @@ namespace MPWebStream.MediaTranscoding {
                 return;
             }
 
-            if (transcoderOutputStream != null && OutputStream != null) {
+            // when retrieve original stream is set, just point OutputStream to transcoderOutputStream 
+            if (RetrieveOriginalStream) {
+                OutputStream = transcoderOutputStream;
+            } else if (transcoderOutputStream != null && OutputStream != null) {
+                // else copy the transcoder output stream to output stream
                 Log.Write("Copy transcoder output stream of type {0} into output stream of type {1}", transcoderOutputStream.ToString(), OutputStream.ToString());
                 if (transcoderOutputStream is NamedPipe)
                     WaitTillReady((NamedPipe)transcoderOutputStream);
