@@ -24,6 +24,7 @@ namespace MPWebStream.MediaTranscoding {
     public enum TransportMethod {
         Filename,
         NamedPipe,
+        Path,
         StandardIn,
         StandardOut
     }

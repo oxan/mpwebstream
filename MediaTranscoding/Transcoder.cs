@@ -66,14 +66,20 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public void StartTranscode() {
+            bool isTsBuffer = this.input.IndexOf(".ts.tsbuffer") != -1; 
+
+            // resolve the Path transport method if needed
+            if (transcoder.InputMethod == TransportMethod.Path)
+                transcoder.InputMethod = isTsBuffer ? TransportMethod.NamedPipe : TransportMethod.Filename;
+            if (transcoder.OutputMethod == TransportMethod.Path)
+                transcoder.OutputMethod = TransportMethod.NamedPipe; // keeping it in memory is probably faster
+
             // setup the TsBuffer if needed
             Stream readInputStream = null;
-            // weird logic to ignore the InputMethod when no transcoding is ued
-            if ((transcoder.InputMethod != TransportMethod.Filename && transcoder.UseTranscoding) || !transcoder.UseTranscoding) {
-                readInputStream = this.input.IndexOf(".ts.tsbuffer") != -1 ? (Stream)new TsBuffer(this.input) : (Stream)new FileStream(this.input, FileMode.Open);
+            if (!transcoder.UseTranscoding || transcoder.InputMethod != TransportMethod.Filename) {
+                readInputStream = isTsBuffer ? (Stream)new TsBuffer(this.input) : (Stream)new FileStream(this.input, FileMode.Open);
                 Log.Write("Input: type {0}", readInputStream.GetType() == typeof(TsBuffer) ? "TsBuffer" : "file");
             }
-
 
             // without external process
             if (!transcoder.UseTranscoding) {
@@ -140,13 +146,16 @@ namespace MPWebStream.MediaTranscoding {
             start.RedirectStandardInput = needsStdin;
             start.RedirectStandardOutput = needsStdout;
             start.RedirectStandardError = true;
+            start.WindowStyle = ProcessWindowStyle.Normal;
+            start.CreateNoWindow = false;
+            start.RedirectStandardError = false;
 
             transcoderApplication = new Process();
             transcoderApplication.StartInfo = start;
             transcoderApplication.Start();
 
             // copy stderr of the transcoder to a logfile if needed
-            if (transcoder.UseTranscoding && TranscoderLog != null) {
+            if (transcoder.UseTranscoding && TranscoderLog != null && false) {
                 Log.Write("Copying stderr of transcoder into {0}", TranscoderLog);
                 FileStream logstream = new FileStream(TranscoderLog, FileMode.Create, FileAccess.ReadWrite);
                 StreamCopy.AsyncStreamCopy(transcoderApplication.StandardError.BaseStream, logstream, "translog");
