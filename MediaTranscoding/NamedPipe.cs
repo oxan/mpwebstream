@@ -44,15 +44,15 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public override bool CanRead {
-            get { return pipe.CanRead; }
+            get { return pipe != null && pipe.CanRead; }
         }
 
         public override bool CanSeek {
-            get { return pipe.CanSeek; }
+            get { return pipe != null && pipe.CanSeek; }
         }
 
         public override bool CanWrite {
-            get { return pipe.CanWrite; }
+            get { return pipe != null && pipe.CanWrite; }
         }
 
         public override long Length {
@@ -82,6 +82,7 @@ namespace MPWebStream.MediaTranscoding {
 
         public override int Read(byte[] buffer, int offset, int count) {
             int read = 0;
+            System.Diagnostics.StackFrame[] frames = (new System.Diagnostics.StackTrace()).GetFrames();
             read = pipe.Read(buffer, offset, count);
             return read;
         }
