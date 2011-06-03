@@ -50,6 +50,7 @@
     <Compile Include="Transcoder.cs" />
     <Compile Include="TranscoderProfile.cs" />
     <Compile Include="TsBuffer.cs" />
+    <Compile Include="VideoUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
