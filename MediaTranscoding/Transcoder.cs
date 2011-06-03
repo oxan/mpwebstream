@@ -145,21 +145,26 @@ namespace MPWebStream.MediaTranscoding {
             start.UseShellExecute = false;
             start.RedirectStandardInput = needsStdin;
             start.RedirectStandardOutput = needsStdout;
-            start.RedirectStandardError = true;
+#if DEBUG
             start.WindowStyle = ProcessWindowStyle.Normal;
             start.CreateNoWindow = false;
             start.RedirectStandardError = false;
+#else
+            start.RedirectStandardError = true;
+#endif
 
             transcoderApplication = new Process();
             transcoderApplication.StartInfo = start;
             transcoderApplication.Start();
 
             // copy stderr of the transcoder to a logfile if needed
-            if (transcoder.UseTranscoding && TranscoderLog != null && false) {
+#if !DEBUG
+            if (transcoder.UseTranscoding && TranscoderLog != null) {
                 Log.Write("Copying stderr of transcoder into {0}", TranscoderLog);
                 FileStream logstream = new FileStream(TranscoderLog, FileMode.Create, FileAccess.ReadWrite);
                 StreamCopy.AsyncStreamCopy(transcoderApplication.StandardError.BaseStream, logstream, "translog");
             }
+#endif
         }
 
         public void StartStreaming() {

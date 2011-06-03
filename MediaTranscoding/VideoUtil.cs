@@ -43,7 +43,7 @@ namespace MPWebStream.MediaTranscoding
             }
         }
 
-        public static ResolutionInfo ResolutionInfo(string ffmpegPath, string video)
+        public static ResolutionInfo GetResolutionInfo(string ffmpegPath, string video)
         {
             ProcessStartInfo start = new ProcessStartInfo(ffmpegPath, String.Format("-i \"{0}\"", video));
             start.UseShellExecute = false;
