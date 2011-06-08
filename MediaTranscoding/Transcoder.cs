@@ -150,7 +150,7 @@ namespace MPWebStream.MediaTranscoding {
             start.CreateNoWindow = false;
             start.RedirectStandardError = false;
 #else
-            start.RedirectStandardError = true;
+            start.RedirectStandardError = transcoder.UseTranscoding && TranscoderLog != null;
 #endif
 
             transcoderApplication = new Process();
