@@ -100,6 +100,14 @@ namespace MPWebStream.MediaTranscoding {
             this(transcoder.UseTranscoding && transcoder.InputMethod == TransportMethod.Filename ? RTSPurl : tsbuffer, transcoder) {
         }
 
+
+        /// <summary>
+        /// Stop transcoding to prevent leaving transcoder processes around
+        /// </summary>
+        ~TranscodingStreamer() {
+            StopTranscoding();
+        }
+
         /// <summary>
         /// Transcode and send the output to an HTTP client, waiting till we're at the end of the stream or the client disconnects.
         /// 
@@ -180,6 +188,10 @@ namespace MPWebStream.MediaTranscoding {
         /// </summary>
         /// <param name="output">The stream to write to</param>
         public void StartWriteToStream(Stream output) {
+            // start transcoding
+            if (currentState != State.TranscodingStarted)
+                StartTranscoding();
+
             // stream it
             encoder.OutputStream = output;
             encoder.StartStreaming();
@@ -192,6 +204,10 @@ namespace MPWebStream.MediaTranscoding {
         /// </summary>
         /// <returns>Output data stream of transcoder</returns>
         public Stream StartStream() {
+            // start transcoding
+            if (currentState != State.TranscodingStarted)
+                StartTranscoding();
+
             encoder.RetrieveOriginalStream = true;
             encoder.StartStreaming();
             currentState = State.Streaming;
