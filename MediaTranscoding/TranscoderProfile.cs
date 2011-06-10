@@ -20,6 +20,9 @@
  */
 #endregion
 
+using System;
+using System.Xml;
+
 namespace MPWebStream.MediaTranscoding {
     public enum TransportMethod {
         Filename,
@@ -37,6 +40,20 @@ namespace MPWebStream.MediaTranscoding {
         public TransportMethod InputMethod { get; set; }
         public TransportMethod OutputMethod { get; set; }
         public string MIME { get; set; }
+
+        public static TranscoderProfile CreateFromXmlNode(XmlNode node) {
+            TranscoderProfile transcoder = new TranscoderProfile();
+            foreach (XmlNode child in node.ChildNodes) {
+                if (child.Name == "name") transcoder.Name = child.InnerText;
+                if (child.Name == "useTranscoding") transcoder.UseTranscoding = child.InnerText == "true";
+                if (child.Name == "inputMethod") transcoder.InputMethod = (TransportMethod)Enum.Parse(typeof(TransportMethod), child.InnerText, true);
+                if (child.Name == "outputMethod") transcoder.OutputMethod = (TransportMethod)Enum.Parse(typeof(TransportMethod), child.InnerText, true);
+                if (child.Name == "transcoder") transcoder.Transcoder = child.InnerText;
+                if (child.Name == "parameters") transcoder.Parameters = child.InnerText;
+                if (child.Name == "mime") transcoder.MIME = child.InnerText;
+            }
+            return transcoder;
+        }
     }
 
     public enum TranscoderProfileType {
