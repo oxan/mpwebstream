@@ -27,6 +27,24 @@ using System.Collections.Generic;
 using MPWebStream.MediaTranscoding;
 
 namespace MPWebStream {
+    public class ExtendedTranscoderProfile : TranscoderProfile {
+        public int Id { get; set; }
+        public TranscoderProfileType Type { get; set; }
+
+        public bool DataEquals(ExtendedTranscoderProfile cmp) {
+            if (cmp == null)
+                return false;
+            return cmp.Name == this.Name &&
+                cmp.UseTranscoding == this.UseTranscoding &&
+                cmp.Transcoder == this.Transcoder &&
+                cmp.Parameters == this.Parameters &&
+                cmp.InputMethod == this.InputMethod &&
+                cmp.OutputMethod == this.OutputMethod &&
+                cmp.MIME == this.MIME &&
+                cmp.Id == this.Id;
+        }
+    }
+
     class Configuration {
         #region Properties
         public string BasePath {
