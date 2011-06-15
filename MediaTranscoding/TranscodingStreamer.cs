@@ -106,7 +106,7 @@ namespace MPWebStream.MediaTranscoding {
         /// <param name="tsbuffer">Path to the TsBuffer file.</param>
         /// <param name="transcoder">The transcoder to use.</param>
         public TranscodingStreamer(string RTSPurl, string tsbuffer, TranscoderProfile transcoder) :
-            this(transcoder.UseTranscoding && transcoder.InputMethod == TransportMethod.Filename ? RTSPurl : tsbuffer, transcoder) {
+            this(transcoder.UseTranscoding && (transcoder.InputMethod == TransportMethod.Filename || transcoder.InputMethod == TransportMethod.Path) ? RTSPurl : tsbuffer, transcoder) {
         }
 
 

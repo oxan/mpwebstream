@@ -29,7 +29,8 @@ namespace MPWebStream.MediaTranscoding {
         NamedPipe,
         Path,
         StandardIn,
-        StandardOut
+        StandardOut,
+        External
     }
 
     public class TranscoderProfile {

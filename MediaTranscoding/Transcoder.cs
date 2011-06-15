@@ -80,6 +80,8 @@ namespace MPWebStream.MediaTranscoding {
             if (transcoder.OutputMethod == TransportMethod.Path)
                 transcoder.OutputMethod = TransportMethod.NamedPipe; // keeping it in memory is probably faster
 
+            // set some other things if we have an external output
+
             // setup the TsBuffer if needed
             Stream readInputStream = null;
             if (!transcoder.UseTranscoding || transcoder.InputMethod != TransportMethod.Filename) {
@@ -112,7 +114,8 @@ namespace MPWebStream.MediaTranscoding {
             } else if (transcoder.InputMethod == TransportMethod.StandardIn) {
                 needsStdin = true;
                 inputStream = readInputStream;
-            }
+            } 
+            // we don't have to do anything for External, StandardOut isn't supported and Path is resolved above to Filename
 
             // output stream
             if (transcoder.OutputMethod == TransportMethod.Filename) {
@@ -139,6 +142,10 @@ namespace MPWebStream.MediaTranscoding {
                 transcoderOutputStream = transcoderApplication.StandardOutput.BaseStream;
             if (transcoder.OutputMethod == TransportMethod.Filename)
                 transcoderOutputStream = new FileStream(output, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            if (transcoder.OutputMethod == TransportMethod.External) {
+                transcoderOutputStream = null;
+                DoOutputCopy = false;
+            }
             if (transcoder.OutputMethod == TransportMethod.NamedPipe) {
                 Log.Write("Output: starting named pipe {0}", output);
                 ((NamedPipe)transcoderOutputStream).Start(false);
@@ -160,15 +167,6 @@ namespace MPWebStream.MediaTranscoding {
             transcoderApplication = new Process();
             transcoderApplication.StartInfo = start;
             transcoderApplication.Start();
-
-            // copy stderr of the transcoder to a logfile if needed
-#if !DEBUG
-            if (transcoder.UseTranscoding && TranscoderLog != null) {
-                Log.Write("Copying stderr of transcoder into {0}", TranscoderLog);
-                FileStream logstream = new FileStream(TranscoderLog, FileMode.Create, FileAccess.ReadWrite);
-                StreamCopy.AsyncStreamCopy(transcoderApplication.StandardError.BaseStream, logstream, "translog");
-            }
-#endif
         }
 
         public void StartStreaming() {
