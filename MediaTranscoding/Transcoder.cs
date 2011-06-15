@@ -39,6 +39,10 @@ namespace MPWebStream.MediaTranscoding {
             get;
             set;
         }
+        public bool WantTranscoderInfo {
+            get;
+            set;
+        }
 
         public bool TranscoderRunning {
             get { return transcoderApplication != null && !transcoderApplication.HasExited; }
@@ -69,6 +73,7 @@ namespace MPWebStream.MediaTranscoding {
             this.transcoder = transcoder;
             this.Input = input;
             this.DoOutputCopy = true;
+            this.WantTranscoderInfo = false;
         }
 
         public void StartTranscode() {
@@ -158,7 +163,7 @@ namespace MPWebStream.MediaTranscoding {
             start.UseShellExecute = false;
             start.RedirectStandardInput = needsStdin;
             start.RedirectStandardOutput = needsStdout;
-            start.RedirectStandardError = true;
+            start.RedirectStandardError = this.WantTranscoderInfo;
 #if DEBUG
             start.WindowStyle = ProcessWindowStyle.Normal;
             start.CreateNoWindow = false;

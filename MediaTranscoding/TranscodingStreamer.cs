@@ -56,8 +56,9 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         /// <summary>
-        /// The logfile to which the output of the transcoder (on stderr) is written
+        /// The logfile to which the output of the transcoder (on stderr) is written. Supply - to get the stream and handle it yourself
         /// </summary>
+        /// <remarks>FIXME: use some proper value for getting the stream</remarks>
         public string TranscoderLog {
             get;
             set;
@@ -189,14 +190,13 @@ namespace MPWebStream.MediaTranscoding {
 
             // create encoder
             encoder = new Transcoder(Transcoder, Source);
+            encoder.WantTranscoderInfo = Transcoder.UseTranscoding && TranscoderLog != null;
             encoder.StartTranscode();
-#if !DEBUG
-            if (Transcoder.UseTranscoding && TranscoderLog != null) {
+            if (Transcoder.UseTranscoding && TranscoderLog != null && TranscoderLog != "-") { // FIXME: use a proper thing for that dash
                 Log.Write("Copying stderr of transcoder into {0}", TranscoderLog);
                 FileStream logstream = new FileStream(TranscoderLog, FileMode.Create, FileAccess.ReadWrite);
                 StreamCopy.AsyncStreamCopy(encoder.TranscoderInfoOutputStream, logstream, "translog");
             }
-#endif
             Log.Write("Transcoding started!");
             currentState = State.TranscodingStarted;
         }
