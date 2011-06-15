@@ -28,6 +28,9 @@ using System.Collections.Generic;
 
 namespace MPWebStream.MediaTranscoding {
     public class TranscodingStreamer {
+        /// <summary>
+        /// All states of the streamer
+        /// </summary>
         private enum State {
             Initialized,
             TranscodingStarted,
@@ -73,7 +76,13 @@ namespace MPWebStream.MediaTranscoding {
             private set { }
         }
 
+        /// <summary>
+        /// The current state of the streamer
+        /// </summary>
         private State currentState;
+        /// <summary>
+        /// The actual encoder which does the work
+        /// </summary>
         private Transcoder encoder;
 
         /// <summary>
@@ -108,6 +117,7 @@ namespace MPWebStream.MediaTranscoding {
             StopTranscoding();
         }
 
+        #region HTTP client
         /// <summary>
         /// Transcode and send the output to an HTTP client, waiting till we're at the end of the stream or the client disconnects.
         /// 
@@ -149,7 +159,7 @@ namespace MPWebStream.MediaTranscoding {
 
             // start streaming it
             StartWriteToStream(response.OutputStream);
-            encoder.OutputStream = response.OutputStream;
+            encoder.VideoOutputStream = response.OutputStream;
             Log.Write("Waiting for transcoder to end or client to disconnect now");
             try {
                 while (true) {
@@ -167,7 +177,9 @@ namespace MPWebStream.MediaTranscoding {
             // stop transcoding
             StopTranscoding();
         }
+        #endregion
 
+        #region Start streaming
         /// <summary>
         /// Start the transcoding.
         /// </summary>
@@ -177,8 +189,14 @@ namespace MPWebStream.MediaTranscoding {
 
             // create encoder
             encoder = new Transcoder(Transcoder, Source);
-            encoder.TranscoderLog = TranscoderLog;
             encoder.StartTranscode();
+#if !DEBUG
+            if (Transcoder.UseTranscoding && TranscoderLog != null) {
+                Log.Write("Copying stderr of transcoder into {0}", TranscoderLog);
+                FileStream logstream = new FileStream(TranscoderLog, FileMode.Create, FileAccess.ReadWrite);
+                StreamCopy.AsyncStreamCopy(encoder.TranscoderInfoOutputStream, logstream, "translog");
+            }
+#endif
             Log.Write("Transcoding started!");
             currentState = State.TranscodingStarted;
         }
@@ -193,7 +211,7 @@ namespace MPWebStream.MediaTranscoding {
                 StartTranscoding();
 
             // stream it
-            encoder.OutputStream = output;
+            encoder.VideoOutputStream = output;
             encoder.StartStreaming();
             currentState = State.Streaming;
             Log.Write("Streaming started!");
@@ -208,12 +226,13 @@ namespace MPWebStream.MediaTranscoding {
             if (currentState != State.TranscodingStarted)
                 StartTranscoding();
 
-            encoder.RetrieveOriginalStream = true;
+            encoder.DoOutputCopy = false;
             encoder.StartStreaming();
             currentState = State.Streaming;
             Log.Write("Streaming started!");
-            return encoder.OutputStream;
+            return encoder.VideoOutputStream;
         }
+        #endregion
 
         /// <summary>
         /// Stop the transcoding.
@@ -229,6 +248,18 @@ namespace MPWebStream.MediaTranscoding {
             }
             currentState = State.TranscodingStopped;
         }
+
+        #region Data methods
+        /// <summary>
+        /// Get the stderr stream of the transcoder
+        /// </summary>
+        /// <returns>Stream</returns>
+        public Stream GetTranscoderOutputStream() {
+            if (currentState != State.TranscodingStarted && currentState != State.Streaming)
+                return encoder.TranscoderInfoOutputStream;
+            return null;
+        }
+        #endregion
 
         /// <summary>
         /// Get all the transcoders that the user has configured in the TvServerPlugin of MPWebStream.

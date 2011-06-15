@@ -31,26 +31,32 @@ namespace MPWebStream.MediaTranscoding {
             get;
             set;
         }
-        public string input {
+        public string Input {
             get;
             set;
         }
-        public string TranscoderLog {
+        public bool DoOutputCopy {
             get;
             set;
         }
-        public Stream OutputStream {
-            get;
-            set;
-        }
-        public bool RetrieveOriginalStream {
-            get;
-            set;
-        }
-        public Boolean TranscoderRunning {
+
+        public bool TranscoderRunning {
             get { return transcoderApplication != null && !transcoderApplication.HasExited; }
         }
         #endregion
+
+        #region Streams
+        public Stream VideoOutputStream {
+            get;
+            set;
+        }
+
+        public Stream TranscoderInfoOutputStream {
+            get;
+            private set;
+        }
+        #endregion
+
         #region Private variables
         private Stream inputStream = null;
         private Stream transcoderInputStream = null;
@@ -61,12 +67,12 @@ namespace MPWebStream.MediaTranscoding {
 
         public Transcoder(TranscoderProfile transcoder, string input) {
             this.transcoder = transcoder;
-            this.input = input;
-            this.RetrieveOriginalStream = false;
+            this.Input = input;
+            this.DoOutputCopy = true;
         }
 
         public void StartTranscode() {
-            bool isTsBuffer = this.input.IndexOf(".ts.tsbuffer") != -1; 
+            bool isTsBuffer = this.Input.IndexOf(".ts.tsbuffer") != -1; 
 
             // resolve the Path transport method if needed
             if (transcoder.InputMethod == TransportMethod.Path)
@@ -77,7 +83,7 @@ namespace MPWebStream.MediaTranscoding {
             // setup the TsBuffer if needed
             Stream readInputStream = null;
             if (!transcoder.UseTranscoding || transcoder.InputMethod != TransportMethod.Filename) {
-                readInputStream = isTsBuffer ? (Stream)new TsBuffer(this.input) : (Stream)new FileStream(this.input, FileMode.Open);
+                readInputStream = isTsBuffer ? (Stream)new TsBuffer(this.Input) : (Stream)new FileStream(this.Input, FileMode.Open);
                 Log.Write("Input: type {0}", readInputStream.GetType() == typeof(TsBuffer) ? "TsBuffer" : "file");
             }
 
@@ -96,7 +102,7 @@ namespace MPWebStream.MediaTranscoding {
 
             // input
             if (transcoder.InputMethod == TransportMethod.Filename) {
-                input = this.input;
+                input = this.Input;
             } else if (transcoder.InputMethod == TransportMethod.NamedPipe) {
                 transcoderInputStream = new NamedPipe();
                 input = ((NamedPipe)transcoderInputStream).Url;
@@ -145,12 +151,10 @@ namespace MPWebStream.MediaTranscoding {
             start.UseShellExecute = false;
             start.RedirectStandardInput = needsStdin;
             start.RedirectStandardOutput = needsStdout;
+            start.RedirectStandardError = true;
 #if DEBUG
             start.WindowStyle = ProcessWindowStyle.Normal;
             start.CreateNoWindow = false;
-            start.RedirectStandardError = false;
-#else
-            start.RedirectStandardError = transcoder.UseTranscoding && TranscoderLog != null;
 #endif
 
             transcoderApplication = new Process();
@@ -168,11 +172,7 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public void StartStreaming() {
-            // when retrieve original stream is set, just point OutputStream to transcoderOutputStream
-            if (RetrieveOriginalStream)
-                OutputStream = transcoderOutputStream;
-
-            // copy the inputStream to the transcoderInputStream, and simultaneously copy the transcoderOutputStream to the outputStream
+            // copy the inputStream to the transcoderInputStream
             if (inputStream != null && transcoderInputStream != null) {
                 Log.Write("Copy input stream of type {0} into transcoder input stream of type {1}", inputStream.ToString(), transcoderInputStream.ToString());
                 if (transcoderInputStream is NamedPipe)
@@ -187,14 +187,14 @@ namespace MPWebStream.MediaTranscoding {
             }
 
             // when retrieve original stream is set, just point OutputStream to transcoderOutputStream 
-            if (RetrieveOriginalStream) {
-                OutputStream = transcoderOutputStream;
-            } else if (transcoderOutputStream != null && OutputStream != null) {
+            if (!DoOutputCopy) {
+                VideoOutputStream = transcoderOutputStream;
+            } else if (transcoderOutputStream != null && VideoOutputStream != null) {
                 // else copy the transcoder output stream to output stream
-                Log.Write("Copy transcoder output stream of type {0} into output stream of type {1}", transcoderOutputStream.ToString(), OutputStream.ToString());
+                Log.Write("Copy transcoder output stream of type {0} into output stream of type {1}", transcoderOutputStream.ToString(), VideoOutputStream.ToString());
                 if (transcoderOutputStream is NamedPipe)
                     WaitTillReady((NamedPipe)transcoderOutputStream);
-                StreamCopy.AsyncStreamCopy(transcoderOutputStream, OutputStream, "transoutput");
+                StreamCopy.AsyncStreamCopy(transcoderOutputStream, VideoOutputStream, "transoutput");
             }
         }
 
@@ -203,7 +203,7 @@ namespace MPWebStream.MediaTranscoding {
             CloseStream(inputStream, "input");
             CloseStream(transcoderInputStream, "transcoder input");
             CloseStream(transcoderOutputStream, "transcoder output");
-            CloseStream(OutputStream, "output");
+            CloseStream(VideoOutputStream, "output");
 
             if (transcoderApplication != null && !transcoderApplication.HasExited) {
                 Log.Write("Killing transcoder");
