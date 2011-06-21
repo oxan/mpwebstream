@@ -56,9 +56,4 @@ namespace MPWebStream.MediaTranscoding {
             return transcoder;
         }
     }
-
-    public enum TranscoderProfileType {
-        System,
-        User
-    }
 }

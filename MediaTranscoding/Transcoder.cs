@@ -1,6 +1,6 @@
 ﻿#region Copyright
 /* 
- *  Copyright (C) 2011, Oxan
+ *  Copyright (C) 2010, 2011 Oxan
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,214 +21,76 @@
 #endregion
 
 using System;
-using System.Diagnostics;
+using System.Linq;
 using System.IO;
+using System.Web;
+using System.Collections.Generic;
 
 namespace MPWebStream.MediaTranscoding {
-    class Transcoder {
-        #region Properties
-        public TranscoderProfile transcoder {
-            get;
-            set;
-        }
-        public string Input {
-            get;
-            set;
-        }
-        public bool DoOutputCopy {
-            get;
-            set;
-        }
-        public bool WantTranscoderInfo {
-            get;
-            set;
-        }
+    internal class Transcoder {
+        public TranscoderProfile Profile { get; set; }
+        public string Source { get; set; }
+        public bool WantLogStream { get; set; }
 
-        public bool TranscoderRunning {
-            get { return transcoderApplication != null && !transcoderApplication.HasExited; }
-        }
-        #endregion
-
-        #region Streams
-        public Stream VideoOutputStream {
-            get;
-            set;
-        }
-
-        public Stream TranscoderInfoOutputStream {
-            get;
-            private set;
-        }
-        #endregion
-
-        #region Private variables
-        private Stream inputStream = null;
-        private Stream transcoderInputStream = null;
-        private Stream transcoderOutputStream = null;
-
-        private Process transcoderApplication;
-        #endregion
-
-        public Transcoder(TranscoderProfile transcoder, string input) {
-            this.transcoder = transcoder;
-            this.Input = input;
-            this.DoOutputCopy = true;
-            this.WantTranscoderInfo = false;
-        }
-
-        public void StartTranscode() {
-            bool isTsBuffer = this.Input.IndexOf(".ts.tsbuffer") != -1; 
-
-            // resolve the Path transport method if needed
-            if (transcoder.InputMethod == TransportMethod.Path)
-                transcoder.InputMethod = isTsBuffer ? TransportMethod.NamedPipe : TransportMethod.Filename;
-            if (transcoder.OutputMethod == TransportMethod.Path)
-                transcoder.OutputMethod = TransportMethod.NamedPipe; // keeping it in memory is probably faster
-
-            // set some other things if we have an external output
-
-            // setup the TsBuffer if needed
-            Stream readInputStream = null;
-            if (!transcoder.UseTranscoding || transcoder.InputMethod != TransportMethod.Filename) {
-                readInputStream = isTsBuffer ? (Stream)new TsBuffer(this.Input) : (Stream)new FileStream(this.Input, FileMode.Open);
-                Log.Write("Input: type {0}", readInputStream.GetType() == typeof(TsBuffer) ? "TsBuffer" : "file");
-            }
-
-            // without external process
-            if (!transcoder.UseTranscoding) {
-                Log.Write("Output: direct copy of input stream");
-                transcoderOutputStream = readInputStream;
-                return;
-            }
-
-            // sets up streams
-            string input = "";
-            string output = "";
-            bool needsStdin = false;
-            bool needsStdout = false;
-
-            // input
-            if (transcoder.InputMethod == TransportMethod.Filename) {
-                input = this.Input;
-            } else if (transcoder.InputMethod == TransportMethod.NamedPipe) {
-                transcoderInputStream = new NamedPipe();
-                input = ((NamedPipe)transcoderInputStream).Url;
-                Log.Write("Input: starting named pipe {0}", input);
-                ((NamedPipe)transcoderInputStream).Start(false);
-                inputStream = readInputStream;
-            } else if (transcoder.InputMethod == TransportMethod.StandardIn) {
-                needsStdin = true;
-                inputStream = readInputStream;
-            } 
-            // we don't have to do anything for External, StandardOut isn't supported and Path is resolved above to Filename
-
-            // output stream
-            if (transcoder.OutputMethod == TransportMethod.Filename) {
-                output = Path.GetTempFileName(); // this doesn't work yet
-            } else if (transcoder.OutputMethod == TransportMethod.NamedPipe) {
-                transcoderOutputStream = new NamedPipe();
-                output = ((NamedPipe)transcoderOutputStream).Url;
-            } else if(transcoder.OutputMethod == TransportMethod.StandardOut) {
-                needsStdout = true;
-            }
-
-            // start transcoder
-            Log.Write("Transcoder configuration dump");
-            Log.Write("  input {0}, output {1}", input, output);
-            Log.Write("  needsStdin {0}, needsStdout {1}", needsStdin, needsStdout);
-            Log.Write("  path {0}", transcoder.Transcoder);
-            Log.Write("  arguments {0}", transcoder.Parameters);
-            SpawnTranscoder(input, output, needsStdin, needsStdout);
-
-            // finish stream setup
-            if (transcoder.InputMethod == TransportMethod.StandardIn)
-                transcoderInputStream = transcoderApplication.StandardInput.BaseStream;
-            if (transcoder.OutputMethod == TransportMethod.StandardOut)
-                transcoderOutputStream = transcoderApplication.StandardOutput.BaseStream;
-            if (transcoder.OutputMethod == TransportMethod.Filename)
-                transcoderOutputStream = new FileStream(output, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            if (transcoder.OutputMethod == TransportMethod.External) {
-                transcoderOutputStream = null;
-                DoOutputCopy = false;
-            }
-            if (transcoder.OutputMethod == TransportMethod.NamedPipe) {
-                Log.Write("Output: starting named pipe {0}", output);
-                ((NamedPipe)transcoderOutputStream).Start(false);
+        public Stream LogStream {
+            get {
+                return logStream;
             }
         }
 
-        protected void SpawnTranscoder(string input, string output, bool needsStdin, bool needsStdout) {
-            string args = String.Format(transcoder.Parameters, input, output);
-            ProcessStartInfo start = new ProcessStartInfo(transcoder.Transcoder, args);
-            start.UseShellExecute = false;
-            start.RedirectStandardInput = needsStdin;
-            start.RedirectStandardOutput = needsStdout;
-            start.RedirectStandardError = this.WantTranscoderInfo;
-#if DEBUG
-            start.WindowStyle = ProcessWindowStyle.Normal;
-            start.CreateNoWindow = false;
-#endif
-
-            transcoderApplication = new Process();
-            transcoderApplication.StartInfo = start;
-            transcoderApplication.Start();
-        }
-
-        public void StartStreaming() {
-            // copy the inputStream to the transcoderInputStream
-            if (inputStream != null && transcoderInputStream != null) {
-                Log.Write("Copy input stream of type {0} into transcoder input stream of type {1}", inputStream.ToString(), transcoderInputStream.ToString());
-                if (transcoderInputStream is NamedPipe)
-                    WaitTillReady((NamedPipe)transcoderInputStream);
-                StreamCopy.AsyncStreamCopy(inputStream, transcoderInputStream, "transinput");
-            }
-
-            // but make sure that the transcoder is running now
-            if (transcoder.UseTranscoding && !TranscoderRunning) {
-                Log.Write("ERROR: The transcoder isn't running anymore, refusing to copy the output stream");
-                return;
-            }
-
-            // when retrieve original stream is set, just point OutputStream to transcoderOutputStream 
-            if (!DoOutputCopy) {
-                VideoOutputStream = transcoderOutputStream;
-            } else if (transcoderOutputStream != null && VideoOutputStream != null) {
-                // else copy the transcoder output stream to output stream
-                Log.Write("Copy transcoder output stream of type {0} into output stream of type {1}", transcoderOutputStream.ToString(), VideoOutputStream.ToString());
-                if (transcoderOutputStream is NamedPipe)
-                    WaitTillReady((NamedPipe)transcoderOutputStream);
-                StreamCopy.AsyncStreamCopy(transcoderOutputStream, VideoOutputStream, "transoutput");
+        public bool IsRunning {
+            get {
+                return Profile.UseTranscoding ? encoder.TranscoderRunning : true;
             }
         }
 
-        public void StopTranscode() {
-            // close streams
-            CloseStream(inputStream, "input");
-            CloseStream(transcoderInputStream, "transcoder input");
-            CloseStream(transcoderOutputStream, "transcoder output");
-            CloseStream(VideoOutputStream, "output");
+        private Stream logStream;
+        private Encoder encoder;
 
-            if (transcoderApplication != null && !transcoderApplication.HasExited) {
-                Log.Write("Killing transcoder");
-                try {
-                    transcoderApplication.Kill();
-                } catch (Exception e) {
-                    Log.Error("Failed to kill transcoder", e);
-                }
-            }
+        ~Transcoder() {
+            StopTranscoding();
         }
 
-        private void CloseStream(Stream stream, string logName) {
+        public void StartTranscoding() {
+            // encoder configuration
+            Log.Write("Starting transcoding of {0} with transcoder named {1}", Source, Profile.Name);
+
+            // create encoder
+            encoder = new Encoder(Profile, Source);
+            encoder.WantTranscoderInfo = Profile.UseTranscoding && WantLogStream;
+            encoder.StartTranscode();
+            if (encoder.WantTranscoderInfo)
+                logStream = encoder.TranscoderInfoOutputStream;
+            Log.Write("Transcoding started!");
+        }
+
+        public void StreamToStream(Stream output) {
+            encoder.StartStreaming();
+
+            // do the actually copy to the output
+            if (encoder.TranscoderOutputStream != null && output != null) {
+                Log.Write("Copy transcoder output stream of type {0} into output stream of type {1}", encoder.TranscoderOutputStream.ToString(), output.ToString());
+                if (encoder.TranscoderOutputStream is NamedPipe)
+                    ((NamedPipe)encoder.TranscoderOutputStream).WaitTillReady();
+                StreamCopy.AsyncStreamCopy(encoder.TranscoderOutputStream, output, "transoutput");
+            }
+
+            Log.Write("Streaming started!");
+        }
+
+        public Stream GetVideoStream() {
+            encoder.StartStreaming();
+            return encoder.TranscoderOutputStream;
+        }
+
+        public void StopTranscoding() {
+            Log.Write("Finishing transcoding");
             try {
-                if (stream != null) stream.Close();
+                if (encoder != null) 
+                    encoder.StopTranscode();
             } catch (Exception e) {
-                Log.Write("Failed to close {0} stream: {1}", logName, e.Message);
+                Log.Error("Stopping transcoder failed", e);
             }
-        }
-
-        private void WaitTillReady(NamedPipe pipe) {
-            while(!pipe.IsReady)
-                System.Threading.Thread.Sleep(100);
         }
     }
 }

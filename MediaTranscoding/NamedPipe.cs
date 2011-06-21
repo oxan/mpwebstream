@@ -2,6 +2,7 @@
 /* 
  *  Copyright (C) 2008, 2009 StreamTv, http://code.google.com/p/mpstreamtv/
  *  Copyright (C) 2009, 2010 Gemx
+ *  Copyright (C) 2011 Oxan
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -110,6 +111,11 @@ namespace MPWebStream.MediaTranscoding {
                 NamedPipeServerStream server = new NamedPipeServerStream(_pipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
                 server.BeginWaitForConnection(new AsyncCallback(WaitForConnection), server);
             }
+        }
+
+        public void WaitTillReady() {
+            while (!this.IsReady)
+                System.Threading.Thread.Sleep(100);
         }
 
         private void WaitForConnection(IAsyncResult ar) {

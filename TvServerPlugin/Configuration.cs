@@ -27,7 +27,12 @@ using System.Collections.Generic;
 using MPWebStream.MediaTranscoding;
 
 namespace MPWebStream {
-    public class ExtendedTranscoderProfile : TranscoderProfile {
+    internal enum TranscoderProfileType {
+        System,
+        User
+    }
+
+    internal class ExtendedTranscoderProfile : TranscoderProfile {
         public int Id { get; set; }
         public TranscoderProfileType Type { get; set; }
 

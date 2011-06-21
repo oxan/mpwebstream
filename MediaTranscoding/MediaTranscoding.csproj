@@ -42,13 +42,15 @@
     <Compile Include="..\TvServerPlugin\Configuration.cs">
       <Link>Configuration.cs</Link>
     </Compile>
+    <Compile Include="Transcoder.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NamedPipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResolutionInfo.cs" />
     <Compile Include="StreamCopy.cs" />
+    <Compile Include="TranscodingFailedException.cs" />
     <Compile Include="TranscodingStreamer.cs" />
-    <Compile Include="Transcoder.cs" />
+    <Compile Include="Encoder.cs" />
     <Compile Include="TranscoderProfile.cs" />
     <Compile Include="TsBuffer.cs" />
     <Compile Include="VideoUtil.cs" />

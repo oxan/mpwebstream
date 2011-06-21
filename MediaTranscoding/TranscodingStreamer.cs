@@ -55,11 +55,7 @@ namespace MPWebStream.MediaTranscoding {
             set;
         }
 
-        /// <summary>
-        /// The logfile to which the output of the transcoder (on stderr) is written. Supply - to get the stream and handle it yourself
-        /// </summary>
-        /// <remarks>FIXME: use some proper value for getting the stream</remarks>
-        public string TranscoderLog {
+        public bool WantLogStream {
             get;
             set;
         }
@@ -68,24 +64,22 @@ namespace MPWebStream.MediaTranscoding {
         /// Is the transcoder currently running? A false return indicates that we're at the end of the input stream
         /// </summary>
         public bool IsTranscoding {
-            get { 
-                bool running = Transcoder.UseTranscoding ? encoder.TranscoderRunning : true; // FIXME
-                if (!running && currentState == State.Streaming)
-                    currentState = State.StreamingFinished;
-                return running;
+            get {
+                return transcoder.IsRunning;
             }
-            private set { }
         }
 
         /// <summary>
         /// The current state of the streamer
         /// </summary>
         private State currentState;
+
         /// <summary>
         /// The actual encoder which does the work
         /// </summary>
-        private Transcoder encoder;
+        private Transcoder transcoder;
 
+        #region Constructor
         /// <summary>
         /// Base constructor.
         /// </summary>
@@ -94,6 +88,7 @@ namespace MPWebStream.MediaTranscoding {
         public TranscodingStreamer(string source, TranscoderProfile transcoder) {
             this.Source = source;
             this.Transcoder = transcoder;
+
             currentState = State.Initialized;
         }
 
@@ -110,13 +105,13 @@ namespace MPWebStream.MediaTranscoding {
             this(transcoder.UseTranscoding && (transcoder.InputMethod == TransportMethod.Filename || transcoder.InputMethod == TransportMethod.Path) ? RTSPurl : tsbuffer, transcoder) {
         }
 
-
         /// <summary>
         /// Stop transcoding to prevent leaving transcoder processes around
         /// </summary>
         ~TranscodingStreamer() {
             StopTranscoding();
         }
+        #endregion
 
         #region HTTP client
         /// <summary>
@@ -148,7 +143,7 @@ namespace MPWebStream.MediaTranscoding {
         private void TranscodeToClientImplementation(dynamic response) {
             // start the transcoding
             if (currentState != State.TranscodingStarted)
-                StartTranscoding();
+                throw new InvalidOperationException();
 
             // setup response
             response.Clear();
@@ -160,11 +155,10 @@ namespace MPWebStream.MediaTranscoding {
 
             // start streaming it
             StartWriteToStream(response.OutputStream);
-            encoder.VideoOutputStream = response.OutputStream;
             Log.Write("Waiting for transcoder to end or client to disconnect now");
             try {
                 while (true) {
-                    if (response.IsClientConnected && (Transcoder.UseTranscoding ? encoder.TranscoderRunning : true)) {
+                    if (response.IsClientConnected && (Transcoder.UseTranscoding ? transcoder.IsRunning : true)) {
                         System.Threading.Thread.Sleep(5000);
                     } else {
                         break;
@@ -185,19 +179,11 @@ namespace MPWebStream.MediaTranscoding {
         /// Start the transcoding.
         /// </summary>
         public void StartTranscoding() {
-            // encoder configuration
-            Log.Write("Starting transcoding of {0} with transcoder named {1}", Source, Transcoder.Name);
-
-            // create encoder
-            encoder = new Transcoder(Transcoder, Source);
-            encoder.WantTranscoderInfo = Transcoder.UseTranscoding && TranscoderLog != null;
-            encoder.StartTranscode();
-            if (Transcoder.UseTranscoding && TranscoderLog != null && TranscoderLog != "-") { // FIXME: use a proper thing for that dash
-                Log.Write("Copying stderr of transcoder into {0}", TranscoderLog);
-                FileStream logstream = new FileStream(TranscoderLog, FileMode.Create, FileAccess.ReadWrite);
-                StreamCopy.AsyncStreamCopy(encoder.TranscoderInfoOutputStream, logstream, "translog");
-            }
-            Log.Write("Transcoding started!");
+            transcoder = new Transcoder();
+            transcoder.Source = this.Source;
+            transcoder.Profile = this.Transcoder;
+            transcoder.WantLogStream = this.WantLogStream;
+            transcoder.StartTranscoding();
             currentState = State.TranscodingStarted;
         }
 
@@ -208,13 +194,11 @@ namespace MPWebStream.MediaTranscoding {
         public void StartWriteToStream(Stream output) {
             // start transcoding
             if (currentState != State.TranscodingStarted)
-                StartTranscoding();
+                throw new InvalidOperationException();
 
-            // stream it
-            encoder.VideoOutputStream = output;
-            encoder.StartStreaming();
+            // do the copy to the output
+            transcoder.StreamToStream(output);
             currentState = State.Streaming;
-            Log.Write("Streaming started!");
         }
 
         /// <summary>
@@ -222,15 +206,11 @@ namespace MPWebStream.MediaTranscoding {
         /// </summary>
         /// <returns>Output data stream of transcoder</returns>
         public Stream StartStream() {
-            // start transcoding
             if (currentState != State.TranscodingStarted)
-                StartTranscoding();
+                throw new InvalidOperationException();
 
-            encoder.DoOutputCopy = false;
-            encoder.StartStreaming();
             currentState = State.Streaming;
-            Log.Write("Streaming started!");
-            return encoder.VideoOutputStream;
+            return transcoder.GetVideoStream();
         }
         #endregion
 
@@ -240,26 +220,9 @@ namespace MPWebStream.MediaTranscoding {
         public void StopTranscoding() {
             if (currentState == State.TranscodingStopped || currentState == State.Initialized)
                 return;
-            Log.Write("Finishing transcoding");
-            try {
-                if (encoder != null) encoder.StopTranscode();
-            } catch (Exception e) {
-                Log.Error("Stopping transcoder failed", e);
-            }
+            transcoder.StopTranscoding();
             currentState = State.TranscodingStopped;
         }
-
-        #region Data methods
-        /// <summary>
-        /// Get the stderr stream of the transcoder
-        /// </summary>
-        /// <returns>Stream</returns>
-        public Stream GetTranscoderOutputStream() {
-            if (currentState != State.TranscodingStarted && currentState != State.Streaming)
-                return encoder.TranscoderInfoOutputStream;
-            return null;
-        }
-        #endregion
 
         /// <summary>
         /// Get all the transcoders that the user has configured in the TvServerPlugin of MPWebStream.
