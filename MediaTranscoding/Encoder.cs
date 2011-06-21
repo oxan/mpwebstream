@@ -21,6 +21,7 @@
 #endregion
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 
@@ -154,9 +155,15 @@ namespace MPWebStream.MediaTranscoding {
             start.CreateNoWindow = false;
 #endif
 
-            transcoderApplication = new Process();
-            transcoderApplication.StartInfo = start;
-            transcoderApplication.Start();
+            try {
+                transcoderApplication = new Process();
+                transcoderApplication.StartInfo = start;
+                transcoderApplication.Start();
+            } catch (Win32Exception e) {
+                Log.Error("Failed to start transcoder", e);
+                Log.Write("ERROR: Transcoder probably doesn't exists");
+                throw new TranscodingFailedException("Transcoder does not exists");
+            }
         }
 
         public void StartStreaming() {

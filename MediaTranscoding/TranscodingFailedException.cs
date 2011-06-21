@@ -24,5 +24,8 @@ using System;
 
 namespace MPWebStream.MediaTranscoding {
     public class TranscodingFailedException : Exception {
+        public TranscodingFailedException() : base() { }
+        public TranscodingFailedException(string message) : base(message) { }
+        public TranscodingFailedException(string message, Exception inner) : base(message, inner) { }
     }
 }
