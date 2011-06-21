@@ -25,6 +25,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
+using System.Threading;
 using System.Web;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
@@ -94,13 +95,14 @@ namespace MPWebStream.Site {
                 TranscodingStreamer streamer = new TranscodingStreamer(source, transcoder);
 
                 // stderr log
+                string logfile = "";
                 if (config.TranscoderLog) {
                     string logdir = Path.Combine(config.BasePath, "transcoderlogs");
                     if (!Directory.Exists(logdir))
                         Directory.CreateDirectory(logdir);
-                    string logfile = Path.Combine(logdir, String.Format("{0:dd_MM_yyyy_HH_mm_ss}.log", DateTime.Now));
+                    logfile = Path.Combine(logdir, String.Format("{0:dd_MM_yyyy_HH_mm_ss}.log", DateTime.Now));
                     Log.Write("Writing transcoder output to {0}", logfile);
-                    streamer.TranscoderLog = logfile;
+                    streamer.WantLogStream = true;
                 }
 
                 // run
@@ -108,6 +110,21 @@ namespace MPWebStream.Site {
                     Log.Write("Client has disconnected, not even bothering to start transcoding");
                 } else {
                     streamer.StartTranscoding();
+
+                    // setup stderr log to file
+                    if (config.TranscoderLog) {
+                        Thread t = new Thread(new ThreadStart(delegate {
+                            try {
+                                FileStream fs = new FileStream(logfile, FileMode.Create, FileAccess.ReadWrite);
+                                while (true)
+                                    streamer.GetTranscoderLogStream().CopyTo(fs);
+                            } catch (Exception) {
+                                // not soo important
+                            }
+                        }));
+                        t.Start();
+                    }
+
                     if (context.Response.IsClientConnected) { // client could have disconnected in the meantime
                         streamer.TranscodeToClient(context.Response);
                         dataSend = true;
