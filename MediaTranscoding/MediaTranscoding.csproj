@@ -42,6 +42,8 @@
     <Compile Include="..\TvServerPlugin\Configuration.cs">
       <Link>Configuration.cs</Link>
     </Compile>
+    <Compile Include="FFmpegEncodingInfo.cs" />
+    <Compile Include="Resolution.cs" />
     <Compile Include="Transcoder.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NamedPipe.cs" />
@@ -53,7 +55,7 @@
     <Compile Include="Encoder.cs" />
     <Compile Include="TranscoderProfile.cs" />
     <Compile Include="TsBuffer.cs" />
-    <Compile Include="VideoUtil.cs" />
+    <Compile Include="FFmpegUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

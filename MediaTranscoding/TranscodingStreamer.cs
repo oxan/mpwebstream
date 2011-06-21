@@ -55,6 +55,9 @@ namespace MPWebStream.MediaTranscoding {
             set;
         }
 
+        /// <summary>
+        /// Do you want to get the log stream of the transcoder?
+        /// </summary>
         public bool WantLogStream {
             get;
             set;
@@ -213,6 +216,16 @@ namespace MPWebStream.MediaTranscoding {
             return transcoder.GetVideoStream();
         }
         #endregion
+
+        /// <summary>
+        /// Get the log stream of the transcoder
+        /// </summary>
+        /// <returns></returns>
+        public Stream GetTranscoderLogStream() {
+            if (currentState != State.TranscodingStarted && currentState != State.Streaming)
+                throw new InvalidOperationException();
+            return transcoder.LogStream;
+        }
 
         /// <summary>
         /// Stop the transcoding.
