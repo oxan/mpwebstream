@@ -54,5 +54,14 @@ namespace MPWebStream.MediaTranscoding {
 
             return new Resolution(newWidth, newHeight);
         }
+
+        public override string ToString() {
+            return Width.ToString() + "x" + Height.ToString();
+        }
+
+        public static Resolution Calculate(decimal destinationAspectRatio, Resolution maxOutput, int framesizeMultipleOff = 1) {
+            Resolution res = new Resolution(0, 0);
+            return res.CalculateResize(destinationAspectRatio, maxOutput, framesizeMultipleOff);
+        }
     }
 }
