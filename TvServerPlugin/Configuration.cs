@@ -154,7 +154,7 @@ namespace MPWebStream {
             Password = "admin";
             EnableAuthentication = true;
             SiteRoot = "http://" + System.Environment.MachineName + "/";
-            LogFile = Path.Combine(BasePath, "log.txt");
+            LogFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Team MediaPortal", "MediaPortal TV Server", "log", "mpwebstream.log");
             TranscoderLog = true;
             Transcoders = new List<ExtendedTranscoderProfile>();
             Transcoders.Add(new ExtendedTranscoderProfile() {
