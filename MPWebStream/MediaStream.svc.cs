@@ -103,7 +103,14 @@ namespace MPWebStream.Site {
         }
 
         private string CreateStreamUrl(string idKey, int idValue, string username, string password, Transcoder transcoder) {
-            UriBuilder uri = new UriBuilder(config.SiteRoot);
+            UriBuilder uri;
+            try {
+                // use HttpContext.Current if available
+                string path = System.IO.Path.GetDirectoryName(HttpContext.Current.Request.Url.AbsolutePath);
+                uri = new UriBuilder(HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.Port, path);
+            } catch (Exception) {
+                uri = new UriBuilder(config.SiteRoot);
+            }
             
             // add port if needed
             if (config.UseWebserver && config.Port != 80)
