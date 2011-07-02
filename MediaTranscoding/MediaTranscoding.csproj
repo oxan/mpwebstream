@@ -42,20 +42,22 @@
     <Compile Include="..\TvServerPlugin\Configuration.cs">
       <Link>Configuration.cs</Link>
     </Compile>
-    <Compile Include="ProcessingUnits\EncodingProcessingUnit.cs" />
-    <Compile Include="ProcessingUnits\HttpOutputProcessingUnit.cs" />
+    <Compile Include="ProcessingUnits\Encoding.cs" />
+    <Compile Include="ProcessingUnits\FFmpegOutputParsing.cs" />
+    <Compile Include="ProcessingUnits\HttpOutput.cs" />
     <Compile Include="ProcessingUnits\IBlockingProcessingUnit.cs" />
     <Compile Include="ProcessingUnits\ILogProcessingUnit.cs" />
-    <Compile Include="ProcessingUnits\InputProcessingUnit.cs" />
+    <Compile Include="ProcessingUnits\Input.cs" />
     <Compile Include="ProcessingUnits\IProcessingUnit.cs" />
-    <Compile Include="ProcessingUnits\PassthroughProcessingUnit.cs" />
+    <Compile Include="ProcessingUnits\Passthrough.cs" />
     <Compile Include="Pipeline.cs" />
+    <Compile Include="Reference.cs" />
     <Compile Include="Resolution.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NamedPipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamCopy.cs" />
-    <Compile Include="ProcessingUnits\StreamCopyProcessingUnit.cs" />
+    <Compile Include="ProcessingUnits\StreamCopy.cs" />
     <Compile Include="Transcoder.cs" />
     <Compile Include="TranscoderProfile.cs" />
     <Compile Include="TsBuffer.cs" />

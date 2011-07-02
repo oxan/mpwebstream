@@ -88,9 +88,9 @@ namespace MPWebStream.MediaTranscoding {
             return info;
         }
 
-        public static void ParseOutputStream(Stream outputStream, out FFmpegEncodingInfo saveData) {
+        public static void ParseOutputStream(Stream outputStream, Reference<FFmpegEncodingInfo> saveData) {
             StreamReader reader = new StreamReader(outputStream);
-            saveData = new FFmpegEncodingInfo();
+            //saveData = new FFmpegEncodingInfo();
 
             string line;
             while ((line = reader.ReadLine()) != null) {
@@ -105,10 +105,10 @@ namespace MPWebStream.MediaTranscoding {
                         continue;
 
                     lock (saveData) {
-                        saveData.CurrentBitrate = Decimal.Parse(match.Groups[7].Value, System.Globalization.CultureInfo.InvariantCulture);
-                        saveData.CurrentTime = Int32.Parse(match.Groups[4].Value) * 3600 + Int32.Parse(match.Groups[5].Value) * 60 + Int32.Parse(match.Groups[6].Value);
-                        saveData.EncodedFrames = Int32.Parse(match.Groups[1].Value);
-                        saveData.EncodingFPS = Int32.Parse(match.Groups[2].Value);
+                        saveData.Value.CurrentBitrate = Decimal.Parse(match.Groups[7].Value, System.Globalization.CultureInfo.InvariantCulture);
+                        saveData.Value.CurrentTime = Int32.Parse(match.Groups[4].Value) * 3600 + Int32.Parse(match.Groups[5].Value) * 60 + Int32.Parse(match.Groups[6].Value);
+                        saveData.Value.EncodedFrames = Int32.Parse(match.Groups[1].Value);
+                        saveData.Value.EncodingFPS = Int32.Parse(match.Groups[2].Value);
                     }
                 } catch (ThreadAbortException) {
                     // allow it to be used in a thread
