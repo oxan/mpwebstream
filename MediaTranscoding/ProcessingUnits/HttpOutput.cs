@@ -63,13 +63,14 @@ namespace MPWebStream.MediaTranscoding {
             response.StatusCode = 200;
 
             // start the streaming
+            Log.Write("HttpOutput: Copying from {0} to {1}", InputStream.ToString(), response.OutputStream.ToString());
             StreamCopy.AsyncStreamCopy(InputStream, response.OutputStream);
 
             return true;
         }
 
         public bool RunBlocking() {
-            Log.Write("Waiting for transcoder to end or client to disconnect now");
+            Log.Write("HttpOutput: Waiting for transcoder to end or client to disconnect now");
             try {
                 while (true) {
                     if (response.IsClientConnected) { /* TODO: check for running transcoder */
@@ -79,7 +80,7 @@ namespace MPWebStream.MediaTranscoding {
                     }
                 }
             } catch (HttpException ex) {
-                Log.Write("HttpException in TranscodeToClient, usually client disconnect, message {0}", ex.Message);
+                Log.Write("HttpOutput: HttpException in TranscodeToClient, usually client disconnect, message {0}", ex.Message);
             }
 
             pipeline.Stop();

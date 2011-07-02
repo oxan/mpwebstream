@@ -45,20 +45,23 @@ namespace MPWebStream.MediaTranscoding {
                 Profile.OutputMethod = TransportMethod.NamedPipe;
 
             // add input processing unit to pipeline if needed
-            bool needInputRead = 
+            bool needInputRead =
                 Profile.InputMethod == TransportMethod.StandardIn ||
-                Profile.InputMethod == TransportMethod.NamedPipe;
+                Profile.InputMethod == TransportMethod.NamedPipe ||
+                !Profile.UseTranscoding;
             if(needInputRead)
                 Pipeline.AddDataProcessingUnit(new InputProcessingUnit(Source), 1);
 
-            // add processing unit to pipeline
-            EncodingProcessingUnit encoder;
-            if(needInputRead) {
-                encoder = new EncodingProcessingUnit(Profile.Transcoder, Profile.Parameters, Profile.InputMethod, Profile.OutputMethod);
-            } else {
-                encoder = new EncodingProcessingUnit(Profile.Transcoder, Profile.Parameters, Profile.InputMethod, Profile.OutputMethod, Source);
+            // add processing unit to pipeline if wanted
+            if (Profile.UseTranscoding) {
+                EncodingProcessingUnit encoder;
+                if (needInputRead) {
+                    encoder = new EncodingProcessingUnit(Profile.Transcoder, Profile.Parameters, Profile.InputMethod, Profile.OutputMethod);
+                } else {
+                    encoder = new EncodingProcessingUnit(Profile.Transcoder, Profile.Parameters, Profile.InputMethod, Profile.OutputMethod, Source);
+                }
+                Pipeline.AddDataProcessingUnit(encoder, 2);
             }
-            Pipeline.AddDataProcessingUnit(encoder, 2);
 
             // add ffmpeg output parsing
             if (EncodingInfo != null)
@@ -74,7 +77,7 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         private void TranscodeToClientImplementation(dynamic response) {
-            if(Pipeline != null)
+            if(Pipeline == null)
                 BuildPipeline();
             Pipeline.AddDataProcessingUnit(new HttpOutputProcessingUnit(Pipeline, Profile.MIME, response), 3);
             Pipeline.RunBlocking();
@@ -82,14 +85,14 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public void StartTranscodeToStream(Stream outputStream) {
-            if (Pipeline != null)
+            if (Pipeline == null)
                 BuildPipeline();
             Pipeline.AddDataProcessingUnit(new StreamCopyProcessingUnit(outputStream, "transoutput"), 5);
             Pipeline.Start();
         }
 
         public Stream StartStream() {
-            if (Pipeline != null)
+            if (Pipeline == null)
                 BuildPipeline();
             PassthroughProcessingUnit unit = new PassthroughProcessingUnit();
             Pipeline.AddDataProcessingUnit(unit, 5);

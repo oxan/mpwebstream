@@ -95,12 +95,13 @@ namespace MPWebStream.Site {
                 Transcoder transcoder = new Transcoder();
                 transcoder.Source = source;
                 transcoder.Profile = profile;
+                transcoder.BuildPipeline();
 
                 // stderr log
                 string logfile = "";
                 PassthroughProcessingUnit logProcessingUnit;
                 Thread logCopy = null;
-                if (config.TranscoderLog) {
+                if (config.TranscoderLog && profile.UseTranscoding) {
                     string logdir = Path.Combine(config.BasePath, "transcoderlogs");
                     if (!Directory.Exists(logdir))
                         Directory.CreateDirectory(logdir);

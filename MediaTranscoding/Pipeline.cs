@@ -45,6 +45,7 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public bool Assemble() {
+            isAssembled = true;
             Dictionary<int, int> dataConnections = new Dictionary<int,int>();
             Dictionary<int, int> logConnections = new Dictionary<int,int>();
 
@@ -67,8 +68,24 @@ namespace MPWebStream.MediaTranscoding {
                 }
             }
 
+            // dump out the pipeline for debugging
+            Log.Write("Assembling following pipeline:");
+            foreach (int i in dataUnits.Keys.OrderBy(k => k))
+                Log.Write("   data {0}: {1} (input {2}, data {3}, log {4})", i, dataUnits[i].ToString(), dataUnits[i].IsInputStreamConnected, dataUnits[i].IsDataStreamConnected, dataUnits[i].IsLogStreamConnected);
+            foreach (KeyValuePair<int, int> conn in dataConnections)
+                Log.Write("   dataconn {0} -> {1}", conn.Key, conn.Value);
+            foreach (int i in logUnits.Keys.OrderBy(k => k))
+                Log.Write("   log  {0}: {1}", i, logUnits[i].ToString());
+            foreach (KeyValuePair<int, int> conn in logConnections)
+                Log.Write("   logconn {0} -> {1}", conn.Value, conn.Key);
+
             foreach (int i in dataUnits.Keys.OrderBy(k => k)) {
-                dataUnits[i].Setup();
+                if (!dataUnits[i].Setup()) {
+                    // it failed, stop and break out
+                    Log.Error("Setup of data unit {0} failed", i);
+                    Stop();
+                    return false;
+                }   
                 if(dataConnections.ContainsKey(i))
                     dataUnits[dataConnections[i]].InputStream = dataUnits[i].DataOutputStream;
             }
@@ -78,29 +95,39 @@ namespace MPWebStream.MediaTranscoding {
                     logUnits[i].InputStream = dataUnits[logConnections[i]].LogOutputStream;
             }
 
-            isAssembled = true;
+            Log.Write("Pipeline assembled");
             return true;
         }
 
         public bool Start() {
             if (!isAssembled)
                 Assemble();
+            isStarted = true;
 
-            foreach (int i in dataUnits.Keys.OrderBy(k => k))
-                dataUnits[i].Start();
+            foreach (int i in dataUnits.Keys.OrderBy(k => k)) {
+                Log.Write("Starting data unit {0}", i);
+                if (!dataUnits[i].Start()) {
+                    Log.Error("Starting data unit {0} failed", i);
+                    Stop();
+                    return false;
+                }
+            }
             foreach (int i in logUnits.Keys.OrderBy(k => k))
                 logUnits[i].Start();
 
-            isStarted = true;
             return true;
         }
 
         public bool Stop() {
+            if (isStopped)
+                return true;
             if (!isStarted)
                 Start();
 
-            foreach (int i in dataUnits.Keys.OrderBy(k => k))
+            foreach (int i in dataUnits.Keys.OrderBy(k => k)) {
+                Log.Write("Stopping data unit {0}", i);
                 dataUnits[i].Stop();
+            }
             foreach (int i in logUnits.Keys.OrderBy(k => k))
                 logUnits[i].Stop();
 

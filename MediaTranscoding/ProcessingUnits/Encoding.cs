@@ -23,6 +23,7 @@
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace MPWebStream.MediaTranscoding {
     public class EncodingProcessingUnit : IProcessingUnit {
@@ -67,7 +68,7 @@ namespace MPWebStream.MediaTranscoding {
             } else if (inputMethod == TransportMethod.NamedPipe) {
                 transcoderInputStream = new NamedPipe();
                 input = ((NamedPipe)transcoderInputStream).Url;
-                Log.Write("Input: starting named pipe {0}", input);
+                Log.Write("Encoding: starting input named pipe {0}", input);
                 ((NamedPipe)transcoderInputStream).Start(false);
                 doInputCopy = true;
             } else if (inputMethod == TransportMethod.StandardIn) {
@@ -86,12 +87,13 @@ namespace MPWebStream.MediaTranscoding {
             }
 
             // start transcoder
-            Log.Write("Transcoder configuration dump");
-            Log.Write("  input {0}, output {1}", input, output);
-            Log.Write("  needsStdin {0}, needsStdout {1}", needsStdin, needsStdout);
-            Log.Write("  path {0}", transcoderPath);
-            Log.Write("  arguments {0}", arguments);
-            SpawnTranscoder(input, output, needsStdin, needsStdout);
+            Log.Write("Encoding: Transcoder configuration dump");
+            Log.Write("Encoding:   input {0}, output {1}", input, output);
+            Log.Write("Encoding:   needsStdin {0}, needsStdout {1}", needsStdin, needsStdout);
+            Log.Write("Encoding:   path {0}", transcoderPath);
+            Log.Write("Encoding:   arguments {0}", arguments);
+            if (!SpawnTranscoder(input, output, needsStdin, needsStdout))
+                return false;
 
             // finish stream setup
             if (inputMethod == TransportMethod.StandardIn)
@@ -101,7 +103,7 @@ namespace MPWebStream.MediaTranscoding {
             if (outputMethod == TransportMethod.Filename)
                 DataOutputStream = new FileStream(output, FileMode.Open, FileAccess.Read, FileShare.ReadWrite); // doesn't work yet
             if (outputMethod == TransportMethod.NamedPipe) {
-                Log.Write("Output: starting named pipe {0}", output);
+                Log.Write("Encoding: starting output named pipe {0}", output);
                 ((NamedPipe)DataOutputStream).Start(false);
             }
 
@@ -112,40 +114,43 @@ namespace MPWebStream.MediaTranscoding {
             return true;
         }
 
-        private void SpawnTranscoder(string input, string output, bool needsStdin, bool needsStdout) {
+        private bool SpawnTranscoder(string input, string output, bool needsStdin, bool needsStdout) {
             string args = String.Format(arguments, input, output);
             ProcessStartInfo start = new ProcessStartInfo(transcoderPath, args);
             start.UseShellExecute = false;
             start.RedirectStandardInput = needsStdin;
             start.RedirectStandardOutput = needsStdout;
-            start.RedirectStandardError = IsDataStreamConnected;
-/*
+            start.RedirectStandardError = IsLogStreamConnected;
 #if DEBUG
             start.WindowStyle = ProcessWindowStyle.Normal;
             start.CreateNoWindow = false;
 #endif
-*/
 
-            //try {
+            try {
                 transcoderApplication = new Process();
                 transcoderApplication.StartInfo = start;
                 transcoderApplication.Start();
-            /*
             } catch (Win32Exception e) {
-                Log.Error("Failed to start transcoder", e);
+                Log.Error("Encoding: Failed to start transcoder", e);
                 Log.Write("ERROR: Transcoder probably doesn't exists");
-                throw new TranscodingFailedException("Transcoder does not exists");
+                return false;
             }
-             */
+            return true;
         }
 
         public bool Start() {
             // copy the inputStream to the transcoderInputStream
             if(doInputCopy) {
-                Log.Write("Copy input stream of type {0} into transcoder input stream of type {1}", InputStream.ToString(), transcoderInputStream.ToString());
+                Log.Write("Encoding: Copy stream of type {0} into transcoder input stream of type {1}", InputStream.ToString(), transcoderInputStream.ToString());
                 if (transcoderInputStream is NamedPipe)
                     ((NamedPipe)transcoderInputStream).WaitTillReady();
                 StreamCopy.AsyncStreamCopy(InputStream, transcoderInputStream, "transinput");
+            }
+
+            // delay start of next unit till our output stream is ready
+            if (DataOutputStream is NamedPipe) {
+                Log.Write("Encoding: Waiting till output named pipe is ready");
+                ((NamedPipe)DataOutputStream).WaitTillReady();
             }
 
             return true;
@@ -158,11 +163,11 @@ namespace MPWebStream.MediaTranscoding {
             CloseStream(DataOutputStream, "transcoder output");
 
             if (transcoderApplication != null && !transcoderApplication.HasExited) {
-                Log.Write("Killing transcoder");
+                Log.Write("Encoding: Killing transcoder");
                 try {
                     transcoderApplication.Kill();
                 } catch (Exception e) {
-                    Log.Error("Failed to kill transcoder", e);
+                    Log.Error("Encoding: Failed to kill transcoder", e);
                 }
             }
 
@@ -173,7 +178,7 @@ namespace MPWebStream.MediaTranscoding {
             try {
                 if (stream != null) stream.Close();
             } catch (Exception e) {
-                Log.Write("Failed to close {0} stream: {1}", logName, e.Message);
+                Log.Write("Encoding: Failed to close {0} stream: {1}", logName, e.Message);
             }
         }   
     }

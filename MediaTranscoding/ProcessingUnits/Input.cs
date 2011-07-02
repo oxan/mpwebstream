@@ -39,10 +39,17 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public bool Setup() {
-            if (source.IndexOf(".ts.tsbuffer") != -1) {
-                DataOutputStream = new TsBuffer(this.source);
-            } else {
-                DataOutputStream = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            try {
+                if (source.IndexOf(".ts.tsbuffer") != -1) {
+                    Log.Write("Using TsBuffer to read input");
+                    DataOutputStream = new TsBuffer(this.source);
+                } else {
+                    Log.Write("Using FileStream to read input");
+                    DataOutputStream = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                }
+            } catch (Exception e) {
+                Log.Error("Failed to setup InputProcessingUnit", e);
+                return false;
             }
             return true;
         }
