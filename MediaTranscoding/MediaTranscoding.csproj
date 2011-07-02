@@ -44,6 +44,8 @@
     </Compile>
     <Compile Include="EncodingProcessingUnit.cs" />
     <Compile Include="FFmpegEncodingInfo.cs" />
+    <Compile Include="HttpOutputProcessingUnit.cs" />
+    <Compile Include="IBlockingProcessingUnit.cs" />
     <Compile Include="ILogProcessingUnit.cs" />
     <Compile Include="InputProcessingUnit.cs" />
     <Compile Include="IProcessingUnit.cs" />

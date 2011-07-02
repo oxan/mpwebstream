@@ -29,6 +29,9 @@ namespace MPWebStream.MediaTranscoding {
     class Pipeline {
         private Dictionary<int, IProcessingUnit> dataUnits = new Dictionary<int, IProcessingUnit>();
         private Dictionary<int, ILogProcessingUnit> logUnits = new Dictionary<int, ILogProcessingUnit>();
+        private bool isAssembled = false;
+        private bool isStarted = false;
+        private bool isStopped = false;
 
         public void AddDataProcessingUnit(IProcessingUnit process, int position) {
             dataUnits[position] = process;
@@ -75,23 +78,48 @@ namespace MPWebStream.MediaTranscoding {
                     logUnits[i].InputStream = dataUnits[logConnections[i]].LogOutputStream;
             }
 
+            isAssembled = true;
             return true;
         }
 
         public bool Start() {
+            if (!isAssembled)
+                Assemble();
+
             foreach (int i in dataUnits.Keys.OrderBy(k => k))
                 dataUnits[i].Start();
             foreach (int i in logUnits.Keys.OrderBy(k => k))
                 logUnits[i].Start();
+
+            isStarted = true;
             return true;
         }
 
         public bool Stop() {
+            if (!isStarted)
+                Start();
+
             foreach (int i in dataUnits.Keys.OrderBy(k => k))
                 dataUnits[i].Stop();
             foreach (int i in logUnits.Keys.OrderBy(k => k))
                 logUnits[i].Stop();
+
+            isStopped = true;
             return true;
+        }
+
+        public bool RunBlocking() {
+            if (!isStarted)
+                Start();
+
+            foreach (int i in dataUnits.Keys.OrderBy(k => k)) {
+                if (dataUnits[i] is IBlockingProcessingUnit) {
+                    ((IBlockingProcessingUnit)dataUnits[i]).RunBlocking();
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
