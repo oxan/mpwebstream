@@ -21,9 +21,28 @@
 #endregion
 
 using System;
+using System.IO;
 
 namespace MPWebStream.MediaTranscoding {
-    interface IBlockingProcessingUnit {
-        bool RunBlocking();
+    public class PassthroughProcessingUnit : IProcessingUnit {
+        public Stream InputStream { get; set; }
+        public Stream DataOutputStream { get; private set; }
+        public Stream LogOutputStream { get; private set; }
+        public bool IsInputStreamConnected { get; set; }
+        public bool IsDataStreamConnected { get; set; }
+        public bool IsLogStreamConnected { get; set; }
+
+        public bool Setup() {
+            this.DataOutputStream = this.InputStream;
+            return true;
+        }
+
+        public bool Start() {
+            return true;
+        }
+
+        public bool Stop() {
+            return true;
+        }
     }
 }

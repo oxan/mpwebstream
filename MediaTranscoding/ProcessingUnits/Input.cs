@@ -24,7 +24,7 @@ using System;
 using System.IO;
 
 namespace MPWebStream.MediaTranscoding {
-    class StreamCopyProcessingUnit : IProcessingUnit {
+    public class InputProcessingUnit : IProcessingUnit {
         public Stream InputStream { get; set; }
         public Stream DataOutputStream { get; private set; }
         public Stream LogOutputStream { get; private set; }
@@ -32,25 +32,22 @@ namespace MPWebStream.MediaTranscoding {
         public bool IsDataStreamConnected { get; set; }
         public bool IsLogStreamConnected { get; set; }
 
-        private Stream outputStream;
-        private string logIdentifier = null;
+        private string source;
 
-        public StreamCopyProcessingUnit(Stream outputStream) {
-            this.outputStream = outputStream;
-        }
-
-        public StreamCopyProcessingUnit(Stream outputStream, string logIdentifier) :
-            this(outputStream) {
-            this.logIdentifier = logIdentifier;
+        public InputProcessingUnit(string source) {
+            this.source = source;
         }
 
         public bool Setup() {
-            this.DataOutputStream = this.outputStream;
+            if (source.IndexOf(".ts.tsbuffer") != -1) {
+                DataOutputStream = new TsBuffer(this.source);
+            } else {
+                DataOutputStream = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            }
             return true;
         }
 
         public bool Start() {
-            StreamCopy.AsyncStreamCopy(InputStream, DataOutputStream, logIdentifier);
             return true;
         }
 

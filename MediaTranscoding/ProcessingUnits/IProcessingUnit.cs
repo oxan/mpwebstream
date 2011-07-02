@@ -24,7 +24,7 @@ using System;
 using System.IO;
 
 namespace MPWebStream.MediaTranscoding {
-    interface IProcessingUnit {
+    public interface IProcessingUnit {
         Stream InputStream { get; set; }
         Stream DataOutputStream { get; }
         Stream LogOutputStream { get; }

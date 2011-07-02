@@ -22,12 +22,9 @@
 
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MPWebStream.MediaTranscoding {
-    class InputProcessingUnit : IProcessingUnit {
+    public class StreamCopyProcessingUnit : IProcessingUnit {
         public Stream InputStream { get; set; }
         public Stream DataOutputStream { get; private set; }
         public Stream LogOutputStream { get; private set; }
@@ -35,22 +32,25 @@ namespace MPWebStream.MediaTranscoding {
         public bool IsDataStreamConnected { get; set; }
         public bool IsLogStreamConnected { get; set; }
 
-        private string source;
+        private Stream outputStream;
+        private string logIdentifier = null;
 
-        public InputProcessingUnit(string source) {
-            this.source = source;
+        public StreamCopyProcessingUnit(Stream outputStream) {
+            this.outputStream = outputStream;
+        }
+
+        public StreamCopyProcessingUnit(Stream outputStream, string logIdentifier) :
+            this(outputStream) {
+            this.logIdentifier = logIdentifier;
         }
 
         public bool Setup() {
-            if (source.IndexOf(".ts.tsbuffer") != -1) {
-                DataOutputStream = new TsBuffer(this.source);
-            } else {
-                DataOutputStream = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            }
+            this.DataOutputStream = this.outputStream;
             return true;
         }
 
         public bool Start() {
+            StreamCopy.AsyncStreamCopy(InputStream, DataOutputStream, logIdentifier);
             return true;
         }
 

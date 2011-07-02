@@ -26,7 +26,7 @@ using System.Linq;
 using System.Text;
 
 namespace MPWebStream.MediaTranscoding {
-    class Pipeline {
+    public class Pipeline {
         private Dictionary<int, IProcessingUnit> dataUnits = new Dictionary<int, IProcessingUnit>();
         private Dictionary<int, ILogProcessingUnit> logUnits = new Dictionary<int, ILogProcessingUnit>();
         private bool isAssembled = false;

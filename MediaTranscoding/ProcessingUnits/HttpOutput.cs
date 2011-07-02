@@ -22,13 +22,10 @@
 
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
 
 namespace MPWebStream.MediaTranscoding {
-    class HttpOutputProcessingUnit : IProcessingUnit, IBlockingProcessingUnit {
+    public class HttpOutputProcessingUnit : IProcessingUnit, IBlockingProcessingUnit {
         public Stream InputStream { get; set; }
         public Stream DataOutputStream { get; private set; }
         public Stream LogOutputStream { get; private set; }

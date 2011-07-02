@@ -33,7 +33,7 @@ namespace MPWebStream.MediaTranscoding {
         public string Source { get; set; }
         public Pipeline Pipeline { get; private set; }
 
-        private void BuildPipeline() {
+        public void BuildPipeline() {
             Pipeline = new Pipeline();
 
             // dispatch the .Path method
@@ -61,6 +61,14 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public void TranscodeToClient(HttpResponse response) {
+            TranscodeToClientImplementation(response);
+        }
+
+        public void TranscodeToClient(HttpResponseBase response) {
+            TranscodeToClientImplementation(response);
+        }
+
+        private void TranscodeToClientImplementation(dynamic response) {
             BuildPipeline();
             Pipeline.AddDataProcessingUnit(new HttpOutputProcessingUnit(Pipeline, Profile.MIME, response), 3);
             Pipeline.RunBlocking();
