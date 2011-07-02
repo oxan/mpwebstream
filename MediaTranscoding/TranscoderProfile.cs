@@ -25,12 +25,12 @@ using System.Xml;
 
 namespace MPWebStream.MediaTranscoding {
     public enum TransportMethod {
-        Filename,
-        NamedPipe,
-        Path,
-        StandardIn,
-        StandardOut,
-        External
+        Filename,       // always a full path to a file
+        NamedPipe,      // always a named pipe (all data passes through MPWebStream)
+        Path,           // dynamically dispatch between Filename and NamedPipe (recommended)
+        StandardIn,     // only input: is written to standard input of transcoder
+        StandardOut,    // only output: is read from standard output of transcoder
+        External        // don't touch input or output (i.e. hardcoded in transcoder config)
     }
 
     public class TranscoderProfile {

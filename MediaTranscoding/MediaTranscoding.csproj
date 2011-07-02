@@ -48,12 +48,15 @@
     <Compile Include="ILogProcessingUnit.cs" />
     <Compile Include="InputProcessingUnit.cs" />
     <Compile Include="IProcessingUnit.cs" />
+    <Compile Include="PassthroughProcessingUnit.cs" />
     <Compile Include="Pipeline.cs" />
     <Compile Include="Resolution.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NamedPipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamCopy.cs" />
+    <Compile Include="StreamCopyProcessingUnit.cs" />
+    <Compile Include="Transcoder.cs" />
     <Compile Include="TranscodingStreamer.cs" />
     <Compile Include="TranscoderProfile.cs" />
     <Compile Include="TsBuffer.cs" />

@@ -55,19 +55,13 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public bool Setup() {
-            // resolve the Path transport method if needed
-            if (inputMethod == TransportMethod.Path)
-                inputMethod = IsInputStreamConnected ? TransportMethod.NamedPipe : TransportMethod.Filename;
-            if (outputMethod == TransportMethod.Path)
-                outputMethod = TransportMethod.NamedPipe; // keeping it in memory is probably faster
-
             // sets up streams
             string input = "";
             string output = "";
             bool needsStdin = false;
             bool needsStdout = false;
 
-            // input
+            // input (StandardOut not supported and External needs no processing)
             if (inputMethod == TransportMethod.Filename) {
                 input = this.source;
             } else if (inputMethod == TransportMethod.NamedPipe) {
@@ -79,13 +73,10 @@ namespace MPWebStream.MediaTranscoding {
             } else if (inputMethod == TransportMethod.StandardIn) {
                 needsStdin = true;
                 doInputCopy = true;
-            } else if (inputMethod == TransportMethod.External) {
-                // we don't have to do any setup here
-            }
+            } 
 
-            // output stream
+            // output stream (StandardIn not supported and External needs no processing)
             if (outputMethod == TransportMethod.Filename) {
-                // TODO: this doesn't work yet (and I bet nobody wants to use it)
                 output = Path.GetTempFileName();
             } else if (outputMethod == TransportMethod.NamedPipe) {
                 DataOutputStream = new NamedPipe();
@@ -108,7 +99,7 @@ namespace MPWebStream.MediaTranscoding {
             if (outputMethod == TransportMethod.StandardOut)
                 DataOutputStream = transcoderApplication.StandardOutput.BaseStream;
             if (outputMethod == TransportMethod.Filename)
-                DataOutputStream = new FileStream(output, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                DataOutputStream = new FileStream(output, FileMode.Open, FileAccess.Read, FileShare.ReadWrite); // doesn't work yet
             if (outputMethod == TransportMethod.NamedPipe) {
                 Log.Write("Output: starting named pipe {0}", output);
                 ((NamedPipe)DataOutputStream).Start(false);
