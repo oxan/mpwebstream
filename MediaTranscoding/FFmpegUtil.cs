@@ -27,6 +27,13 @@ using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace MPWebStream.MediaTranscoding {
+    public class FFmpegEncodingInfo {
+        public decimal CurrentBitrate { get; set; }
+        public int CurrentTime { get; set; }
+        public int EncodedFrames { get; set; }
+        public int EncodingFPS { get; set; }
+    }
+
     public static class FFmpegUtil {
         public static ResolutionInfo GetResolutionInfo(string ffmpegPath, string video) {
             ProcessStartInfo start = new ProcessStartInfo(ffmpegPath, String.Format("-i \"{0}\"", video));
