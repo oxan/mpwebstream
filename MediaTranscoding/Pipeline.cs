@@ -42,10 +42,13 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public bool Assemble() {
+            Dictionary<int, int> dataConnections = new Dictionary<int,int>();
+            Dictionary<int, int> logConnections = new Dictionary<int,int>();
+
             int lastKey = -1;
             foreach (int i in dataUnits.Keys.OrderBy(k => k)) {
                 if (dataUnits.ContainsKey(lastKey)) {
-                    dataUnits[i].InputStream = dataUnits[lastKey].DataOutputStream;
+                    dataConnections[lastKey] = i;
                     dataUnits[i].IsInputStreamConnected = true;
                     dataUnits[lastKey].IsDataStreamConnected = true;
                 }
@@ -56,15 +59,21 @@ namespace MPWebStream.MediaTranscoding {
             foreach (int i in logUnits.Keys.OrderBy(k => k)) {
                 int nr = dataUnits.Keys.Where(k => k < i).DefaultIfEmpty(-1).Max();
                 if (dataUnits.ContainsKey(nr)) {
-                    logUnits[i].InputStream = dataUnits[nr].LogOutputStream;
+                    logConnections[i] = nr;
                     dataUnits[nr].IsLogStreamConnected = true;
                 }
             }
 
-            foreach (int i in dataUnits.Keys.OrderBy(k => k))
+            foreach (int i in dataUnits.Keys.OrderBy(k => k)) {
                 dataUnits[i].Setup();
-            foreach (int i in logUnits.Keys.OrderBy(k => k))
+                if(dataConnections.ContainsKey(i))
+                    dataUnits[dataConnections[i]].InputStream = dataUnits[i].DataOutputStream;
+            }
+            foreach (int i in logUnits.Keys.OrderBy(k => k)) {
                 logUnits[i].Setup();
+                if (logConnections.ContainsKey(i))
+                    logUnits[i].InputStream = dataUnits[logConnections[i]].LogOutputStream;
+            }
 
             return true;
         }
