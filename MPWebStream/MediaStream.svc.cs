@@ -20,15 +20,13 @@
  */
 #endregion
 
-using MPWebStream.MediaTranscoding;
-using MPWebStream.Site.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Web;
+using MPWebStream.Site.Service;
 using TV4Home.Server.TVEInteractionLibrary.Interfaces;
 
 namespace MPWebStream.Site {

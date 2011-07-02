@@ -49,10 +49,10 @@ namespace MPWebStream.Site {
 
             // get transcoder
             Configuration config = new Configuration();
-            TranscoderProfile transcoder;
+            TranscoderProfile profile;
             int transcoderId;
             if (Int32.TryParse(context.Request.Params["transcoder"], out transcoderId) && config.GetTranscoder(transcoderId) != null) {
-                transcoder = config.GetTranscoder(transcoderId);
+                profile = config.GetTranscoder(transcoderId);
             } else {
                 context.Response.Write("Specify a valid transcoder");
                 return;
@@ -77,7 +77,7 @@ namespace MPWebStream.Site {
                     WebChannelBasic channel = tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"]));
                     Log.Write("Trying to switch to channel {0} with username {1}", channel.IdChannel, username);
                     card = tvServiceInterface.SwitchTVServerToChannelAndGetVirtualCard(username, channel.IdChannel);
-                    source = transcoder.InputMethod == TransportMethod.Filename ? card.RTSPUrl : card.TimeShiftFileName; // FIXME
+                    source = profile.InputMethod == TransportMethod.Filename ? card.RTSPUrl : card.TimeShiftFileName; // FIXME
                     Log.Write("Channel switch succeeded");
                 } else if (context.Request.Params["recordingId"] != null) {
                     // recording streaming
@@ -92,44 +92,43 @@ namespace MPWebStream.Site {
                     return;
                 }
 
-                TranscodingStreamer streamer = new TranscodingStreamer(source, transcoder);
+                Transcoder transcoder = new Transcoder();
+                transcoder.Source = source;
+                transcoder.Profile = profile;
 
                 // stderr log
                 string logfile = "";
+                PassthroughProcessingUnit logProcessingUnit;
+                Thread logCopy = null;
                 if (config.TranscoderLog) {
                     string logdir = Path.Combine(config.BasePath, "transcoderlogs");
                     if (!Directory.Exists(logdir))
                         Directory.CreateDirectory(logdir);
                     logfile = Path.Combine(logdir, String.Format("{0:dd_MM_yyyy_HH_mm_ss}.log", DateTime.Now));
                     Log.Write("Writing transcoder output to {0}", logfile);
-                    streamer.WantLogStream = true;
+                    logProcessingUnit = new PassthroughProcessingUnit();
+                    transcoder.Pipeline.AddLogProcessingUnit(logProcessingUnit, 3);
+
+                    // setup thread for copy
+                    logCopy = new Thread(new ThreadStart(delegate {
+                        try {
+                            FileStream fs = new FileStream(logfile, FileMode.Create, FileAccess.ReadWrite);
+                            while (true)
+                                logProcessingUnit.DataOutputStream.CopyTo(fs);
+                        } catch (Exception) {
+                            // not so important
+                        }
+                    }));
                 }
 
-                // run
+                // abort if client disconnected
                 if (!context.Response.IsClientConnected) {
                     Log.Write("Client has disconnected, not even bothering to start transcoding");
                 } else {
-                    streamer.StartTranscoding();
-
-                    // setup stderr log to file
-                    if (config.TranscoderLog) {
-                        Thread t = new Thread(new ThreadStart(delegate {
-                            try {
-                                FileStream fs = new FileStream(logfile, FileMode.Create, FileAccess.ReadWrite);
-                                while (true)
-                                    streamer.GetTranscoderLogStream().CopyTo(fs);
-                            } catch (Exception) {
-                                // not soo important
-                            }
-                        }));
-                        t.Start();
-                    }
-
-                    if (context.Response.IsClientConnected) { // client could have disconnected in the meantime
-                        streamer.TranscodeToClient(context.Response);
-                        dataSend = true;
-                    }
-                    streamer.StopTranscoding();
+                    // start transcoding
+                    if (config.TranscoderLog && logCopy != null)
+                        logCopy.Start();
+                    transcoder.TranscodeToClient(context.Response);
                 }
             } catch (FaultException e) {
                 // exception from TV4Home, so display message to user, probably not our fault. 
