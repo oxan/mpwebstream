@@ -27,31 +27,61 @@ using System.Text;
 
 namespace MPWebStream.MediaTranscoding {
     class Pipeline {
-        private Dictionary<int, IProcessingUnit> dataUnits;
-        private Dictionary<int, IProcessingUnit> logUnits;
-
-        public Pipeline() {
-            dataUnits = new Dictionary<int, IProcessingUnit>();
-            logUnits = new Dictionary<int, IProcessingUnit>();
-        }
+        private Dictionary<int, IProcessingUnit> dataUnits = new Dictionary<int, IProcessingUnit>();
+        private Dictionary<int, ILogProcessingUnit> logUnits = new Dictionary<int, ILogProcessingUnit>();
 
         public void AddDataProcessingUnit(IProcessingUnit process, int position) {
             dataUnits[position] = process;
+            dataUnits[position].IsInputStreamConnected = false;
+            dataUnits[position].IsDataStreamConnected = false;
+            dataUnits[position].IsLogStreamConnected = false;
         }
 
-        public void AddLogProcessingUnit(IProcessingUnit process, int position) {
+        public void AddLogProcessingUnit(ILogProcessingUnit process, int position) {
             logUnits[position] = process;
         }
 
         public bool Assemble() {
+            int lastKey = -1;
+            foreach (int i in dataUnits.Keys.OrderBy(k => k)) {
+                if (dataUnits.ContainsKey(lastKey)) {
+                    dataUnits[i].InputStream = dataUnits[lastKey].DataOutputStream;
+                    dataUnits[i].IsInputStreamConnected = true;
+                    dataUnits[lastKey].IsDataStreamConnected = true;
+                }
+
+                lastKey = i;
+            }
+
+            foreach (int i in logUnits.Keys.OrderBy(k => k)) {
+                int nr = dataUnits.Keys.Where(k => k < i).DefaultIfEmpty(-1).Max();
+                if (dataUnits.ContainsKey(nr)) {
+                    logUnits[i].InputStream = dataUnits[nr].LogOutputStream;
+                    dataUnits[nr].IsLogStreamConnected = true;
+                }
+            }
+
+            foreach (int i in dataUnits.Keys.OrderBy(k => k))
+                dataUnits[i].Setup();
+            foreach (int i in logUnits.Keys.OrderBy(k => k))
+                logUnits[i].Setup();
+
             return true;
         }
 
         public bool Start() {
+            foreach (int i in dataUnits.Keys.OrderBy(k => k))
+                dataUnits[i].Start();
+            foreach (int i in logUnits.Keys.OrderBy(k => k))
+                logUnits[i].Start();
             return true;
         }
 
         public bool Stop() {
+            foreach (int i in dataUnits.Keys.OrderBy(k => k))
+                dataUnits[i].Stop();
+            foreach (int i in logUnits.Keys.OrderBy(k => k))
+                logUnits[i].Stop();
             return true;
         }
     }
