@@ -44,6 +44,7 @@
     </Compile>
     <Compile Include="EncodingProcessingUnit.cs" />
     <Compile Include="FFmpegEncodingInfo.cs" />
+    <Compile Include="InputProcessingUnit.cs" />
     <Compile Include="IProcessingUnit.cs" />
     <Compile Include="Pipeline.cs" />
     <Compile Include="Resolution.cs" />
