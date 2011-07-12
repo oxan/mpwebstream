@@ -21,6 +21,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 
 namespace MPWebStream.MediaTranscoding {
     public class FFmpegEncodingInfo {
@@ -28,5 +29,10 @@ namespace MPWebStream.MediaTranscoding {
         public int CurrentTime { get; set; }
         public int EncodedFrames { get; set; }
         public int EncodingFPS { get; set; }
+
+        public int EncodedKb { get; set; }
+
+        public FFMpegEncodingErrors EncodingErrors { get; set; }
+        public bool FinishedSuccessfully { get; set; }
     }
 }

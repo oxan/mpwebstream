@@ -49,6 +49,11 @@ namespace MPWebStream.Site {
             MPWebStream.MediaTranscoding.Log.RegisterWriter(new MPWebStream.MediaTranscoding.Log.LogWrite(Log.Write));
         }
 
+        public static void Write(int logLevel, string message)
+        {
+            PerformWrite(message);
+        }
+
         public static void Write(string message) {
             PerformWrite(message);
         }

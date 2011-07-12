@@ -42,6 +42,7 @@
     <Compile Include="..\TvServerPlugin\Configuration.cs">
       <Link>Configuration.cs</Link>
     </Compile>
+    <Compile Include="FFMpegEncodingErrors.cs" />
     <Compile Include="FFmpegEncodingInfo.cs" />
     <Compile Include="Resolution.cs" />
     <Compile Include="Transcoder.cs" />

@@ -38,7 +38,7 @@ namespace MPWebStream.MediaTranscoding {
             process.Start();
 
             ResolutionInfo info = null;
-            while(true) {
+            while (true) {
                 string line = process.StandardError.ReadLine();
                 if (line == null)
                     break;
@@ -82,36 +82,78 @@ namespace MPWebStream.MediaTranscoding {
         }
 
         public static void ParseOutputStream(Stream outputStream, out FFmpegEncodingInfo saveData) {
+            ParseOutputStream(outputStream, out saveData, true, false);
+        }
+
+        public static void ParseOutputStream(Stream outputStream, out FFmpegEncodingInfo saveData, bool logMessages, bool logProgress) {
             StreamReader reader = new StreamReader(outputStream);
             saveData = new FFmpegEncodingInfo();
 
+            bool aborted = false;
             string line;
             while ((line = reader.ReadLine()) != null) {
                 try {
-                    if (line.Length < 6 || line.Substring(0, 6) != "frame=")
-                        continue;
+                    if (line.StartsWith("frame=")) {
+                        // format of an output line (yes, we're doomed as soon as ffmpeg changes it output):
+                        // frame=  923 fps=256 q=31.0 size=    2712kB time=00:05:22.56 bitrate= 601.8kbits/s
+                        Match match = Regex.Match(line, @"frame=([ 0-9]*) fps=([ 0-9]*) q=[^ ]* L?size=([ 0-9]*)kB time=([0-9]{2}):([0-9]{2}):([0-9]{2})\.[0-9]{2} bitrate=([ .0-9]*)kbits/s", RegexOptions.IgnoreCase);
+                        if (match.Success) {
+                            lock (saveData) {
+                                saveData.CurrentBitrate = Decimal.Parse(match.Groups[7].Value, System.Globalization.CultureInfo.InvariantCulture);
+                                saveData.CurrentTime = Int32.Parse(match.Groups[4].Value) * 3600 + Int32.Parse(match.Groups[5].Value) * 60 + Int32.Parse(match.Groups[6].Value);
+                                saveData.EncodedFrames = Int32.Parse(match.Groups[1].Value);
+                                saveData.EncodingFPS = Int32.Parse(match.Groups[2].Value);
+                                saveData.EncodedKb = Int32.Parse(match.Groups[3].Value);
+                            }
 
-                    // format of an output line (yes, we're doomed as soon as ffmpeg changes it output):
-                    // frame=  923 fps=256 q=31.0 size=    2712kB time=00:05:22.56 bitrate= 601.8kbits/s
-                    Match match = Regex.Match(line, @"frame=([ 0-9]*) fps=([ 0-9]*) q=[^ ]* L?size=([ 0-9]*)kB time=([0-9]{2}):([0-9]{2}):([0-9]{2})\.[0-9]{2} bitrate=([ .0-9]*)kbits/s", RegexOptions.IgnoreCase);
-                    if (!match.Success)
-                        continue;
+                            if (!logProgress) {
+                                //we don't want to log progress reports
+                                continue;
+                            }
+                        }
+                    } else if (line.StartsWith("video:")) {
+                        //process the result line (e.g. video:5608kB audio:781kB global headers:0kB muxing overhead 13.235302%)
+                        //line to see if it completed successfully
+                        Match resultMatch = Regex.Match(line, @"video:([0-9]*)kB audio:([0-9]*)kB global headers:([0-9]*)kB muxing overhead[^%]*%", RegexOptions.IgnoreCase);
+                        bool success = false;
+                        if (resultMatch.Success) {
+                            success = true;
+                        }
 
-                    lock (saveData) {
-                        saveData.CurrentBitrate = Decimal.Parse(match.Groups[7].Value, System.Globalization.CultureInfo.InvariantCulture);
-                        saveData.CurrentTime = Int32.Parse(match.Groups[4].Value) * 3600 + Int32.Parse(match.Groups[5].Value) * 60 + Int32.Parse(match.Groups[6].Value);
-                        saveData.EncodedFrames = Int32.Parse(match.Groups[1].Value);
-                        saveData.EncodingFPS = Int32.Parse(match.Groups[2].Value);
+                        lock (saveData) {
+                            saveData.FinishedSuccessfully = success;
+                        }
+                    } else if (line.Contains("Application provided invalid, non monotonically increasing dts to muxer")) {
+                        lock (saveData) {
+                            saveData.EncodingErrors = saveData.EncodingErrors | FFMpegEncodingErrors.NonMonotonicallyIncreasingDts;
+                        }
+                    } else if (line.Contains("start time is not set in av_estimate_timings_from_pts")) {
+                        lock (saveData) {
+                            saveData.EncodingErrors = saveData.EncodingErrors | FFMpegEncodingErrors.StartTimeNotSetInEstimateTimingsFromPts;
+                        }
+                    } else if (line.Contains("use -vbsf h264_mp4toannexb")) {
+                        lock (saveData) {
+                            saveData.EncodingErrors = saveData.EncodingErrors | FFMpegEncodingErrors.UseVbsfH264Mp4ToAnnexb;
+                        }
+                    }
+
+                    if (logMessages) {
+                        Log.Trace(line);
                     }
                 } catch (ThreadAbortException) {
                     // allow it to be used in a thread
+                    aborted = true; ;
                     reader.Close();
                     break;
                 } catch (Exception e) {
+                    aborted = true;
                     Log.Error("Failure during parsing of ffmpeg output", e);
                 }
             }
 
+            if (aborted) {
+
+            }
             reader.Close();
             return;
         }
