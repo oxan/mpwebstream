@@ -34,7 +34,7 @@ namespace MPWebStream.TvServerPlugin {
         }
 
         public string Version {
-            get { return "1.0.0.0"; }
+            get { return "1.0.9.0"; }
         }
 
         public string Author {

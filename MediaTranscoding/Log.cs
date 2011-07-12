@@ -27,7 +27,16 @@ using System.Threading;
 
 namespace MPWebStream.MediaTranscoding {
     public class Log {
-        public delegate void LogWrite(string message);
+        public enum LogLevel
+        {
+            Trace = 0,
+            Debug = 1,
+            Info = 2,
+            Warn = 3,
+            Error = 4,
+            Fatal = 5
+        }
+        public delegate void LogWrite(int logLevel, string message);
 
         private static LogWrite callback = null;
         private static object lockObj = new Object();
@@ -36,24 +45,51 @@ namespace MPWebStream.MediaTranscoding {
             callback = writer;
         }
 
-        internal static void Write(string message, params object[] arg) {
-            PerformWrite(message, arg);
+        internal static void Trace(string message, params object[] arg)
+        {
+            PerformWrite(LogLevel.Trace, message, arg);
         }
 
-        internal static void Error(string message, params object[] arg) {
-            PerformWrite(String.Format("ERROR: {0}", message), arg);
+        internal static void Debug(string message, params object[] arg)
+        {
+            PerformWrite(LogLevel.Debug, message, arg);
+        }
+
+        internal static void Info(string message, params object[] arg)
+        {
+            PerformWrite(LogLevel.Info, message, arg);
+        }
+
+        internal static void Warn(string message, params object[] arg)
+        {
+            PerformWrite(LogLevel.Warn, message, arg);
+        }
+
+        internal static void Error(string message, params object[] arg)
+        {
+            PerformWrite(LogLevel.Error, message, arg);
+        }
+
+        internal static void Fatal(string message, params object[] arg)
+        {
+            PerformWrite(LogLevel.Fatal, message, arg);
+        }
+
+        internal static void Write(string message, params object[] arg) {
+            PerformWrite(LogLevel.Info, message, arg);
         }
 
         internal static void Error(string message, Exception ex) {
             Error(message);
-            PerformWrite(String.Format("Exception: {0}", ex)); 
+            PerformWrite(LogLevel.Error, String.Format("Exception: {0}", ex)); 
         }
 
-        private static void PerformWrite(string format, params object[] arg) {
+        private static void PerformWrite(LogLevel logLevel, string format, params object[] arg)
+        {
             string text = string.Format(format, arg);
             if (callback != null) {
                 lock (lockObj)  // avoid calling it in concurrent
-                    callback.Invoke(text);
+                    callback.Invoke((int)logLevel, text);
             }
         }
     }
