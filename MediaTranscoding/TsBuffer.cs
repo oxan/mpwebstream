@@ -377,7 +377,7 @@ namespace MPWebStream.MediaTranscoding {
         /// </summary>
         private void RefreshTsBuffer() {
             if (tsBuffer == null) {
-                Log("Setting state to invalid file due to null input file");
+                // Log("Setting state to invalid file due to null input file");
                 state = State.InvalidFile;
                 return;
             }

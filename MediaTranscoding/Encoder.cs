@@ -172,6 +172,7 @@ namespace MPWebStream.MediaTranscoding {
                 Log.Write("Copy input stream of type {0} into transcoder input stream of type {1}", InputStream.ToString(), TranscoderInputStream.ToString());
                 if (TranscoderInputStream is NamedPipe)
                     ((NamedPipe)TranscoderInputStream).WaitTillReady();
+                Log.Debug("Named pipe successfully started");
                 StreamCopy.AsyncStreamCopy(InputStream, TranscoderInputStream, "transinput");
             }
 
