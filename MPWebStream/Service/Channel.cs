@@ -24,7 +24,7 @@ namespace MPWebStream.Site.Service {
         }
 
         public Channel(WebChannelDetailed ch) :
-            this(ch.IdChannel, ch.DisplayName, ch.Name, ch.IsTv, ch.IsRadio) {
+            this(ch.IdChannel, ch.DisplayName, ch.DisplayName, ch.IsTv, ch.IsRadio) {
         }
     }
 }
