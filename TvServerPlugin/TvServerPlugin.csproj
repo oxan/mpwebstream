@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Utils">
+      <HintPath>..\lib\Common.Utils.dll</HintPath>
+    </Reference>
     <Reference Include="PluginBase, Version=1.1.2.20624, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\PluginBase.dll</HintPath>

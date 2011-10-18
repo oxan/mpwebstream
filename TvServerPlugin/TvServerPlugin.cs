@@ -26,8 +26,12 @@ using TvEngine;
 using TvControl;
 using System.Threading;
 using TvLibrary.Log;
+using MediaPortal.Common.Utils;
 
 namespace MPWebStream.TvServerPlugin {
+    [CompatibleVersion("1.2.1.0", "1.2.0.0")]
+    [UsesSubsystem("TVE.Config")]
+    [UsesSubsystem("TVE.COnfig.Controls")]
     public class MPWebStreamPlugin : ITvServerPlugin {
         public string Name {
             get { return "MPWebStream"; }
