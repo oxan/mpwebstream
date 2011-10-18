@@ -86,7 +86,12 @@ namespace MPWebStream.MediaTranscoding {
 
         private static void PerformWrite(LogLevel logLevel, string format, params object[] arg)
         {
-            string text = string.Format(format, arg);
+            string text;
+            if (arg.Length > 0) {
+                text = string.Format(format, arg);
+            } else {
+                text = format;
+            }
             if (callback != null) {
                 lock (lockObj)  // avoid calling it in concurrent
                     callback.Invoke((int)logLevel, text);

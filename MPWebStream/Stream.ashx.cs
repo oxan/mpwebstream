@@ -75,7 +75,7 @@ namespace MPWebStream.Site {
                     type = StreamType.Channel;
                     username = "mpwebstream-" + System.Guid.NewGuid().ToString("D"); // should be random enough
                     WebChannelBasic channel = tvServiceInterface.GetChannelBasicById(Int32.Parse(context.Request.Params["channelId"]));
-                    Log.Write("Trying to switch to channel {0} with username {1}", channel.IdChannel, username);
+                    Log.Write("Trying to switch to channel {0} ({1}) with username {2}", channel.IdChannel, channel.DisplayName, username);
                     card = tvServiceInterface.SwitchTVServerToChannelAndGetVirtualCard(username, channel.IdChannel);
                     source = transcoder.InputMethod == TransportMethod.Filename ? card.RTSPUrl : card.TimeShiftFileName; // FIXME
                     Log.Write("Channel switch succeeded");

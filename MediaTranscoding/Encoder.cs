@@ -145,6 +145,7 @@ namespace MPWebStream.MediaTranscoding {
 
         protected void SpawnTranscoder(string input, string output, bool needsStdin, bool needsStdout) {
             string args = String.Format(Profile.Parameters, input, output);
+            Log.Write("  final arguments: " + args);
             ProcessStartInfo start = new ProcessStartInfo(Profile.Transcoder, args);
             start.UseShellExecute = false;
             start.RedirectStandardInput = needsStdin;
