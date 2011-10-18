@@ -15,12 +15,24 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_02D35E610BF44651A1069C3A82102560"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_06A8877B0EAE442CA61F6EEB207B4A5E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_082BE931545446EC91ABE14FD81A4378"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_086C8B6CE03150BDFF2E192195F6C961"
         "OwnerKey" = "8:_490AC7D1F1FA57B7C2CB0BD706935DA5"
         "MsmSig" = "8:_UNDEFINED"
@@ -33,43 +45,31 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_217772AD2E2E4FFBB8953961D3DD2D3C"
+        "MsmKey" = "8:_13662974B85F4DAB826A16F3D8DE789A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_22EB909401CA43F78A3CCD9422734DFA"
+        "MsmKey" = "8:_1E03785B09AA4D5C99BB6904DFA6A701"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_27B6FADD3AE4430299371FAC61D14170"
+        "MsmKey" = "8:_2C4F8A3F3ED14088A83F22F4CFFB945F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_2EBD7D1247424DCA8871340D7D7B7F0A"
+        "MsmKey" = "8:_2F7CB182D8EA4DB4AD22629C09B28B46"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_339A23A6F1CD40ADA2CB0BD4C87B9ED7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_33A1CC2B63EA48A89FC6E57222D660DF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3481A8FC9D3D4496AD007A93C0FBC269"
+        "MsmKey" = "8:_4268BCB96B3C43B89FEB5D48875BA61D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -83,18 +83,6 @@
         {
         "MsmKey" = "8:_43BE2C259F5AA6532CE221755451CB0F"
         "OwnerKey" = "8:_8204F0644A0541D0A5B5FFACB191B4A2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_442935F1B53F431498CD114D881EBC92"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_446076FEA5164C97A5AFFE9761409ECC"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -105,31 +93,43 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_454848E1127F4531926A6319E93EBB23"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_469001BAD6B94B1FA374E293BEB3AB95"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_478CE202AB3B4202836DD303ABA117E2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_490AC7D1F1FA57B7C2CB0BD706935DA5"
         "OwnerKey" = "8:_8204F0644A0541D0A5B5FFACB191B4A2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4D1557F1C44E45A1980FF53E9FE1009A"
+        "MsmKey" = "8:_4D10103A60CE458ABC20F94BDB5A58D1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_5030FB9920FF4C4E828F6CD0000CB94C"
+        "MsmKey" = "8:_5061AFD8A8FD4DB4A2F1648CE5ADC130"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_5072470E550B4E2A8C5FB20C4D88D727"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_51B6179D34E34032A07DB5F47CEFCE37"
+        "MsmKey" = "8:_564655275B6E4B9D8F34F67E01D0E3E2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -153,7 +153,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_604B88B7DCD44AEE8B16820D502CFF2B"
+        "MsmKey" = "8:_69E792EDED9D45CF894BD14A66501055"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6BE33683B7594EA192864DD28C2E92F2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7017E0ADE5914A7B905474320AA1546D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -171,19 +183,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_88554AB723624885A9BD6D7D7A9EBA8F"
+        "MsmKey" = "8:_8351FE31ADDF41C0B53DCA48AB215B77"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_8888F6438F9B4B978DAAEABE52F59F4D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8942C5CEBEE04BA3A4506CB2BFEC5CCF"
+        "MsmKey" = "8:_866650C1E47D4AE995925F6C8C51D298"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -195,7 +201,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9A620273734C4A25B0736C8C36D6753F"
+        "MsmKey" = "8:_9099B8276F154B3AB28742CD6219E4C7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_953D76F00C1C4562B0F27488D8904E52"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D0DE1396EDE458BB4DFE7D34B0DB6D2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -207,43 +225,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9DCBE873CBDC4A30B565B5CEC4ED1B47"
+        "MsmKey" = "8:_AF5A44B9F292450D92A862AA50CF5E5F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A07099B3996B4F02A301A994D8EBE4F4"
+        "MsmKey" = "8:_B21F416F8DE442AA88926D4802AE38DB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A0ED75CD82FD4FFC9AD34E026A93C00D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A9658365A09549E480F3152DA8E3DC3D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B0E9BF093EB1452EBE74B12D8CD7B7BB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B15AF740C7834D7ABC3C4D82862A7395"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B160F511754D4BB889CA64A07FAB5104"
+        "MsmKey" = "8:_B69FE5E91E8D451898FEF31C8722F038"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -255,7 +249,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C4EBFDA052D14F48A62AF95D4135547B"
+        "MsmKey" = "8:_C4FFEE7BE38A42539E71A550A1671727"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -267,49 +261,67 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CDF36A82E7BF4C1D8DB31F1F3267AC45"
+        "MsmKey" = "8:_D0B59FFB4CCE43EB8A5C48F6A83D1DDB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_CEF62B94C63B437783A955C33D3A816C"
+        "MsmKey" = "8:_D7C516CE2041475287FF89B2884C5E41"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_D9DD44E70AE04CEBBF2B67950BF28080"
+        "MsmKey" = "8:_D87B2C210C2442A7B023176A33B2A1F9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DB8CE4B94E2948708C997D51ACE247D9"
+        "MsmKey" = "8:_E1406A4368EB40F3A083C8365FDB83D1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DF7A46DD8B9B41C99AAFAA3EF6D98BCF"
+        "MsmKey" = "8:_E1AFA0A4AA3946808071AAFE58E19A4D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E58A90723C6449F2AAD3A23DC6A750DD"
+        "MsmKey" = "8:_E8E8CAB1283A444189F6CC4A62418F40"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_F504FD984A53402DB271E780DCDE553C"
+        "MsmKey" = "8:_EBCFDFF39FC14E18B9174F9B5DFA82C9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_F915327E42344EBFAD93A443AC5E2578"
+        "MsmKey" = "8:_F1203FA304EC4DF291C935DC6AFF3931"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F34DEB7DAC974C6A99DC4A83C894C334"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F4DD79346E6F43CB9E2C12F627CDAD80"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FD493B2EA3754BE29AA96889363725BB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -472,6 +484,46 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_02D35E610BF44651A1069C3A82102560"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\sdl.txt"
+            "TargetName" = "8:sdl.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_082BE931545446EC91ABE14FD81A4378"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\x264.txt"
+            "TargetName" = "8:x264.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_086C8B6CE03150BDFF2E192195F6C961"
             {
             "AssemblyRegister" = "3:1"
@@ -498,27 +550,7 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_217772AD2E2E4FFBB8953961D3DD2D3C"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\rtmp.txt"
-            "TargetName" = "8:rtmp.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AD6663967368433180966443ED2060A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_22EB909401CA43F78A3CCD9422734DFA"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_13662974B85F4DAB826A16F3D8DE789A"
             {
             "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\opencore-amr.txt"
             "TargetName" = "8:opencore-amr.txt"
@@ -538,10 +570,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_27B6FADD3AE4430299371FAC61D14170"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1E03785B09AA4D5C99BB6904DFA6A701"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-lossless_slower.ffpreset"
-            "TargetName" = "8:libx264-lossless_slower.ffpreset"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libvpx-720p50_60.ffpreset"
+            "TargetName" = "8:libvpx-720p50_60.ffpreset"
             "Tag" = "8:"
             "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
             "Condition" = "8:"
@@ -558,30 +590,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2EBD7D1247424DCA8871340D7D7B7F0A"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2C4F8A3F3ED14088A83F22F4CFFB945F"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\general.html"
-            "TargetName" = "8:general.html"
-            "Tag" = "8:"
-            "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_339A23A6F1CD40ADA2CB0BD4C87B9ED7"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-baseline.ffpreset"
-            "TargetName" = "8:libx264-baseline.ffpreset"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libvpx-720p.ffpreset"
+            "TargetName" = "8:libvpx-720p.ffpreset"
             "Tag" = "8:"
             "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
             "Condition" = "8:"
@@ -598,32 +610,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_33A1CC2B63EA48A89FC6E57222D660DF"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2F7CB182D8EA4DB4AD22629C09B28B46"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\theora.txt"
-            "TargetName" = "8:theora.txt"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libvpx-360p.ffpreset"
+            "TargetName" = "8:libvpx-360p.ffpreset"
+            "Tag" = "8:"
+            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4268BCB96B3C43B89FEB5D48875BA61D"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\zlib.txt"
+            "TargetName" = "8:zlib.txt"
             "Tag" = "8:"
             "Folder" = "8:_AD6663967368433180966443ED2060A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3481A8FC9D3D4496AD007A93C0FBC269"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-lossless_medium.ffpreset"
-            "TargetName" = "8:libx264-lossless_medium.ffpreset"
-            "Tag" = "8:"
-            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -664,46 +676,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_442935F1B53F431498CD114D881EBC92"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-lossless_max.ffpreset"
-            "TargetName" = "8:libx264-lossless_max.ffpreset"
-            "Tag" = "8:"
-            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_446076FEA5164C97A5AFFE9761409ECC"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-ipod320.ffpreset"
-            "TargetName" = "8:libx264-ipod320.ffpreset"
-            "Tag" = "8:"
-            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_44832CBD62BF45D08B66B078293D14D3"
             {
             "AssemblyRegister" = "3:1"
@@ -728,6 +700,66 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_454848E1127F4531926A6319E93EBB23"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\ffprobe.html"
+            "TargetName" = "8:ffprobe.html"
+            "Tag" = "8:"
+            "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_469001BAD6B94B1FA374E293BEB3AB95"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libvpx-1080p.ffpreset"
+            "TargetName" = "8:libvpx-1080p.ffpreset"
+            "Tag" = "8:"
+            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_478CE202AB3B4202836DD303ABA117E2"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\schroedinger.txt"
+            "TargetName" = "8:schroedinger.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_490AC7D1F1FA57B7C2CB0BD706935DA5"
@@ -756,10 +788,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D1557F1C44E45A1980FF53E9FE1009A"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D10103A60CE458ABC20F94BDB5A58D1"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\speex.txt"
-            "TargetName" = "8:speex.txt"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\theora.txt"
+            "TargetName" = "8:theora.txt"
             "Tag" = "8:"
             "Folder" = "8:_AD6663967368433180966443ED2060A3"
             "Condition" = "8:"
@@ -776,12 +808,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5030FB9920FF4C4E828F6CD0000CB94C"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5061AFD8A8FD4DB4A2F1648CE5ADC130"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\developer.html"
-            "TargetName" = "8:developer.html"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\lame.txt"
+            "TargetName" = "8:lame.txt"
             "Tag" = "8:"
-            "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -796,32 +828,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5072470E550B4E2A8C5FB20C4D88D727"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_564655275B6E4B9D8F34F67E01D0E3E2"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\ffmpeg.html"
-            "TargetName" = "8:ffmpeg.html"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\freetype.txt"
+            "TargetName" = "8:freetype.txt"
             "Tag" = "8:"
-            "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_51B6179D34E34032A07DB5F47CEFCE37"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\ffprobe.html"
-            "TargetName" = "8:ffprobe.html"
-            "Tag" = "8:"
-            "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -862,10 +874,50 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_604B88B7DCD44AEE8B16820D502CFF2B"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_69E792EDED9D45CF894BD14A66501055"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\x264.txt"
-            "TargetName" = "8:x264.txt"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\avconv.html"
+            "TargetName" = "8:avconv.html"
+            "Tag" = "8:"
+            "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6BE33683B7594EA192864DD28C2E92F2"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libvpx-1080p50_60.ffpreset"
+            "TargetName" = "8:libvpx-1080p50_60.ffpreset"
+            "Tag" = "8:"
+            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7017E0ADE5914A7B905474320AA1546D"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\vo-amrwbenc.txt"
+            "TargetName" = "8:vo-amrwbenc.txt"
             "Tag" = "8:"
             "Folder" = "8:_AD6663967368433180966443ED2060A3"
             "Condition" = "8:"
@@ -902,7 +954,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_88554AB723624885A9BD6D7D7A9EBA8F"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8351FE31ADDF41C0B53DCA48AB215B77"
             {
             "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\ffplay.html"
             "TargetName" = "8:ffplay.html"
@@ -922,32 +974,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8888F6438F9B4B978DAAEABE52F59F4D"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_866650C1E47D4AE995925F6C8C51D298"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-ipod640.ffpreset"
-            "TargetName" = "8:libx264-ipod640.ffpreset"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\faq.html"
+            "TargetName" = "8:faq.html"
             "Tag" = "8:"
-            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8942C5CEBEE04BA3A4506CB2BFEC5CCF"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\bzip2.txt"
-            "TargetName" = "8:bzip2.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -982,12 +1014,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9A620273734C4A25B0736C8C36D6753F"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9099B8276F154B3AB28742CD6219E4C7"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\libavfilter.html"
-            "TargetName" = "8:libavfilter.html"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\openjpeg.txt"
+            "TargetName" = "8:openjpeg.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_953D76F00C1C4562B0F27488D8904E52"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\ffmpeg.html"
+            "TargetName" = "8:ffmpeg.html"
             "Tag" = "8:"
             "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9D0DE1396EDE458BB4DFE7D34B0DB6D2"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\ffmpeg.txt"
+            "TargetName" = "8:ffmpeg.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1022,90 +1094,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9DCBE873CBDC4A30B565B5CEC4ED1B47"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AF5A44B9F292450D92A862AA50CF5E5F"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\xvid.txt"
-            "TargetName" = "8:xvid.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AD6663967368433180966443ED2060A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A07099B3996B4F02A301A994D8EBE4F4"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-lossless_fast.ffpreset"
-            "TargetName" = "8:libx264-lossless_fast.ffpreset"
-            "Tag" = "8:"
-            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A0ED75CD82FD4FFC9AD34E026A93C00D"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\lame.txt"
-            "TargetName" = "8:lame.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AD6663967368433180966443ED2060A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A9658365A09549E480F3152DA8E3DC3D"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\ffmpeg.txt"
-            "TargetName" = "8:ffmpeg.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AD6663967368433180966443ED2060A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B0E9BF093EB1452EBE74B12D8CD7B7BB"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\faq.html"
-            "TargetName" = "8:faq.html"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\general.html"
+            "TargetName" = "8:general.html"
             "Tag" = "8:"
             "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
             "Condition" = "8:"
@@ -1122,10 +1114,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B15AF740C7834D7ABC3C4D82862A7395"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B21F416F8DE442AA88926D4802AE38DB"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\gsm.txt"
-            "TargetName" = "8:gsm.txt"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\speex.txt"
+            "TargetName" = "8:speex.txt"
             "Tag" = "8:"
             "Folder" = "8:_AD6663967368433180966443ED2060A3"
             "Condition" = "8:"
@@ -1142,12 +1134,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B160F511754D4BB889CA64A07FAB5104"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B69FE5E91E8D451898FEF31C8722F038"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-lossless_ultrafast.ffpreset"
-            "TargetName" = "8:libx264-lossless_ultrafast.ffpreset"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\vo-aacenc.txt"
+            "TargetName" = "8:vo-aacenc.txt"
             "Tag" = "8:"
-            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1188,12 +1180,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C4EBFDA052D14F48A62AF95D4135547B"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C4FFEE7BE38A42539E71A550A1671727"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\freetype.txt"
-            "TargetName" = "8:freetype.txt"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-ipod640.ffpreset"
+            "TargetName" = "8:libx264-ipod640.ffpreset"
             "Tag" = "8:"
-            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1208,27 +1200,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CDF36A82E7BF4C1D8DB31F1F3267AC45"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\zlib.txt"
-            "TargetName" = "8:zlib.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AD6663967368433180966443ED2060A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CEF62B94C63B437783A955C33D3A816C"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D0B59FFB4CCE43EB8A5C48F6A83D1DDB"
             {
             "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\vorbis.txt"
             "TargetName" = "8:vorbis.txt"
@@ -1248,7 +1220,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D9DD44E70AE04CEBBF2B67950BF28080"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D7C516CE2041475287FF89B2884C5E41"
             {
             "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\libvpx.txt"
             "TargetName" = "8:libvpx.txt"
@@ -1268,7 +1240,107 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DB8CE4B94E2948708C997D51ACE247D9"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D87B2C210C2442A7B023176A33B2A1F9"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\gsm.txt"
+            "TargetName" = "8:gsm.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E1406A4368EB40F3A083C8365FDB83D1"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\xavs.txt"
+            "TargetName" = "8:xavs.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E1AFA0A4AA3946808071AAFE58E19A4D"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\developer.html"
+            "TargetName" = "8:developer.html"
+            "Tag" = "8:"
+            "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E8E8CAB1283A444189F6CC4A62418F40"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\xvid.txt"
+            "TargetName" = "8:xvid.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EBCFDFF39FC14E18B9174F9B5DFA82C9"
+            {
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\bzip2.txt"
+            "TargetName" = "8:bzip2.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F1203FA304EC4DF291C935DC6AFF3931"
             {
             "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\frei0r.txt"
             "TargetName" = "8:frei0r.txt"
@@ -1288,12 +1360,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DF7A46DD8B9B41C99AAFAA3EF6D98BCF"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F34DEB7DAC974C6A99DC4A83C894C334"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\openjpeg.txt"
-            "TargetName" = "8:openjpeg.txt"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\doc\\libavfilter.html"
+            "TargetName" = "8:libavfilter.html"
             "Tag" = "8:"
-            "Folder" = "8:_AD6663967368433180966443ED2060A3"
+            "Folder" = "8:_8CE9B660E73A4661A9D52B156993F472"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1308,30 +1380,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E58A90723C6449F2AAD3A23DC6A750DD"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F4DD79346E6F43CB9E2C12F627CDAD80"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\schroedinger.txt"
-            "TargetName" = "8:schroedinger.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AD6663967368433180966443ED2060A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F504FD984A53402DB271E780DCDE553C"
-            {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-lossless_slow.ffpreset"
-            "TargetName" = "8:libx264-lossless_slow.ffpreset"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\presets\\libx264-ipod320.ffpreset"
+            "TargetName" = "8:libx264-ipod320.ffpreset"
             "Tag" = "8:"
             "Folder" = "8:_5A727A34BA9342BFA6914B5B7523585E"
             "Condition" = "8:"
@@ -1348,10 +1400,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F915327E42344EBFAD93A443AC5E2578"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FD493B2EA3754BE29AA96889363725BB"
             {
-            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\xavs.txt"
-            "TargetName" = "8:xavs.txt"
+            "SourcePath" = "8:..\\lib\\ffmpeg\\licenses\\rtmp.txt"
+            "TargetName" = "8:rtmp.txt"
             "Tag" = "8:"
             "Folder" = "8:_AD6663967368433180966443ED2060A3"
             "Condition" = "8:"

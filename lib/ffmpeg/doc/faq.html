@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
 <html>
-<!-- Created on April 18, 2011 by texi2html 1.82
+<!-- Created on October 16, 2011 by texi2html 1.82
 texi2html was written by: 
             Lionel Cons <Lionel.Cons@cern.ch> (original author)
             Karl Berry  <karl@freefriends.org>
@@ -81,7 +81,7 @@ ul.toc {list-style: none}
     <li><a name="toc-Interlaced-video-looks-very-bad-when-encoded-with-ffmpeg_002c-what-is-wrong_003f" href="#Interlaced-video-looks-very-bad-when-encoded-with-ffmpeg_002c-what-is-wrong_003f">3.13 Interlaced video looks very bad when encoded with ffmpeg, what is wrong?</a></li>
     <li><a name="toc-How-can-I-read-DirectShow-files_003f" href="#How-can-I-read-DirectShow-files_003f">3.14 How can I read DirectShow files?</a></li>
     <li><a name="toc-How-can-I-join-video-files_003f" href="#How-can-I-join-video-files_003f">3.15 How can I join video files?</a></li>
-    <li><a name="toc-FFmpeg-does-not-adhere-to-the-_002dmaxrate-setting_002c-some-frames-are-bigger-than-maxrate_002ffps_002e" href="#FFmpeg-does-not-adhere-to-the-_002dmaxrate-setting_002c-some-frames-are-bigger-than-maxrate_002ffps_002e">3.16 FFmpeg does not adhere to the -maxrate setting, some frames are bigger than maxrate/fps.</a></li>
+    <li><a name="toc-The-ffmpeg-program-does-not-respect-the-_002dmaxrate-setting_002c-some-frames-are-bigger-than-maxrate_002ffps_002e" href="#The-ffmpeg-program-does-not-respect-the-_002dmaxrate-setting_002c-some-frames-are-bigger-than-maxrate_002ffps_002e">3.16 The ffmpeg program does not respect the -maxrate setting, some frames are bigger than maxrate/fps.</a></li>
     <li><a name="toc-I-want-CBR_002c-but-no-matter-what-I-do-frame-sizes-differ_002e" href="#I-want-CBR_002c-but-no-matter-what-I-do-frame-sizes-differ_002e">3.17 I want CBR, but no matter what I do frame sizes differ.</a></li>
     <li><a name="toc-How-do-I-check-if-a-stream-is-CBR_003f" href="#How-do-I-check-if-a-stream-is-CBR_003f">3.18 How do I check if a stream is CBR?</a></li>
   </ul></li>
@@ -97,13 +97,14 @@ ul.toc {list-style: none}
     <li><a name="toc-I-do-not-like-the-LGPL_002c-can-I-contribute-code-under-the-GPL-instead_003f" href="#I-do-not-like-the-LGPL_002c-can-I-contribute-code-under-the-GPL-instead_003f">4.8 I do not like the LGPL, can I contribute code under the GPL instead?</a></li>
     <li><a name="toc-I-want-to-compile-xyz_002ec-alone-but-my-compiler-produced-many-errors_002e" href="#I-want-to-compile-xyz_002ec-alone-but-my-compiler-produced-many-errors_002e">4.9 I want to compile xyz.c alone but my compiler produced many errors.</a></li>
     <li><a name="toc-I_0027m-using-libavcodec-from-within-my-C_002b_002b-application-but-the-linker-complains-about-missing-symbols-which-seem-to-be-available_002e" href="#I_0027m-using-libavcodec-from-within-my-C_002b_002b-application-but-the-linker-complains-about-missing-symbols-which-seem-to-be-available_002e">4.10 I&rsquo;m using libavcodec from within my C++ application but the linker complains about missing symbols which seem to be available.</a></li>
-    <li><a name="toc-I-have-a-file-in-memory-_002f-a-API-different-from-_002aopen_002f_002aread_002f-libc-how-do-I-use-it-with-libavformat_003f" href="#I-have-a-file-in-memory-_002f-a-API-different-from-_002aopen_002f_002aread_002f-libc-how-do-I-use-it-with-libavformat_003f">4.11 I have a file in memory / a API different from *open/*read/ libc how do I use it with libavformat?</a></li>
-    <li><a name="toc-I-get-_0022No-compatible-shell-script-interpreter-found_002e_0022-in-MSys_002e" href="#I-get-_0022No-compatible-shell-script-interpreter-found_002e_0022-in-MSys_002e">4.12 I get &quot;No compatible shell script interpreter found.&quot; in MSys.</a></li>
-    <li><a name="toc-I-get-_0022_002e_002fconfigure_003a-line-_003cxxx_003e_003a-pr_003a-command-not-found_0022-in-MSys_002e" href="#I-get-_0022_002e_002fconfigure_003a-line-_003cxxx_003e_003a-pr_003a-command-not-found_0022-in-MSys_002e">4.13 I get &quot;./configure: line &lt;xxx&gt;: pr: command not found&quot; in MSys.</a></li>
-    <li><a name="toc-Where-can-I-find-libav_002a-headers-for-Pascal_002fDelphi_003f" href="#Where-can-I-find-libav_002a-headers-for-Pascal_002fDelphi_003f">4.14 Where can I find libav* headers for Pascal/Delphi?</a></li>
-    <li><a name="toc-Where-is-the-documentation-about-ffv1_002c-msmpeg4_002c-asv1_002c-4xm_003f" href="#Where-is-the-documentation-about-ffv1_002c-msmpeg4_002c-asv1_002c-4xm_003f">4.15 Where is the documentation about ffv1, msmpeg4, asv1, 4xm?</a></li>
-    <li><a name="toc-How-do-I-feed-H_002e263_002dRTP-_0028and-other-codecs-in-RTP_0029-to-libavcodec_003f" href="#How-do-I-feed-H_002e263_002dRTP-_0028and-other-codecs-in-RTP_0029-to-libavcodec_003f">4.16 How do I feed H.263-RTP (and other codecs in RTP) to libavcodec?</a></li>
-    <li><a name="toc-AVStream_002er_005fframe_005frate-is-wrong_002c-it-is-much-larger-than-the-framerate_002e" href="#AVStream_002er_005fframe_005frate-is-wrong_002c-it-is-much-larger-than-the-framerate_002e">4.17 AVStream.r_frame_rate is wrong, it is much larger than the framerate.</a></li>
+    <li><a name="toc-I_0027m-using-libavutil-from-within-my-C_002b_002b-application-but-the-compiler-complains-about-_0027UINT64_005fC_0027-was-not-declared-in-this-scope" href="#I_0027m-using-libavutil-from-within-my-C_002b_002b-application-but-the-compiler-complains-about-_0027UINT64_005fC_0027-was-not-declared-in-this-scope">4.11 I&rsquo;m using libavutil from within my C++ application but the compiler complains about &rsquo;UINT64_C&rsquo; was not declared in this scope</a></li>
+    <li><a name="toc-I-have-a-file-in-memory-_002f-a-API-different-from-_002aopen_002f_002aread_002f-libc-how-do-I-use-it-with-libavformat_003f" href="#I-have-a-file-in-memory-_002f-a-API-different-from-_002aopen_002f_002aread_002f-libc-how-do-I-use-it-with-libavformat_003f">4.12 I have a file in memory / a API different from *open/*read/ libc how do I use it with libavformat?</a></li>
+    <li><a name="toc-I-get-_0022No-compatible-shell-script-interpreter-found_002e_0022-in-MSys_002e" href="#I-get-_0022No-compatible-shell-script-interpreter-found_002e_0022-in-MSys_002e">4.13 I get &quot;No compatible shell script interpreter found.&quot; in MSys.</a></li>
+    <li><a name="toc-I-get-_0022_002e_002fconfigure_003a-line-_003cxxx_003e_003a-pr_003a-command-not-found_0022-in-MSys_002e" href="#I-get-_0022_002e_002fconfigure_003a-line-_003cxxx_003e_003a-pr_003a-command-not-found_0022-in-MSys_002e">4.14 I get &quot;./configure: line &lt;xxx&gt;: pr: command not found&quot; in MSys.</a></li>
+    <li><a name="toc-Where-can-I-find-libav_002a-headers-for-Pascal_002fDelphi_003f" href="#Where-can-I-find-libav_002a-headers-for-Pascal_002fDelphi_003f">4.15 Where can I find libav* headers for Pascal/Delphi?</a></li>
+    <li><a name="toc-Where-is-the-documentation-about-ffv1_002c-msmpeg4_002c-asv1_002c-4xm_003f" href="#Where-is-the-documentation-about-ffv1_002c-msmpeg4_002c-asv1_002c-4xm_003f">4.16 Where is the documentation about ffv1, msmpeg4, asv1, 4xm?</a></li>
+    <li><a name="toc-How-do-I-feed-H_002e263_002dRTP-_0028and-other-codecs-in-RTP_0029-to-libavcodec_003f" href="#How-do-I-feed-H_002e263_002dRTP-_0028and-other-codecs-in-RTP_0029-to-libavcodec_003f">4.17 How do I feed H.263-RTP (and other codecs in RTP) to libavcodec?</a></li>
+    <li><a name="toc-AVStream_002er_005fframe_005frate-is-wrong_002c-it-is-much-larger-than-the-framerate_002e" href="#AVStream_002er_005fframe_005frate-is-wrong_002c-it-is-much-larger-than-the-framerate_002e">4.18 AVStream.r_frame_rate is wrong, it is much larger than the framerate.</a></li>
   </ul>
 </li>
 </ul>
@@ -154,7 +155,7 @@ A DLL loader is not conducive to that goal.
 <li> We are busy and haven&rsquo;t had time yet to read your report or
 investigate the issue.
 </li><li> You didn&rsquo;t follow <a href="http://ffmpeg.org/bugreports.html">http://ffmpeg.org/bugreports.html</a>.
-</li><li> You didn&rsquo;t use git HEAD.
+</li><li> You didn&rsquo;t use git master.
 </li><li> You reported a segmentation fault without gdb output.
 </li><li> You describe a problem but not how to reproduce it.
 </li><li> It&rsquo;s unclear if you use ffmpeg as command line tool or use
@@ -245,7 +246,8 @@ problem and an NP-hard problem...
 <a name="ffmpeg-does-not-work_003b-what-is-wrong_003f"></a>
 <h2 class="section"><a href="faq.html#toc-ffmpeg-does-not-work_003b-what-is-wrong_003f">3.1 ffmpeg does not work; what is wrong?</a></h2>
 
-<p>Try a <code>make distclean</code> in the ffmpeg source directory before the build. If this does not help see
+<p>Try a <code>make distclean</code> in the ffmpeg source directory before the build.
+If this does not help see
 (<a href="http://ffmpeg.org/bugreports.html">http://ffmpeg.org/bugreports.html</a>).
 </p>
 <a name="How-do-I-encode-single-pictures-into-movies_003f"></a>
@@ -423,11 +425,12 @@ then you may use any file that DirectShow can read as input.
 <p>Just create an &quot;input.avs&quot; text file with this single line ...
 </p><table><tr><td>&nbsp;</td><td><pre class="example">  DirectShowSource(&quot;C:\path to your file\yourfile.asf&quot;)
 </pre></td></tr></table>
-<p>... and then feed that text file to FFmpeg:
+<p>... and then feed that text file to ffmpeg:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">  ffmpeg -i input.avs
 </pre></td></tr></table>
 
-<p>For ANY other help on Avisynth, please visit <a href="http://www.avisynth.org/">http://www.avisynth.org/</a>.
+<p>For ANY other help on Avisynth, please visit the
+<a href="http://www.avisynth.org/">Avisynth homepage</a>.
 </p>
 <a name="How-can-I-join-video-files_003f"></a>
 <h2 class="section"><a href="faq.html#toc-How-can-I-join-video-files_003f">3.15 How can I join video files?</a></h2>
@@ -488,8 +491,8 @@ ffmpeg -f u16le -acodec pcm_s16le -ac 2 -ar 44100 -i all.a \
 rm temp[12].[av] all.[av]
 </pre></td></tr></table>
 
-<a name="FFmpeg-does-not-adhere-to-the-_002dmaxrate-setting_002c-some-frames-are-bigger-than-maxrate_002ffps_002e"></a>
-<h2 class="section"><a href="faq.html#toc-FFmpeg-does-not-adhere-to-the-_002dmaxrate-setting_002c-some-frames-are-bigger-than-maxrate_002ffps_002e">3.16 FFmpeg does not adhere to the -maxrate setting, some frames are bigger than maxrate/fps.</a></h2>
+<a name="The-ffmpeg-program-does-not-respect-the-_002dmaxrate-setting_002c-some-frames-are-bigger-than-maxrate_002ffps_002e"></a>
+<h2 class="section"><a href="faq.html#toc-The-ffmpeg-program-does-not-respect-the-_002dmaxrate-setting_002c-some-frames-are-bigger-than-maxrate_002ffps_002e">3.16 The ffmpeg program does not respect the -maxrate setting, some frames are bigger than maxrate/fps.</a></h2>
 
 <p>Read the MPEG spec about video buffer verifier.
 </p>
@@ -567,7 +570,7 @@ the FFmpeg Windows Help Forum at
 <p>FFmpeg is already organized in a highly modular manner and does not need to
 be rewritten in a formal object language. Further, many of the developers
 favor straight C; it works for them. For more arguments on this matter,
-read &quot;Programming Religion&quot; at (<a href="http://www.tux.org/lkml/#s15">http://www.tux.org/lkml/#s15</a>).
+read <a href="http://www.tux.org/lkml/#s15">&quot;Programming Religion&quot;</a>.
 </p>
 <a name="Why-are-the-ffmpeg-programs-devoid-of-debugging-symbols_003f"></a>
 <h2 class="section"><a href="faq.html#toc-Why-are-the-ffmpeg-programs-devoid-of-debugging-symbols_003f">4.7 Why are the ffmpeg programs devoid of debugging symbols?</a></h2>
@@ -601,41 +604,47 @@ encompassing your FFmpeg includes using <code>extern &quot;C&quot;</code>.
 </p>
 <p>See <a href="http://www.parashift.com/c++-faq-lite/mixing-c-and-cpp.html#faq-32.3">http://www.parashift.com/c++-faq-lite/mixing-c-and-cpp.html#faq-32.3</a>
 </p>
+<a name="I_0027m-using-libavutil-from-within-my-C_002b_002b-application-but-the-compiler-complains-about-_0027UINT64_005fC_0027-was-not-declared-in-this-scope"></a>
+<h2 class="section"><a href="faq.html#toc-I_0027m-using-libavutil-from-within-my-C_002b_002b-application-but-the-compiler-complains-about-_0027UINT64_005fC_0027-was-not-declared-in-this-scope">4.11 I&rsquo;m using libavutil from within my C++ application but the compiler complains about &rsquo;UINT64_C&rsquo; was not declared in this scope</a></h2>
+
+<p>Libav is a pure C project using C99 math features, in order to enable C++
+to use them you have to append -D__STDC_CONSTANT_MACROS to your CXXFLAGS
+</p>
 <a name="I-have-a-file-in-memory-_002f-a-API-different-from-_002aopen_002f_002aread_002f-libc-how-do-I-use-it-with-libavformat_003f"></a>
-<h2 class="section"><a href="faq.html#toc-I-have-a-file-in-memory-_002f-a-API-different-from-_002aopen_002f_002aread_002f-libc-how-do-I-use-it-with-libavformat_003f">4.11 I have a file in memory / a API different from *open/*read/ libc how do I use it with libavformat?</a></h2>
+<h2 class="section"><a href="faq.html#toc-I-have-a-file-in-memory-_002f-a-API-different-from-_002aopen_002f_002aread_002f-libc-how-do-I-use-it-with-libavformat_003f">4.12 I have a file in memory / a API different from *open/*read/ libc how do I use it with libavformat?</a></h2>
 
 <p>You have to implement a URLProtocol, see &lsquo;<tt>libavformat/file.c</tt>&rsquo; in
 FFmpeg and &lsquo;<tt>libmpdemux/demux_lavf.c</tt>&rsquo; in MPlayer sources.
 </p>
 <a name="I-get-_0022No-compatible-shell-script-interpreter-found_002e_0022-in-MSys_002e"></a>
-<h2 class="section"><a href="faq.html#toc-I-get-_0022No-compatible-shell-script-interpreter-found_002e_0022-in-MSys_002e">4.12 I get &quot;No compatible shell script interpreter found.&quot; in MSys.</a></h2>
+<h2 class="section"><a href="faq.html#toc-I-get-_0022No-compatible-shell-script-interpreter-found_002e_0022-in-MSys_002e">4.13 I get &quot;No compatible shell script interpreter found.&quot; in MSys.</a></h2>
 
 <p>The standard MSys bash (2.04) is broken. You need to install 2.05 or later.
 </p>
 <a name="I-get-_0022_002e_002fconfigure_003a-line-_003cxxx_003e_003a-pr_003a-command-not-found_0022-in-MSys_002e"></a>
-<h2 class="section"><a href="faq.html#toc-I-get-_0022_002e_002fconfigure_003a-line-_003cxxx_003e_003a-pr_003a-command-not-found_0022-in-MSys_002e">4.13 I get &quot;./configure: line &lt;xxx&gt;: pr: command not found&quot; in MSys.</a></h2>
+<h2 class="section"><a href="faq.html#toc-I-get-_0022_002e_002fconfigure_003a-line-_003cxxx_003e_003a-pr_003a-command-not-found_0022-in-MSys_002e">4.14 I get &quot;./configure: line &lt;xxx&gt;: pr: command not found&quot; in MSys.</a></h2>
 
 <p>The standard MSys install doesn&rsquo;t come with pr. You need to get it from the coreutils package.
 </p>
 <a name="Where-can-I-find-libav_002a-headers-for-Pascal_002fDelphi_003f"></a>
-<h2 class="section"><a href="faq.html#toc-Where-can-I-find-libav_002a-headers-for-Pascal_002fDelphi_003f">4.14 Where can I find libav* headers for Pascal/Delphi?</a></h2>
+<h2 class="section"><a href="faq.html#toc-Where-can-I-find-libav_002a-headers-for-Pascal_002fDelphi_003f">4.15 Where can I find libav* headers for Pascal/Delphi?</a></h2>
 
 <p>see <a href="http://www.iversenit.dk/dev/ffmpeg-headers/">http://www.iversenit.dk/dev/ffmpeg-headers/</a>
 </p>
 <a name="Where-is-the-documentation-about-ffv1_002c-msmpeg4_002c-asv1_002c-4xm_003f"></a>
-<h2 class="section"><a href="faq.html#toc-Where-is-the-documentation-about-ffv1_002c-msmpeg4_002c-asv1_002c-4xm_003f">4.15 Where is the documentation about ffv1, msmpeg4, asv1, 4xm?</a></h2>
+<h2 class="section"><a href="faq.html#toc-Where-is-the-documentation-about-ffv1_002c-msmpeg4_002c-asv1_002c-4xm_003f">4.16 Where is the documentation about ffv1, msmpeg4, asv1, 4xm?</a></h2>
 
 <p>see <a href="http://www.ffmpeg.org/~michael/">http://www.ffmpeg.org/~michael/</a>
 </p>
 <a name="How-do-I-feed-H_002e263_002dRTP-_0028and-other-codecs-in-RTP_0029-to-libavcodec_003f"></a>
-<h2 class="section"><a href="faq.html#toc-How-do-I-feed-H_002e263_002dRTP-_0028and-other-codecs-in-RTP_0029-to-libavcodec_003f">4.16 How do I feed H.263-RTP (and other codecs in RTP) to libavcodec?</a></h2>
+<h2 class="section"><a href="faq.html#toc-How-do-I-feed-H_002e263_002dRTP-_0028and-other-codecs-in-RTP_0029-to-libavcodec_003f">4.17 How do I feed H.263-RTP (and other codecs in RTP) to libavcodec?</a></h2>
 
 <p>Even if peculiar since it is network oriented, RTP is a container like any
 other. You have to <em>demux</em> RTP before feeding the payload to libavcodec.
 In this specific case please look at RFC 4629 to see how it should be done.
 </p>
 <a name="AVStream_002er_005fframe_005frate-is-wrong_002c-it-is-much-larger-than-the-framerate_002e"></a>
-<h2 class="section"><a href="faq.html#toc-AVStream_002er_005fframe_005frate-is-wrong_002c-it-is-much-larger-than-the-framerate_002e">4.17 AVStream.r_frame_rate is wrong, it is much larger than the framerate.</a></h2>
+<h2 class="section"><a href="faq.html#toc-AVStream_002er_005fframe_005frate-is-wrong_002c-it-is-much-larger-than-the-framerate_002e">4.18 AVStream.r_frame_rate is wrong, it is much larger than the framerate.</a></h2>
 
 <p>r_frame_rate is NOT the average framerate, it is the smallest framerate
 that can accurately represent all timestamps. So no, it is not
@@ -646,7 +655,7 @@ will be 150.
 <hr size="1">
 <p>
  <font size="-1">
-  This document was generated by <em>Kyle</em> on <em>April 18, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+  This document was generated by <em>Kyle</em> on <em>October 16, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
  </font>
  <br>
 
