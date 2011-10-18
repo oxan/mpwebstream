@@ -29,16 +29,16 @@ using TvLibrary.Log;
 using MediaPortal.Common.Utils;
 
 namespace MPWebStream.TvServerPlugin {
-    [CompatibleVersion("1.2.1.0", "1.2.0.0")]
+    [CompatibleVersion("1.2.1", "1.2.0")]
     [UsesSubsystem("TVE.Config")]
-    [UsesSubsystem("TVE.COnfig.Controls")]
+    [UsesSubsystem("TVE.Config.Controls")]
     public class MPWebStreamPlugin : ITvServerPlugin {
         public string Name {
             get { return "MPWebStream"; }
         }
 
         public string Version {
-            get { return "1.0.9.0"; }
+            get { return "1.1.0.0"; }
         }
 
         public string Author {

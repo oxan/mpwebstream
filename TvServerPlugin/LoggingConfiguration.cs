@@ -36,7 +36,7 @@ namespace MPWebStream.TvServerPlugin {
         public new void Write() {
             try {
                 base.Write();
-                Log.Info("MPWebStream: Wrote configuration to file");
+                Log.Info("MPWebStream: Wrote configuration to file {0}", this.ConfigPath);
             } catch (Exception ex) {
                 Log.Write(ex);
             }
